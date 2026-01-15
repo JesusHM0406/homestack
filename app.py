@@ -73,6 +73,33 @@ def register():
     flash("Ocurrio un error al registrar el usuario. Intentalo de nuevo.", category="danger")
     return redirect(url_for("register"))
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
-  return "Hello"
+  # Clear all sessions before log in
+  session.clear()
+
+  # The user wants to login
+  if request.method == "GET":
+    return render_template("login.html")
+
+  # The user already send his info to login
+  username = request.form.get("username")
+  password = request.form.get("password")
+
+  # User inputs are blank
+  if not username or not password:
+    flash("Debe proporcionar usuario y contraseña", category="danger")
+    return render_template("login.html")
+
+  rows = db.execute("SELECT * FROM users WHERE username = ?", username)
+
+  # There is no user with that username or the password is incorrect
+  if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
+    flash("Nombre de usuario y/o contraseña invalidos", category="danger")
+    return render_template("login.html")
+
+  # Login user
+  session["user_id"] = rows[0]["id"]
+  session["username"] = rows[0]["username"]
+
+  return redirect("/")
