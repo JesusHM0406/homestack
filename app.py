@@ -54,7 +54,7 @@ def register():
   # If the username is correct (unique) and the password is valid, then we need to compare the password with the confirmation
   if password != confirm:
     flash("Las contraseñas no coinciden", category="danger")
-    redirect(url_for("register"))
+    return redirect(url_for("register"))
   
   # If all the data is correct, then now we can insert the user in the database
   try:
