@@ -9,5 +9,8 @@ __pycache__/
 # Database
 *.db
 
+# Flask session
+flask_session/
+
 # VS Code configuration
 .vscode/

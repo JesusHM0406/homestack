@@ -13,7 +13,7 @@ db = SQL("sqlite:///database.db")
 
 @app.route("/")
 def index():
-  return render_template("login.html")
+  return "Hello"
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -43,12 +43,12 @@ def register():
   # We need to validate if that password contains a minimun of 8 characters for security
   if len(password) < MIN_PASSWORD_SIZE:
     flash(f"La contraseña debe contener un minimo de {MIN_PASSWORD_SIZE} caracteres", category="danger")
-    return render_template("register.html", username=username)
+    return redirect(url_for("register"))
   
   # If the username is correct (unique) and the password is valid, then we need to compare the password with the confirmation
   if password != confirm:
     flash("Las contraseñas no coinciden", category="danger")
-    return render_template("register.html", username=username)
+    redirect(url_for("register"))
   
   # If all the data is correct, then now we can insert the user in the database
   try:
@@ -65,4 +65,8 @@ def register():
     return redirect(url_for("login"))
   except Exception as e:
     flash("Ocurrio un error al registrar el usuario. Intentalo de nuevo.", category="danger")
-    return render_template("register.html")
+    return redirect(url_for("register"))
+
+@app.route("/login")
+def login():
+  return "Hello"
