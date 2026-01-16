@@ -103,3 +103,9 @@ def login():
   session["username"] = rows[0]["username"]
 
   return redirect("/")
+
+@app.route("/logout")
+def logout():
+  session.clear()
+  
+  return redirect(url_for("login"))
