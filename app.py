@@ -5,6 +5,8 @@ from flask_session import Session
 from cs50 import SQL
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from helpers import login_required
+
 # Initialize flask app
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
@@ -18,8 +20,9 @@ Session(app)
 db = SQL("sqlite:///database.db")
 
 @app.route("/")
+@login_required
 def index():
-  return "Hello"
+  return "hello"
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
