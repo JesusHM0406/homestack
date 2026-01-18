@@ -56,7 +56,7 @@
 
     <!-- Add type="button" -->
     <div class="actions-btns">
-      <button id="addTransactionBtn" class="action-btn add-transaction-btn">
+      <button id="addTransactionBtn" class="btn action-btn add-transaction-btn" data-bs-toggle="modal" data-bs-target="#main-modal" >
         <figure class="add-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
@@ -225,18 +225,22 @@
 
 <!-- This is commented out so you can see a preview of the page -->
 {% block modal %}
-<div id="main-modal" class="modal-overlay hidden" data-view="transaction" data-type="income">
-  <div class="modal-content">
-    <header class="modal-header">
-      <div id="modal-title"></div>
-      <button id="closeModalBtn">&times;</button>
-    </header>
-    
-    <div class="view-section" id="section-transaction">
-        {% include 'components/modal_transactions.html' %}
+<div id="main-modal" class="modal-overlay modal" data-view="transaction" data-type="income">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h1 class="modal-title fs-10" id="staticBackdropLabel">Agregar Transacción</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-    <div class="view-section" id="section-categories">
-      {% include 'components/modal_categories.html' %}
+      <div class="modal-body">
+        
+        <div class="view-section" id="section-transaction">
+            {% include 'components/modal_transactions.html' %}
+          </div>
+        <div class="view-section" id="section-categories">
+          {% include 'components/modal_categories.html' %}
+        </div>
+      </div>
     </div>
   </div>
 </div>

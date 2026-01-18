@@ -1,12 +1,12 @@
-<form action="/" method="POST" id="transaction-form">
+<form action="/" method="POST" id="transaction-form" class="dashboard-form">
   <input type="hidden" name="transaction_type" value="income" id="transactionType">
 
-  <div class="form-group">
-      <label>Tipo de Transacción</label>
-      <div class="toggle-container">
-        <button type="button" class="btn-toggle" data-ctype="income" id="toggleTransactionIncome">Ingreso</button>
-        <button type="button" class="btn-toggle active" data-ctype="expense" id="toggleTransactionExpense">Gasto</button>
-      </div>
+  <div class="form-group form-header">
+    <h3>Tipo de Transacción</h3>
+    <div class="toggle-container">
+      <button type="button" class="btn-toggle" data-ctype="income" id="toggleTransactionIncome">Ingreso</button>
+      <button type="button" class="btn-toggle active" data-ctype="expense" id="toggleTransactionExpense">Gasto</button>
+    </div>
   </div>
 
   <div class="form-group">

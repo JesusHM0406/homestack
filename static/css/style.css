@@ -164,7 +164,7 @@ ul {
 
 /* == INCOMES/EXPENSES CATEGORY ANALYSIS SECTION == */
 
-/* CONFIG SETTINGS */
+/* CONFIG */
 .view-section {
   display: none;
 }
@@ -325,4 +325,73 @@ ul {
 
 .income-amount {
   color: #009966;
+}
+
+/* == MODAL SECTION == */
+/* CONFIG */
+[data-view="transaction"] #section-transaction {
+  display: block;
+}
+
+[data-view="categories"] #section-categories {
+  display: block;
+}
+
+[data-type="income"] #toggleTransactionIncome {
+  background-color: #D0FAE4;
+  border-color: #009966;
+  color: #007A55;
+}
+
+[data-type="expense"] #toggleTransactionExpense {
+  background-color: #FFE2E2;
+  border-color: #f55;
+  color: #c53c3c;
+}
+
+/* FORM CONTAINER SECTION */
+.dashboard-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.form-header h3{
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* TOGGLE BTNS SECTION */
+.toggle-container {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-toggle {
+  width: 100%;
+  padding: 10px 0;
+  background-color: transparent;
+  border: 2px solid #ccc;
+  color: #999;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+/* FORM GROUPS SECTION */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 1.1rem;
+}
+
+label {
+  font-weight: 600;
+}
+
+input {
+  border: none;
+  background-color: #eee;
+  padding: 6px 8px;
+  border-radius: 5px;
 }
