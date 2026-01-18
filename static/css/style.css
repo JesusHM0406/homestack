@@ -110,3 +110,54 @@ ul {
 .card-icon.expenses-icon {
   background-color: #E7000B;
 }
+
+/* == FAST ACTIONS SECTION == */
+.actions {
+  height: 30vh;
+  display: grid;
+  place-content: center;
+  gap: 10px;
+}
+
+.actions-title {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.actions-btns {
+  display: flex;
+}
+
+.action-btn {
+  width: fit-content;
+  margin: auto;
+  padding: 10px 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid transparent;
+  transform: scale(0.9);
+  transition: background-color .3s ease;
+}
+
+.add-transaction-btn {
+  background-color: #1465EC;
+  box-shadow: 0 0 20px 0 #1465EC44;
+  color: #fff;
+}
+
+.add-transaction-btn:hover {
+  background-color: #1249aa;
+}
+
+.config-categories-btn {
+  background-color: #f3f3f3;
+  border-color: #ccc;
+}
+
+.config-categories-btn:hover {
+  background-color: #ddd;
+}
