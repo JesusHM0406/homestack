@@ -12,3 +12,101 @@ ul {
   list-style: none;
   padding: 0;
 }
+
+/* ====== DASHBOARD SECTION ====== */
+
+.index-title {
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+/* == SUMMARY SECTION == */
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.card-large {
+  grid-column: span 2;
+}
+
+/* GENERAL CARDS STYLES */
+.card-item {
+  background-color: #48e;
+  border-radius: 8px;
+  padding: 15px 12px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid transparent;
+}
+
+.card-icon {
+  height: fit-content;
+  padding: 5px;
+  display: grid;
+  place-content: center;
+  border-radius: 5px;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: .9rem;
+}
+
+/* BALANCE CARD */
+.balance-card {
+  background-image: linear-gradient(345deg, #DBEAFE, #EDF5FF);
+  border-color: #accdff;
+  color: #1465EC;
+}
+
+.balance-amount {
+  color: #1C398E;
+}
+
+.card-icon.balance-icon {
+  background-color: #155DFC;
+}
+
+/* INCOMES CARD */
+.incomes-card {
+  background-image: linear-gradient(345deg, #D0FAE4, #E9FCF3);
+  border-color: #99ddc9;
+  color: #007A55;
+}
+
+.incomes-amount {
+  color: #004F3B;
+}
+
+.card-icon.incomes-icon {
+  background-color: #009966;
+}
+
+/* EXPENSES CARD */
+.expenses-card {
+  background-image: linear-gradient(345deg, #FFE2E2, #FEF1F1);
+  border-color: #ffc5c5;
+  color: #D3292C;
+}
+
+.expenses-amount {
+  color: #82181A;
+}
+
+.card-icon.expenses-icon {
+  background-color: #E7000B;
+}
