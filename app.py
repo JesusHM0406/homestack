@@ -22,7 +22,7 @@ db = SQL("sqlite:///database.db")
 @app.route("/")
 @login_required
 def index():
-  return "hello"
+  return render_template("index.html")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
