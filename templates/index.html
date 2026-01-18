@@ -1,19 +1,23 @@
 {% extends "layout.html" %}
 
 {% block main %}
-<h1 class="index-title">Hola, Admin</h1>
+<h1 class="index-title m-5">Hola, Admin</h1>
 
+<!-- Modify this container to be the main container, need to modify the layout -->
 <div class="dashboard-container">
 
-  <div class="summary-grid text-center">
+  <!-- Section element -->
+  <div class="summary-grid">
 
+    <!-- article element -->
     <div class="card-item card-large shadow-sm balance-card">
       <div class="card-content">
-          <h6 class="balance-title">Balance Actual</h6>
-          <h2 class="fw-bold">2726,00 €</h2>
+          <h6 class="card-title mb-1">Balance Actual</h6>
+          <h2 class="fw-bold balance-amount">$2726.00</h2>
       </div>
+      <!-- Figure element -->
       <div class="card-icon balance-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="#fff" class="bi bi-wallet2" viewBox="0 0 16 16">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-wallet2" viewBox="0 0 16 16">
           <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
         </svg>
       </div>
@@ -21,23 +25,24 @@
 
     <div class="card-item shadow-sm incomes-card">
       <div class="card-content">
-          <h6 class="incomes-title">Ingresos del Mes</h6>
-          <h2 class="fw-bold">2726,00 €</h2>
+          <h6 class="card-title mb-1">Ingresos del Mes</h6>
+          <h2 class="fw-bold incomes-amount">$2726.00</h2>
       </div>
       <div class="card-icon incomes-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="#fff" class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/>
         </svg>
       </div>
     </div>
 
-    <div class="card-item  stat-card shadow-sm expenses-card">
+    <div class="card-item stat-card shadow-sm expenses-card">
       <div class="card-content">
-          <h6 class="expenses-title">Gastos del Mes</h6>
-          <h2 class="fw-bold">2726,00 €</h2>
+          <h6 class="card-title mb-1">Gastos del Mes</h6>
+          <h2 class="fw-bold expenses-amount">$2726.00</h2>
       </div>
+      <!-- Fix svg with aria-hidden="true", card-icon container to be figure element and  -->
       <div class="card-icon expenses-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="#fff" class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/>
         </svg>
       </div>
@@ -45,17 +50,22 @@
 
   </div>
 
+  <!-- Modify this to be a nav with aria-label attribute -->
   <div class="actions">
     <h2 class="actions-title">¿Qué desea realizar?</h2>
 
-    <button id="addTransactionBtn" class="action-btn ">Añadir transacción</button>
-    <button id="configCategoriesBtn" class="action-btn ">Configurar categorias</button>
+    <!-- Add type="button" -->
+    <button id="addTransactionBtn" class="action-btn">Añadir transacción</button>
+    <button id="configCategoriesBtn" class="action-btn">Configurar categorias</button>
 
   </div>
 
+  <!-- Section element -->
   <div id="categoryAnalysis" class="category-analysis" data-type="incomes">
     <div class="category-analysis-btns">
+      <!-- Add type="button" -->
       <button id="incomeAnalysisBtn" class="analysis-btn income-analysis-btn active">Ingresos</button>
+      <!-- Fix this, there are two btns with the same id -->
       <button id="incomeAnalysisBtn" class="analysis-btn expense-analysis-btn">Gastos</button>
     </div>
     <div class="view-section" id="incomesAnalysis">
@@ -128,6 +138,7 @@
     </div>
   </div>
 
+  <!-- Section element -->
   <div id="movements" class="movements-container">
     <div class="movements-header">
       <h2 class="movements-title">Ultimos movimientos</h2>
