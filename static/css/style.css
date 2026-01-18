@@ -1,0 +1,14 @@
+/* ======== MOBILE FIRST ======== */
+
+body {
+  font-family: 'Funnel Sans';
+}
+
+figure {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
