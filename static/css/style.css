@@ -13,7 +13,7 @@ ul {
   padding: 0;
 }
 
-label {
+.form-label {
   font-weight: 600;
 }
 
@@ -402,7 +402,7 @@ input {
 }
 
 /* CUSTOM SELECT SECTION */
-[data-open="true"] .select-options-list {
+.custom-select[aria-expanded="true"] .select-options-list {
   transform: scale(1);
 }
 
