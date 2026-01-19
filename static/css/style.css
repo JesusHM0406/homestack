@@ -162,6 +162,7 @@ input {
 
 .add-transaction-btn:hover {
   background-color: #1249aa;
+  color: #fff;
 }
 
 .config-categories-btn {
