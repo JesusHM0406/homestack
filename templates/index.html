@@ -6,36 +6,36 @@
 <div class="dashboard-container mb-5">
 
   <section class="summary-grid">
-    <article class="card-item card-large shadow-sm balance-card">
+    <article class="card-item card-large shadow-sm balance-card border border-1 border-primary-subtle">
       <div class="card-content">
           <h6 class="card-title mb-1">Balance Actual</h6>
           <h2 class="fw-bold balance-amount">$2726.00</h2>
       </div>
-      <figure class="card-icon balance-icon">
+      <figure class="card-icon bg-primary">
         <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-wallet2" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
         </svg>
       </figure>
     </article>
 
-    <article class="card-item shadow-sm incomes-card">
+    <article class="card-item shadow-sm incomes-card border border-1 border-success-subtle">
       <div class="card-content">
           <h6 class="card-title mb-1">Ingresos del Mes</h6>
           <h2 class="fw-bold incomes-amount">$2726.00</h2>
       </div>
-      <figure class="card-icon incomes-icon">
+      <figure class="card-icon bg-success">
         <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-arrow-up" viewBox="0 0 16 16" aria-hidden="true">
           <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
         </svg>
       </figure>
     </article>
 
-    <article class="card-item stat-card shadow-sm expenses-card">
+    <article class="card-item stat-card shadow-sm expenses-card border border-1 border-danger-subtle">
       <div class="card-content">
           <h6 class="card-title mb-1">Gastos del Mes</h6>
           <h2 class="fw-bold expenses-amount">$2726.00</h2>
       </div>
-      <figure class="card-icon expenses-icon">
+      <figure class="card-icon bg-danger">
         <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-arrow-down" viewBox="0 0 16 16" aria-hidden="true">
           <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
         </svg>
@@ -48,7 +48,7 @@
     <h2 class="actions-title">¿Qué desea realizar?</h2>
 
     <div class="actions-btns">
-      <button type="button" id="addTransactionBtn" class="btn action-btn add-transaction-btn" data-bs-toggle="modal" data-bs-target="#main-modal" data-modal-action="transaction">
+      <button type="button" id="addTransactionBtn" class="btn action-btn add-transaction-btn fw-medium bg-primary text-white fs-5" data-bs-toggle="modal" data-bs-target="#main-modal" data-modal-action="transaction">
         <figure class="add-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16" aria-hidden="true">
             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
@@ -57,7 +57,7 @@
         <span>Añadir transacción</span>
       </button>
 
-      <button type="button" id="configCategoriesBtn" class="action-btn config-categories-btn" data-bs-toggle="modal" data-bs-target="#main-modal" data-modal-action="categories">
+      <button type="button" id="configCategoriesBtn" class="action-btn config-categories-btn fw-medium border border-2 border-secondary-subtle text-secondary fs-5" data-bs-toggle="modal" data-bs-target="#main-modal" data-modal-action="categories">
         <figure class="config-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
@@ -72,12 +72,12 @@
 
   <section id="categoryAnalysis" class="category-analysis" data-type-analysis="incomes">
     <div class="category-analysis-btns mb-2">
-      <button type="button" id="incomeAnalysisBtn" class="analysis-btn income-analysis-btn" data-analysis="incomes">Ingresos</button>
-      <button type="button" id="expenseAnalysisBtn" class="analysis-btn expense-analysis-btn" data-analysis="expenses">Gastos</button>
+      <button type="button" id="incomeAnalysisBtn" class="analysis-btn income-analysis-btn fw-medium border border-2 border-secondary-subtle text-secondary" data-analysis="incomes">Ingresos</button>
+      <button type="button" id="expenseAnalysisBtn" class="analysis-btn expense-analysis-btn fw-medium border border-2 border-secondary-subtle text-secondary" data-analysis="expenses">Gastos</button>
     </div>
 
     <div class="view-section" id="incomesAnalysis">
-      <h2 class="analysis-title">Ingresos por Categoria</h2>
+      <h2 class="analysis-title">Ingresos por Categoría</h2>
       <div class="scroll-area">
         <ul class="analysis-list">
           <li class="analysis_item">
@@ -114,7 +114,7 @@
     </div>
 
     <div class="view-section" id="expensesAnalysis">
-      <h2 class="analysis-title">Gastos por Categoria</h2>
+      <h2 class="analysis-title">Gastos por Categoría</h2>
       <div class="scroll-area">
         <ul class="analysis-list">
           <li class="analysis_item">
@@ -283,7 +283,7 @@
 
   <section id="movements" class="movements-container">
     <div class="movements-header">
-      <h2 class="movements-title">Ultimos movimientos</h2>
+      <h2 class="movements-title">Últimos movimientos</h2>
       <a href="/history" class="movements-link">Ver todos &rarr;</a>
     </div>
     
@@ -291,33 +291,33 @@
       <li class="movement-item">
         <div class="movement-desc">
           <span class="name">Mercado</span>
-          <span class="meta">15 de enero 2025 • Alimentación</span>
+          <span class="meta text-secondary">15 de enero 2025 • Alimentación</span>
         </div>
 
         <div class="movement-amount">
-          <span class="amount expense-amount">- $85</span>
+          <span class="expense-amount fw-medium text-danger">- $85</span>
         </div>
       </li>
 
       <li class="movement-item">
         <div class="movement-desc">
           <span class="name">Mercado</span>
-          <span class="meta">15 de enero 2025 • Alimentación</span>
+          <span class="meta text-body-tertiary">15 de enero 2025 • Alimentación</span>
         </div>
 
         <div class="movement-amount">
-          <span class="amount expense-amount">- $85</span>
+          <span class="expense-amount fw-medium text-danger">- $85</span>
         </div>
       </li>
 
       <li class="movement-item">
         <div class="movement-desc">
           <span class="name">Salario</span>
-          <span class="meta">15 de enero 2025 • Salario</span>
+          <span class="meta text-body-tertiary">15 de enero 2025 • Salario</span>
         </div>
 
         <div class="movement-amount">
-          <span class="amount income-amount">+ $20,000</span>
+          <span class="income-amount fw-medium text-success">+ $20,000</span>
         </div>
       </li>
     </ul>
@@ -337,14 +337,14 @@
       </div>
       <div class="modal-body">
         <div class="modal-toggle-btns-container mb-4">
-          <button type="button" class="btn-toggle" data-mtype="income" id="toggleIncome">Ingreso</button>
-          <button type="button" class="btn-toggle" data-mtype="expense" id="toggleExpense">Gasto</button>
+          <button type="button" class="btn-toggle fw-medium" data-mtype="income" id="toggleIncome">Ingreso</button>
+          <button type="button" class="btn-toggle fw-medium" data-mtype="expense" id="toggleExpense">Gasto</button>
         </div>
         {% include 'components/modal_transactions.html' %}
         {% include 'components/modal_categories.html' %}
         <div class="modal-actions mt-4">
-          <button type="button" id="cancelBtn" class="modal-action-btn close-modal-btn" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" id="submitBtn" class="modal-action-btn submit-modal-btn" form=""></button>
+          <button type="button" id="cancelBtn" class="modal-action-btn close-modal-btn fw-medium" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" id="submitBtn" class="modal-action-btn submit-modal-btn fw-medium" form=""></button>
         </div>
       </div>
     </div>

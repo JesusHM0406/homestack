@@ -150,6 +150,7 @@ toggleBtns.forEach(btn => {
 selectTrigger.addEventListener('click', toggleSelect);
 
 selectOptions.forEach(opt => {
+  // IMPORTANT: WHEN CLICKING ON AN OPTION DELETE "text-secondary" CLASS FROM SELECT TRIGGER LABEL
   opt.addEventListener('click', handleOptClick);
 });
 

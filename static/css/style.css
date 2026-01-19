@@ -1,5 +1,20 @@
 /* ======== MOBILE FIRST ======== */
 
+/* ==== VARIABLES ==== */
+:root {
+  --br-s: 5px;
+  --br-m: 10px;
+  --gray: #EEEEEE;
+  --white: #FFFFFF;
+  --gs: #D0FAE4;
+  --gd: #007A55;
+  --green: #009966;
+  --rs: #FFE2E2;
+  --red: #FF5555;
+  --dark-gray: #999999;
+}
+
+/* ==== GENERAL ==== */
 body {
   font-family: 'Funnel Sans';
 }
@@ -13,19 +28,15 @@ ul {
   padding: 0;
 }
 
-.form-label {
-  font-weight: 600;
-}
-
 input {
   border: none;
-  background-color: #eee;
+  background-color: var(--gray);
   padding: 6px 8px;
-  border-radius: 5px;
+  border-radius: var(--br-s);
 }
 
 svg {
-  stroke: #fff;
+  stroke: var(--white);
   stroke-width: 1px;
 }
 
@@ -58,12 +69,10 @@ svg {
 
 /* GENERAL CARDS STYLES */
 .card-item {
-  background-color: #48e;
-  border-radius: 8px;
+  border-radius: var(--br-s);
   padding: 15px 12px;
   display: flex;
   justify-content: space-between;
-  border: 1px solid transparent;
 }
 
 .card-icon {
@@ -71,7 +80,7 @@ svg {
   padding: 5px;
   display: grid;
   place-content: center;
-  border-radius: 5px;
+  border-radius: var(--br-s);
 }
 
 .card-content {
@@ -87,7 +96,6 @@ svg {
 /* BALANCE CARD */
 .balance-card {
   background-image: linear-gradient(345deg, #DBEAFE, #EDF5FF);
-  border-color: #accdff;
   color: #1465EC;
 }
 
@@ -95,29 +103,19 @@ svg {
   color: #1C398E;
 }
 
-.card-icon.balance-icon {
-  background-color: #155DFC;
-}
-
 /* INCOMES CARD */
 .incomes-card {
-  background-image: linear-gradient(345deg, #D0FAE4, #E9FCF3);
-  border-color: #99ddc9;
-  color: #007A55;
+  background-image: linear-gradient(345deg, var(--gs), #E9FCF3);
+  color: var(--gd);
 }
 
 .incomes-amount {
   color: #004F3B;
 }
 
-.card-icon.incomes-icon {
-  background-color: #009966;
-}
-
 /* EXPENSES CARD */
 .expenses-card {
-  background-image: linear-gradient(345deg, #FFE2E2, #FEF1F1);
-  border-color: #ffc5c5;
+  background-image: linear-gradient(345deg, var(--rs), #FEF1F1);
   color: #D3292C;
 }
 
@@ -150,35 +148,25 @@ svg {
   width: fit-content;
   margin: auto;
   padding: 10px 15px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  border-radius: 6px;
+  border-radius: var(--br-s);
+  background-color: transparent;
   display: flex;
   align-items: center;
   gap: 10px;
-  border: 2px solid transparent;
   transform: scale(0.9);
   transition: background-color .3s ease;
 }
 
 .add-transaction-btn {
-  background-color: #1465EC;
   box-shadow: 0 0 20px 0 #1465EC44;
-  color: #fff;
 }
 
 .add-transaction-btn:hover {
-  background-color: #1249aa;
-  color: #fff;
-}
-
-.config-categories-btn {
-  background-color: #f3f3f3;
-  border-color: #ccc;
+  background-color: #1249aa !important;
 }
 
 .config-categories-btn:hover {
-  background-color: #ddd;
+  background-color: var(--gray);
 }
 
 .config-icon svg{
@@ -209,15 +197,15 @@ svg {
 }
 
 [data-type-analysis="incomes"] #incomeAnalysisBtn {
-  background-color: #D0FAE4;
-  border-color: #009966;
-  color: #007A55;
+  background-color: var(--gs);
+  border-color: var(--green) !important;
+  color: var(--gd) !important;
 }
 
 [data-type-analysis="expenses"] #expenseAnalysisBtn {
-  background-color: #FFE2E2;
-  border-color: #f55;
-  color: #c53c3c;
+  background-color: var(--rs);
+  border-color: var(--red) !important;
+  color: #c53c3c !important;
 }
 
 /* CONTAINER SECTION */
@@ -225,8 +213,8 @@ svg {
   display: flex !important;
   flex-direction: column;
   height: 70dvh;
-  border: 2px solid #ddd;
-  border-radius: 10px;
+  border: 2px solid var(--gray);
+  border-radius: var(--br-m);
   padding: 14px;
   overflow: hidden; 
 }
@@ -246,13 +234,12 @@ svg {
   font-size: 1.1rem;
 }
 
+/* IMPORTANT: Change btn width to 100% */
+
 .analysis-btn {
-  border: 2px solid #ccc;
   background-color: transparent;
-  border-radius: 4px;
+  border-radius: var(--br-s);
   padding: 8px 14px;
-  font-weight: bold;
-  color: #8f8f8f;
 }
 
 /* ANALYSIS SECTION */
@@ -283,8 +270,8 @@ svg {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  border: 2px solid #ddd;
-  border-radius: 10px;
+  border: 2px solid var(--gray);
+  border-radius: var(--br-m);
   padding: 14px;
 }
 
@@ -317,7 +304,7 @@ svg {
   justify-content: space-between;
   background-color: #ecf0f4;
   padding: 6px 10px;
-  border-radius: 5px;
+  border-radius: var(--br-s);
   transition: background-color .3s ease;
 }
 
@@ -332,19 +319,6 @@ svg {
 
 .meta {
   font-size: .85rem;
-  color: #666;
-}
-
-.amount {
-  font-weight: bold;
-}
-
-.expense-amount {
-  color: #D3292C;
-}
-
-.income-amount {
-  color: #009966;
 }
 
 /* == MODAL SECTION == */
@@ -358,14 +332,14 @@ svg {
 }
 
 [data-type="income"] #toggleIncome{
-  background-color: #D0FAE4;
-  border-color: #009966;
-  color: #007A55;
+  background-color: var(--gs);
+  border-color: var(--green);
+  color: var(--gd);
 }
 
 [data-type="expense"] #toggleExpense{
-  background-color: #FFE2E2;
-  border-color: #f55;
+  background-color: var(--rs);
+  border-color: var(--red);
   color: #c53c3c;
 }
 
@@ -379,11 +353,6 @@ svg {
   display: none;
   flex-direction: column;
   gap: 25px;
-}
-
-.form-header h3{
-  font-size: 1.1rem;
-  font-weight: 600;
 }
 
 /* TOGGLE BTNS SECTION */
@@ -402,9 +371,8 @@ svg {
   padding: 10px 0;
   background-color: transparent;
   border: 2px solid #ccc;
-  color: #999;
-  font-weight: bold;
-  border-radius: 5px;
+  color: var(--dark-gray);
+  border-radius: var(--br-s);
 }
 
 /* FORM GROUPS SECTION */
@@ -428,10 +396,12 @@ svg {
 .select-trigger {
   display: flex;
   justify-content: space-between;
-  background-color: #eee;
+  background-color: var(--gray);
   padding: 6px 8px;
-  border-radius: 5px;
+  border-radius: var(--br-s);
 }
+
+/* IMPORTANT: ADD BOX SHADOW */
 
 .select-options-list {
   display: flex;
@@ -439,23 +409,25 @@ svg {
   transform: scale(0);
   flex-direction: column;
   bottom: 105%;
-  background-color: #fff;
+  background-color: var(--white);
   width: 100%;
   max-height: 55dvh;
   overflow-y: auto;
   padding: 8px;
   border: 1px solid #efefef;
-  border-radius: 8px;
+  border-radius: var(--br-s);
   gap: 5px;
   transition: transform .05s ease;
 }
+
+/*                          */
 
 .select-option {
   display: none;
   justify-content: space-between;
   background-color: transparent;
   padding: 4px 6px;
-  border-radius: 5px;
+  border-radius: var(--br-s);
 }
 
 .select-opt-icon svg{
@@ -463,7 +435,7 @@ svg {
 }
 
 .select-option:hover {
-  background-color: #eee;
+  background-color: var(--gray);
 }
 
 [data-type="income"] .select-option.opt-income {
@@ -471,12 +443,12 @@ svg {
 }
 
 .select-option[aria-selected="true"] .select-opt-icon svg{
-  stroke: #999;
-  fill: #999;
+  stroke: var(--dark-gray);
+  fill: var(--dark-gray);
 }
 
 .select-option[aria-selected="true"] {
-  background-color: #eee;
+  background-color: var(--gray);
 }
 
 [data-type="expense"] .select-option.opt-expense {
@@ -494,25 +466,24 @@ svg {
   width: 100%;
   border: none;
   padding: 5px 0;
-  border-radius: 5px;
-  font-weight: 600;
+  border-radius: var(--br-s);
 }
 
 .close-modal-btn {
   background-color: transparent;
-  border: 1px solid #ddd;
+  border: 1px solid var(--gray);
 }
 
 .submit-modal-btn {
-  color: #fff;
+  color: var(--white);
 }
 
 [data-view="transaction"][data-type="income"] .submit-modal-btn {
-  background-color: #009966;
+  background-color: var(--green);
 }
 
 [data-view="transaction"][data-type="expense"] .submit-modal-btn {
-  background-color: #f55;
+  background-color: var(--red);
 }
 
 [data-view="categories"] .submit-modal-btn {
@@ -520,12 +491,6 @@ svg {
 }
 
 /* CATEGORIES SECTION */
-.config-categories-info {
-  font-size: .85rem;
-  text-align: center;
-  color: #999;
-}
-
 .new_category_actions {
   display: flex;
   gap: 5px;
@@ -538,18 +503,17 @@ svg {
 .btn-add-cat {
   padding: 5px 12px;
   border: none;
-  color: #fff;
+  color: var(--white);
   font-size: 1.4rem;
-  font-weight: 600;
-  border-radius: 5px;
+  border-radius: var(--br-s);
 }
 
 [data-type="income"] .btn-add-cat {
-  background-color: #009966;
+  background-color: var(--green);
 }
 
 [data-type="expense"] .btn-add-cat {
-  background-color: #f55;
+  background-color: var(--red);
 }
 
 .category-form-list {
@@ -567,8 +531,7 @@ svg {
   padding: 10px;
   border: 1px solid transparent;
   background-color: transparent;
-  font-weight: bold;
-  border-radius: 5px;
+  border-radius: var(--br-s);
 }
 
 [data-type="income"] .category-form-item.income-category {
@@ -580,21 +543,21 @@ svg {
 }
 
 .category-form-item.income-category {
-  border-color: #009966;
-  background-color: #D0FAE4;
+  border-color: var(--green);
+  background-color: var(--gs);
 }
 
 .category-form-item.expense-category {
-  border-color: #f55;
-  background-color: #FFE2E2;
+  border-color: var(--red);
+  background-color: var(--rs);
 }
 
 .delete-category-btn {
   border: none;
   background-color: transparent;
-  color: #fff;
+  color: var(--white);
   padding: 2px 10px;
-  border-radius: 5px;
+  border-radius: var(--br-s);
   font-size: 1.5rem;
 }
 
@@ -616,9 +579,11 @@ svg {
 
 /* ====== MEDIA QUERIES ====== */
 @media screen and (min-width: 768px) {
+  /* IMPORTANT: DELETE THIS */
   :root {
-    font-size: 14px;
+    font-size: 13px;
   }
+  /*                        */
 
   .dashboard-container {
     grid-template-columns: repeat(2, 1fr);
