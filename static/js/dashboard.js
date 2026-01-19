@@ -117,17 +117,15 @@ function handleOptClick(e) {
   selectOptions.forEach(opt => {
     opt.ariaSelected = 'false';
   })
+
   const opt = e.currentTarget;
+
   opt.ariaSelected = 'true';
 
   categoryInp.value = opt.dataset.idv;
 
   selectLabel.textContent = opt.textContent;
   closeSelect();
-}
-
-function toggleAnalysis(type) {
-  categoryAnalysisContainer.dataset.typeAnalysis = type || 'incomes';
 }
 
 // Event Listeners
@@ -158,6 +156,6 @@ selectOptions.forEach(opt => {
 analysisBtns.forEach(btn => {
   btn.addEventListener('click', (e)=> {
     const aType = e.currentTarget.dataset.analysis;
-    toggleAnalysis(aType);
+    categoryAnalysisContainer.dataset.typeAnalysis = aType || 'income';
   });
 });
