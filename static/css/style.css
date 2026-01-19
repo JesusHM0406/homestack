@@ -24,6 +24,11 @@ input {
   border-radius: 5px;
 }
 
+svg {
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
 /* ====== DASHBOARD SECTION ====== */
 
 .index-title {
@@ -174,6 +179,10 @@ input {
 
 .config-categories-btn:hover {
   background-color: #ddd;
+}
+
+.config-icon svg{
+  stroke: #555;
 }
 
 /* == INCOMES/EXPENSES CATEGORY ANALYSIS SECTION == */
@@ -462,6 +471,7 @@ input {
 }
 
 .select-option[aria-selected="true"] .select-opt-icon svg{
+  stroke: #999;
   fill: #999;
 }
 

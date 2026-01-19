@@ -6,68 +6,62 @@
 <!-- Modify this container to be the main container, need to modify the layout -->
 <div class="dashboard-container mb-5">
 
-  <!-- Section element -->
-  <div class="summary-grid">
-
-    <!-- article element -->
-    <div class="card-item card-large shadow-sm balance-card">
+  <section class="summary-grid">
+    <article class="card-item card-large shadow-sm balance-card">
       <div class="card-content">
           <h6 class="card-title mb-1">Balance Actual</h6>
           <h2 class="fw-bold balance-amount">$2726.00</h2>
       </div>
       <!-- Figure element -->
-      <div class="card-icon balance-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-wallet2" viewBox="0 0 16 16">
+      <figure class="card-icon balance-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-wallet2" viewBox="0 0 16 16" aria-hidden="true">
           <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5z"/>
         </svg>
-      </div>
-    </div>
+      </figure>
+    </article>
 
-    <div class="card-item shadow-sm incomes-card">
+    <article class="card-item shadow-sm incomes-card">
       <div class="card-content">
           <h6 class="card-title mb-1">Ingresos del Mes</h6>
           <h2 class="fw-bold incomes-amount">$2726.00</h2>
       </div>
-      <div class="card-icon incomes-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/>
+      <figure class="card-icon incomes-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-arrow-up" viewBox="0 0 16 16" aria-hidden="true">
+          <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
         </svg>
-      </div>
-    </div>
+      </figure>
+    </article>
 
-    <div class="card-item stat-card shadow-sm expenses-card">
+    <article class="card-item stat-card shadow-sm expenses-card">
       <div class="card-content">
           <h6 class="card-title mb-1">Gastos del Mes</h6>
           <h2 class="fw-bold expenses-amount">$2726.00</h2>
       </div>
-      <!-- Fix svg with aria-hidden="true", card-icon container to be figure element and  -->
-      <div class="card-icon expenses-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/>
+      <figure class="card-icon expenses-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-arrow-down" viewBox="0 0 16 16" aria-hidden="true">
+          <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1"/>
         </svg>
-      </div>
-    </div>
+      </figure>
+    </article>
 
-  </div>
+  </section>
 
-  <!-- Modify this to be a nav with aria-label attribute -->
-  <div class="actions">
+  <nav class="actions" aria-label="Acciones rápidas">
     <h2 class="actions-title">¿Qué desea realizar?</h2>
 
-    <!-- Add type="button" -->
     <div class="actions-btns">
-      <button id="addTransactionBtn" class="btn action-btn add-transaction-btn" data-bs-toggle="modal" data-bs-target="#main-modal" >
+      <button type="button" id="addTransactionBtn" class="btn action-btn add-transaction-btn" data-bs-toggle="modal" data-bs-target="#main-modal" >
         <figure class="add-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16" aria-hidden="true">
             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
           </svg>
         </figure>
         <span>Añadir transacción</span>
       </button>
 
-      <button id="configCategoriesBtn" class="action-btn config-categories-btn" data-bs-toggle="modal" data-bs-target="#main-modal">
-        <figure class="add-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+      <button type="button" id="configCategoriesBtn" class="action-btn config-categories-btn" data-bs-toggle="modal" data-bs-target="#main-modal">
+        <figure class="config-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
             <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
           </svg>
@@ -76,16 +70,14 @@
       </button>
     </div>
 
-  </div>
+  </nav>
 
-  <!-- Section element -->
-  <div id="categoryAnalysis" class="category-analysis" data-type-analysis="incomes">
+  <section id="categoryAnalysis" class="category-analysis" data-type-analysis="incomes">
     <div class="category-analysis-btns mb-2">
-      <!-- Add type="button" -->
-      <button id="incomeAnalysisBtn" class="analysis-btn income-analysis-btn active" data-analysis-btn="incomes">Ingresos</button>
-      <!-- Fix this, there are two btns with the same id -->
-      <button id="expenseAnalysisBtn" class="analysis-btn expense-analysis-btn" data-analysis-btn="expenses">Gastos</button>
+      <button type="button" id="incomeAnalysisBtn" class="analysis-btn income-analysis-btn" data-analysis-btn="incomes">Ingresos</button>
+      <button type="button" id="expenseAnalysisBtn" class="analysis-btn expense-analysis-btn" data-analysis-btn="expenses">Gastos</button>
     </div>
+
     <div class="view-section" id="incomesAnalysis">
       <h2 class="analysis-title">Ingresos por Categoria</h2>
       <div class="scroll-area">
@@ -122,6 +114,7 @@
         </ul>
       </div>
     </div>
+
     <div class="view-section" id="expensesAnalysis">
       <h2 class="analysis-title">Gastos por Categoria</h2>
       <div class="scroll-area">
@@ -288,10 +281,10 @@
         </ul>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Section element -->
-  <div id="movements" class="movements-container">
+  <section id="movements" class="movements-container">
     <div class="movements-header">
       <h2 class="movements-title">Ultimos movimientos</h2>
       <a href="/history" class="movements-link">Ver todos &rarr;</a>
@@ -299,51 +292,44 @@
     
     <ul class="movements-list">
       <li class="movement-item">
-        <!-- Movement description -->
         <div class="movement-desc">
           <span class="name">Mercado</span>
           <span class="meta">15 de enero 2025 • Alimentación</span>
         </div>
 
-        <!-- Movement value -->
         <div class="movement-amount">
           <span class="amount expense-amount">- $85</span>
         </div>
       </li>
 
       <li class="movement-item">
-        <!-- Movement description -->
         <div class="movement-desc">
           <span class="name">Mercado</span>
           <span class="meta">15 de enero 2025 • Alimentación</span>
         </div>
 
-        <!-- Movement value -->
         <div class="movement-amount">
           <span class="amount expense-amount">- $85</span>
         </div>
       </li>
 
       <li class="movement-item">
-        <!-- Movement description -->
         <div class="movement-desc">
           <span class="name">Salario</span>
           <span class="meta">15 de enero 2025 • Salario</span>
         </div>
 
-        <!-- Movement value -->
         <div class="movement-amount">
           <span class="amount income-amount">+ $20,000</span>
         </div>
       </li>
     </ul>
 
-  </div>
+  </section>
 </div>
 
 {% endblock %}
 
-<!-- This is commented out so you can see a preview of the page -->
 {% block modal %}
 <div id="main-modal" class="modal-overlay modal" data-view="transaction" data-type="income">
   <div class="modal-dialog modal-dialog-centered">
