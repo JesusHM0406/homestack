@@ -65,7 +65,7 @@
         <span>Añadir transacción</span>
       </button>
 
-      <button id="configCategoriesBtn" class="action-btn config-categories-btn">
+      <button id="configCategoriesBtn" class="action-btn config-categories-btn" data-bs-toggle="modal" data-bs-target="#main-modal">
         <figure class="add-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
             <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
@@ -240,8 +240,8 @@
         {% include 'components/modal_transactions.html' %}
         {% include 'components/modal_categories.html' %}
         <div class="modal-actions mt-4">
-          <button type="button" id="cancelBtn" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" id="submitBtn" form="transaction-form">Aceptar</button>
+          <button type="button" id="cancelBtn" class="modal-action-btn close-modal-btn" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" id="submitBtn" class="modal-action-btn submit-modal-btn" form="transaction-form">Agregar ingreso</button>
         </div>
       </div>
     </div>

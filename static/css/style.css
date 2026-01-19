@@ -444,3 +444,39 @@ input {
 .select-option:hover {
   background-color: #eee;
 }
+
+/* FORM FOOTER SECTION */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: right;
+}
+
+.modal-action-btn {
+  width: 100%;
+  border: none;
+  padding: 5px 0;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.close-modal-btn {
+  background-color: transparent;
+  border: 1px solid #ddd;
+}
+
+.submit-modal-btn {
+  color: #fff;
+}
+
+[data-view="transaction"][data-type="income"] .submit-modal-btn {
+  background-color: #009966;
+}
+
+[data-view="transaction"][data-type="expense"] .submit-modal-btn {
+  background-color: #f55;
+}
+
+[data-view="categories"] .submit-modal-btn {
+  background-color: #1465EC;
+}
