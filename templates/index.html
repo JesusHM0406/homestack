@@ -48,7 +48,7 @@
     <h2 class="actions-title">¿Qué desea realizar?</h2>
 
     <div class="actions-btns">
-      <button type="button" id="addTransactionBtn" class="btn action-btn add-transaction-btn" data-bs-toggle="modal" data-bs-target="#main-modal" >
+      <button type="button" id="addTransactionBtn" class="btn action-btn add-transaction-btn" data-bs-toggle="modal" data-bs-target="#main-modal" data-modal-action="transaction">
         <figure class="add-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16" aria-hidden="true">
             <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
@@ -57,7 +57,7 @@
         <span>Añadir transacción</span>
       </button>
 
-      <button type="button" id="configCategoriesBtn" class="action-btn config-categories-btn" data-bs-toggle="modal" data-bs-target="#main-modal">
+      <button type="button" id="configCategoriesBtn" class="action-btn config-categories-btn" data-bs-toggle="modal" data-bs-target="#main-modal" data-modal-action="categories">
         <figure class="config-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
@@ -328,11 +328,11 @@
 {% endblock %}
 
 {% block modal %}
-<div id="main-modal" class="modal-overlay modal" data-view="transaction" data-type="income">
+<div id="main-modal" class="modal-overlay modal" data-view="" data-type="">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header border-0">
-        <h1 class="modal-title fs-10" id="staticBackdropLabel">Agregar Transacción</h1>
+        <h2 class="modal-title fs-10" id="staticBackdropLabel"></h2>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -344,7 +344,7 @@
         {% include 'components/modal_categories.html' %}
         <div class="modal-actions mt-4">
           <button type="button" id="cancelBtn" class="modal-action-btn close-modal-btn" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" id="submitBtn" class="modal-action-btn submit-modal-btn" form="transaction-form">Agregar ingreso</button>
+          <button type="submit" id="submitBtn" class="modal-action-btn submit-modal-btn" form="transaction-form"></button>
         </div>
       </div>
     </div>
