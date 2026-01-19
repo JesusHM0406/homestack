@@ -13,6 +13,14 @@ const selectTrigger = document.getElementById('selectTrigger');
 const selectOptList = document.getElementById('selectOptList');
 const selectOptions = document.querySelectorAll('.select-option');
 const selectLabel = document.getElementById('selectOptSelected');
+// == Analysis Section Elments
+const analysisBtns = document.querySelectorAll('.analysis-btn');
+const categoryAnalysisContainer = document.getElementById('categoryAnalysis');
+
+
+// IMPORTANT!: I NEED TO CLEAN THE INPUTS WHEN CLOSING THE MODAL OR SWITCHING BETWEEN INCOMES AND EXPENSES
+
+// I can avoid the problem of the btn an title labels using CSS, but it requires more HTML elements
 
 
 // Helper Functions
@@ -123,6 +131,10 @@ function handleOptClick(e) {
   closeSelect();
 }
 
+function toggleAnalysis(type) {
+  categoryAnalysisContainer.dataset.typeAnalysis = type || 'incomes';
+}
+
 // Event Listeners
 
 actionBtns.forEach(btn => {
@@ -143,4 +155,11 @@ selectTrigger.addEventListener('click', toggleSelect);
 
 selectOptions.forEach(opt => {
   opt.addEventListener('click', handleOptClick);
+});
+
+analysisBtns.forEach(btn => {
+  btn.addEventListener('click', (e)=> {
+    const aType = e.currentTarget.dataset.analysis;
+    toggleAnalysis(aType);
+  });
 });
