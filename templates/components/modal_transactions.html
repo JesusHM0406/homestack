@@ -1,5 +1,6 @@
 <form action="/" method="POST" id="transaction-form" class="dashboard-form">
   <input type="hidden" name="transaction_type" value="income" id="transactionType">
+  <input type="hidden" name="category" id="categoryInput" value="">
 
   <div class="form-group form-header">
     <h3>Tipo de Transacción</h3>
@@ -20,14 +21,37 @@
   </div>
 
   <div class="form-group">
-    <label for="category-select">Categoria</label>
-    <select name="category" id="category-select" required>
-      <option value="1" disabled selected hidden>Selecciona una categoria</option>
-      <option value="2" class="opt-expense">Comida</option>
-      <option value="2" class="opt-expense">Escuela</option>
-      <option value="4" class="opt-income">Salario</option>
-      <option value="5" class="opt-income">Extra</option>
-    </select>
+    <label>Categoria</label>
+    
+    <div class="custom-select" id="customSelect" data-open="false">
+      <div class="select-trigger">
+        <span>Selecciona una categoria</span>
+        <figure>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+          </svg>
+        </figure>
+      </div>
+
+      <ul class="select-options-list">
+        <li class="select-option opt-expense" data-idv="1">Comida</li>
+        <li class="select-option opt-expense" data-idv="2">Escuela</li>
+        <li class="select-option opt-income" data-idv="3">Salario</li>
+        <li class="select-option opt-income" data-idv="4">Extra</li>
+                <li class="select-option opt-expense" data-idv="1">Comida</li>
+        <li class="select-option opt-expense" data-idv="2">Escuela</li>
+        <li class="select-option opt-income" data-idv="3">Salario</li>
+        <li class="select-option opt-income" data-idv="4">Extra</li>
+                <li class="select-option opt-expense" data-idv="1">Comida</li>
+        <li class="select-option opt-expense" data-idv="2">Escuela</li>
+        <li class="select-option opt-income" data-idv="3">Salario</li>
+        <li class="select-option opt-income" data-idv="4">Extra</li>
+                <li class="select-option opt-expense" data-idv="1">Comida</li>
+        <li class="select-option opt-expense" data-idv="2">Escuela</li>
+        <li class="select-option opt-income" data-idv="3">Salario</li>
+        <li class="select-option opt-income" data-idv="4">Extra</li>
+      </ul>
+    </div>
   </div>
 
   <div class="form-actions">
