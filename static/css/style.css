@@ -348,13 +348,13 @@ input {
   display: flex;
 }
 
-[data-type="income"] #toggleTransactionIncome {
+[data-type="income"] #toggleIncome{
   background-color: #D0FAE4;
   border-color: #009966;
   color: #007A55;
 }
 
-[data-type="expense"] #toggleTransactionExpense {
+[data-type="expense"] #toggleExpense{
   background-color: #FFE2E2;
   border-color: #f55;
   color: #c53c3c;
@@ -374,6 +374,11 @@ input {
 
 /* TOGGLE BTNS SECTION */
 .toggle-container {
+  display: flex;
+  gap: 10px;
+}
+
+.modal-toggle-btns-container {
   display: flex;
   gap: 10px;
 }

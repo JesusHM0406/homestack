@@ -233,8 +233,16 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <div class="modal-toggle-btns-container mb-4">
+          <button type="button" class="btn-toggle" data-mtype="income" id="toggleIncome">Ingreso</button>
+          <button type="button" class="btn-toggle" data-mtype="expense" id="toggleExpense">Gasto</button>
+        </div>
         {% include 'components/modal_transactions.html' %}
         {% include 'components/modal_categories.html' %}
+        <div class="modal-actions mt-4">
+          <button type="button" id="cancelBtn" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" id="submitBtn" form="transaction-form">Aceptar</button>
+        </div>
       </div>
     </div>
   </div>
