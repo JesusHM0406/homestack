@@ -61,19 +61,21 @@ function toggleModalView(type) {
     return;
   }
 
-  const isIncome = type == 'income';
+  const isIncome = type === 'income';
 
   mainModal.dataset.type = type;
 
   if (mainModal.dataset.view === 'transaction') {
     modalFooterBtn.textContent = isIncome ? 'Agregar Ingreso' : 'Agregar Gasto';
-    return;
+    cleanSelect();
+  } else {
+    const addCategoryLabel = document.getElementById('add-category-label');
+    const deleteCategoryLabel = document.getElementById('delete-category-label');
+    addCategoryLabel.textContent = isIncome ? 'Ingreso' : 'Gasto';
+    deleteCategoryLabel.textContent = addCategoryLabel.textContent; 
+
+    newCategoryInput.setAttribute('placeholder', isIncome ? 'Ej: Alquileres, Comisiones, etc.' : 'Ej: Comida, Renta, etc.');
   }
-
-  const addCategoryLabel = document.getElementById('add-category-label');
-  addCategoryLabel.textContent = isIncome ? 'Agregar Nueva Categoria de Ingreso' : 'Agregar Nueva Categoria de Gasto';
-
-  newCategoryInput.setAttribute('placeholder', isIncome ? 'Ej: Alquileres, Comisiones, etc.' : 'Ej: Comida, Renta, etc.');
 }
 
 function cleanSelect() {
