@@ -1,9 +1,10 @@
 // ====== HTML Elements ======
+// ==== Modal Section ====
 const actionBtns = document.querySelectorAll('.action-btn');
 const mainModal = document.getElementById('main-modal');
 const toggleBtns = document.querySelectorAll('.btn-toggle');
-const modalFooterBtn = document.getElementById('submitBtn');
 const submitBtn = document.getElementById('submitBtn');
+const modalTitle = document.querySelector('.modal-title');
 // == Categories Form Elements ==
 const newCategoryInput = document.getElementById('new_category_input');
 // == Transaction Form Elements ==
@@ -18,72 +19,66 @@ const analysisBtns = document.querySelectorAll('.analysis-btn');
 const categoryAnalysisContainer = document.getElementById('categoryAnalysis');
 
 
+// ====== LABELS DICTIONARY ======
+const UI_LABELS = {
+  income: {
+    btn: 'Agregar Ingreso',
+    placeholder: 'Ej: Alquileres, Comisiones, etc.',
+    label: 'Ingreso'
+  },
+  expense: {
+    btn: 'Agregar Gasto',
+    placeholder: 'Ej: Comida, Renta, etc.',
+    label: 'Gasto'
+  }
+};
+
 // IMPORTANT!: I NEED TO CLEAN THE INPUTS WHEN CLOSING THE MODAL OR SWITCHING BETWEEN INCOMES AND EXPENSES
 
 // I can avoid the problem of the btn an title labels using CSS, but it requires more HTML elements
 
 
 // Helper Functions
-function updateModalContent(view, type) {
-  const modalTitle = document.querySelector('.modal-title');
+function updateModal() {
+  const view = mainModal.dataset.view;
+  const type = mainModal.dataset.type;
 
-  if (!view || !type) {
-    modalFooterBtn.textContent = 'Aceptar';
-  }
+  const config = UI_LABELS[type];
 
-  const btnLabels = {
-    'income': 'Agregar ingreso',
-    'expense': 'Agregar gasto'
-  };
+  const isTransaction = view === 'transaction';
+  
+  if (isTransaction) {
+    // Update title
+    modalTitle.textContent = 'Añadir Transacción';
 
-  if (view === 'categories') {
-    modalTitle.textContent = 'Administrar Categorias';
-    modalFooterBtn.textContent = 'Aceptar';
-    return;
-  }
+    // Update body
+    // Nothing to update
 
-  modalTitle.textContent = 'Añadir Transacción';
-  modalFooterBtn.textContent = btnLabels[type];
-}
-
-function toggleModal(view) {
-  if (!view) return;
-
-  mainModal.dataset.view = view;
-  mainModal.dataset.type = 'income';
-
-  document.querySelector('.modal-title').textContent;
-
-  updateModalContent(view, 'income');
-  if (view === 'transaction') {
-    cleanSelect();
+    // Update footer
+    submitBtn.textContent = config.btn;
     submitBtn.setAttribute('form', 'transaction-form');
   } else {
+    // Update title
+    modalTitle.textContent = 'Administrar Categorias';
+
+    // Update body
+    newCategoryInput.placeholder = config.placeholder;
+    document.getElementById('add-category-label').textContent = config.label;
+    document.getElementById('delete-category-label').textContent = config.label;
+
+    // Update footer
+    submitBtn.textContent = 'Aceptar';
     submitBtn.setAttribute('form', 'categories-form');
   }
+
+  // Clear forms
+  clearForm();
 }
 
-function toggleModalView(type) {
-  if (!type) {
-    mainModal.dataset.type = 'income';
-    return;
-  }
-
-  const isIncome = type === 'income';
-
-  mainModal.dataset.type = type;
-
-  if (mainModal.dataset.view === 'transaction') {
-    modalFooterBtn.textContent = isIncome ? 'Agregar Ingreso' : 'Agregar Gasto';
-    cleanSelect();
-  } else {
-    const addCategoryLabel = document.getElementById('add-category-label');
-    const deleteCategoryLabel = document.getElementById('delete-category-label');
-    addCategoryLabel.textContent = isIncome ? 'Ingreso' : 'Gasto';
-    deleteCategoryLabel.textContent = addCategoryLabel.textContent; 
-
-    newCategoryInput.setAttribute('placeholder', isIncome ? 'Ej: Alquileres, Comisiones, etc.' : 'Ej: Comida, Renta, etc.');
-  }
+function clearForm() {
+  document.getElementById('categories-form').reset()
+  document.getElementById('transaction-form').reset()
+  cleanSelect();
 }
 
 function cleanSelect() {
@@ -140,14 +135,17 @@ function toggleAnalysis(type) {
 actionBtns.forEach(btn => {
   btn.addEventListener('click', (e)=> {
     const view = e.currentTarget.dataset.modalAction;
-    toggleModal(view);
+    mainModal.dataset.view = view;
+    mainModal.dataset.type = 'income'; // Default value
+    updateModal();
   });
 });
 
 toggleBtns.forEach(btn => {
   btn.addEventListener('click', (e)=> {
     const type = e.currentTarget.dataset.mtype;
-    toggleModalView(type);
+    mainModal.dataset.type = type;
+    updateModal();
   });
 });
 
