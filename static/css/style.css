@@ -340,12 +340,12 @@ input {
 
 /* == MODAL SECTION == */
 /* CONFIG */
-[data-view="transaction"] #section-transaction {
-  display: block;
+[data-view="transaction"] #transaction-form {
+  display: flex;
 }
 
-[data-view="categories"] #section-categories {
-  display: block;
+[data-view="categories"] #categories-form {
+  display: flex;
 }
 
 [data-type="income"] #toggleTransactionIncome {
@@ -362,7 +362,7 @@ input {
 
 /* FORM CONTAINER SECTION */
 .dashboard-form {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 25px;
 }

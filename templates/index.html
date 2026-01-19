@@ -233,13 +233,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        
-        <div class="view-section" id="section-transaction">
-            {% include 'components/modal_transactions.html' %}
-          </div>
-        <div class="view-section" id="section-categories">
-          {% include 'components/modal_categories.html' %}
-        </div>
+        {% include 'components/modal_transactions.html' %}
+        {% include 'components/modal_categories.html' %}
       </div>
     </div>
   </div>
