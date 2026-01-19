@@ -16,7 +16,7 @@
     <span class="form-label">Categoria</span>
     
     <div class="custom-select" id="customSelect" aria-expanded="false">
-      <div class="select-trigger">
+      <div class="select-trigger" id="selectTrigger">
         <span id="selectOptSelected">Selecciona una categoria</span>
         <figure>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ccc" class="bi bi-caret-down-fill" viewBox="0 0 16 16" aria-hidden="true">
@@ -25,7 +25,7 @@
         </figure>
       </div>
 
-      <ul class="select-options-list">
+      <ul class="select-options-list" id="selectOptList">
         <li aria-selected="false" class="select-option opt-expense" data-idv="1">
           <span>Comida</span>
           <figure class="select-opt-icon">
@@ -50,7 +50,7 @@
             </svg>
           </figure>
         </li>
-        <li aria-selected="true" class="select-option opt-income" data-idv="1">
+        <li aria-selected="false" class="select-option opt-income" data-idv="1">
           <span>Extra</span>
           <figure class="select-opt-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
