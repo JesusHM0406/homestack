@@ -35,6 +35,8 @@ input {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
+  max-width: 992px;
+  margin: auto;
 }
 
 /* == SUMMARY SECTION == */
@@ -570,4 +572,53 @@ input {
 
 [data-type="expense"] .expense-category .delete-category-btn:hover {
   background-color: #ff555560;
+}
+
+/* ====== MEDIA QUERIES ====== */
+@media screen and (min-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+
+  .dashboard-container {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: 
+    "summary summary"
+    "actions analysis"
+    "movements movements"
+    ;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-area: summary;
+  }
+
+  .card-large {
+    grid-column: span 1;
+  }
+
+  .actions {
+    grid-area: actions;
+    height: 80%;
+  }
+
+  .category-analysis {
+    grid-area: analysis;
+  }
+
+  .movements-container {
+    grid-area: movements;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .dashboard-container {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas: 
+    "summary summary summary"
+    "actions actions analysis"
+    "movements movements movements"
+    ;
+  }
 }
