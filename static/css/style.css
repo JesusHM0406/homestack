@@ -250,12 +250,9 @@ input {
 }
 
 .analysis-list {
-  margin: 0;
-  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  list-style: none;
 }
 
 .analysis_item {
@@ -360,6 +357,11 @@ input {
   color: #c53c3c;
 }
 
+.modal-content {
+  max-height: 70dvh;
+  padding: 3px;
+}
+
 /* FORM CONTAINER SECTION */
 .dashboard-form {
   display: none;
@@ -401,6 +403,7 @@ input {
   font-size: 1.1rem;
 }
 
+/* TRANSACTION SECTION */
 /* CUSTOM SELECT SECTION */
 .custom-select[aria-expanded="true"] .select-options-list {
   transform: scale(1);
@@ -479,4 +482,91 @@ input {
 
 [data-view="categories"] .submit-modal-btn {
   background-color: #1465EC;
+}
+
+/* CATEGORIES SECTION */
+.config-categories-info {
+  font-size: .85rem;
+  text-align: center;
+  color: #999;
+}
+
+.new_category_actions {
+  display: flex;
+  gap: 5px;
+}
+
+.new-category-input {
+  flex-grow: 1;
+}
+
+.btn-add-cat {
+  padding: 5px 12px;
+  border: none;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+[data-type="income"] .btn-add-cat {
+  background-color: #009966;
+}
+
+[data-type="expense"] .btn-add-cat {
+  background-color: #f55;
+}
+
+.category-form-list {
+  max-height: 12rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.category-form-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+[data-type="income"] .category-form-item.income-category {
+  border-color: #009966;
+  background-color: #D0FAE4;
+}
+
+[data-type="expense"] .category-form-item.expense-category {
+  border-color: #f55;
+  background-color: #FFE2E2;
+}
+
+.delete-category-btn {
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 5px;
+  font-size: 1.5rem;
+}
+
+[data-type="income"] .income-category .delete-category-btn {
+  color: #004F3B;
+}
+
+[data-type="income"] .income-category .delete-category-btn:hover {
+  background-color: #00996664;
+}
+
+[data-type="expense"] .expense-category .delete-category-btn {
+  color: #82181A;
+}
+
+[data-type="expense"] .expense-category .delete-category-btn:hover {
+  background-color: #ff555560;
 }
