@@ -442,13 +442,35 @@ input {
 }
 
 .select-option {
+  display: none;
+  justify-content: space-between;
   background-color: transparent;
   padding: 4px 6px;
   border-radius: 5px;
 }
 
+.select-opt-icon svg{
+  fill: transparent;
+}
+
 .select-option:hover {
   background-color: #eee;
+}
+
+[data-type="income"] .select-option.opt-income {
+  display: flex;
+}
+
+.select-option[aria-selected="true"] .select-opt-icon svg{
+  fill: #999;
+}
+
+.select-option[aria-selected="true"] {
+  background-color: #eee;
+}
+
+[data-type="expense"] .select-option.opt-expense {
+  display: flex;
 }
 
 /* FORM FOOTER SECTION */
@@ -529,7 +551,7 @@ input {
 }
 
 .category-form-item {
-  display: flex;
+  display: none;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
@@ -540,11 +562,19 @@ input {
 }
 
 [data-type="income"] .category-form-item.income-category {
+  display: flex;
+}
+
+[data-type="expense"] .category-form-item.expense-category {
+  display: flex;
+}
+
+.category-form-item.income-category {
   border-color: #009966;
   background-color: #D0FAE4;
 }
 
-[data-type="expense"] .category-form-item.expense-category {
+.category-form-item.expense-category {
   border-color: #f55;
   background-color: #FFE2E2;
 }
