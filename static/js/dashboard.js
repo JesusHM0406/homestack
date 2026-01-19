@@ -56,6 +56,7 @@ function updateModal() {
 
     // Update footer
     submitBtn.textContent = config.btn;
+    selectLabel.classList.add('text-secondary');
     submitBtn.setAttribute('form', 'transaction-form');
   } else {
     // Update title
@@ -124,6 +125,7 @@ function handleOptClick(e) {
 
   categoryInp.value = opt.dataset.idv;
 
+  selectLabel.classList.remove('text-secondary');
   selectLabel.textContent = opt.textContent;
   closeSelect();
 }
