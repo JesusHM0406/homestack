@@ -2,9 +2,7 @@ import os
 
 from flask import Flask, render_template, redirect, request, session, flash, url_for
 from flask_session import Session
-from cs50 import SQL
 from werkzeug.security import check_password_hash, generate_password_hash
-
 from helpers import login_required
 
 # Initialize flask app
@@ -17,7 +15,8 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Initialize database
-db = SQL("sqlite:///database.db")
+
+db = None
 
 @app.route("/")
 @login_required
@@ -44,10 +43,13 @@ def register():
     return redirect(url_for("register"))
   
   # We need to check if that username already exists in our database since it stores unique usernames
-  user_exists = db.execute("SELECT * FROM users WHERE username = ?", username)
-  if user_exists:
-    flash("Ya existe ese nombre de usuario, intenta con otro", category="danger")
-    return redirect(url_for("register"))
+  """
+  Replace this with the ORM migration
+  """
+  # user_exists = db.execute("SELECT * FROM users WHERE username = ?", username)
+  # if user_exists:
+  #   flash("Ya existe ese nombre de usuario, intenta con otro", category="danger")
+  #   return redirect(url_for("register"))
   
   # We need to validate if that password contains a minimun of 8 characters for security
   if len(password) < MIN_PASSWORD_SIZE:
@@ -65,7 +67,10 @@ def register():
     password_hash = generate_password_hash(password)
     
     # Then we insert the user in the database
-    db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, password_hash)
+    """
+    Replace this with the ORM migration
+    """
+    # db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, password_hash)
     
     # The registration was successful
     flash("¡Registro exisotso! Ya puedes iniciar sesión.", category="success")
@@ -94,16 +99,20 @@ def login():
     flash("Debe proporcionar usuario y contraseña", category="danger")
     return render_template("login.html")
 
-  rows = db.execute("SELECT * FROM users WHERE username = ?", username)
+  """
+  Replace this with the ORM migration
+  """
 
-  # There is no user with that username or the password is incorrect
-  if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
-    flash("Nombre de usuario y/o contraseña invalidos", category="danger")
-    return render_template("login.html")
+  # rows = db.execute("SELECT * FROM users WHERE username = ?", username)
+
+  # # There is no user with that username or the password is incorrect
+  # if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
+  #   flash("Nombre de usuario y/o contraseña invalidos", category="danger")
+  #   return render_template("login.html")
 
   # Login user
-  session["user_id"] = rows[0]["id"]
-  session["username"] = rows[0]["username"]
+  # session["user_id"] = rows[0]["id"]
+  # session["username"] = rows[0]["username"]
 
   return redirect("/")
 
