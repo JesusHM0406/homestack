@@ -533,6 +533,10 @@ svg {
   border-radius: var(--br-s);
 }
 
+.category-form-item[data-hidden="true"] {
+  display: none !important;
+}
+
 [data-type="income"] .category-form-item.income-category {
   display: flex;
 }

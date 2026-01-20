@@ -6,8 +6,17 @@ const toggleBtns = document.querySelectorAll('.btn-toggle');
 const submitBtn = document.getElementById('submitBtn');
 const modalTitle = document.querySelector('.modal-title');
 // == Categories Form Elements ==
+const cateogriesTypeInpt = document.getElementById('categoriesType');
 const newCategoryInput = document.getElementById('new_category_input');
+const addNewCategoryBtn = document.getElementById('addNewCategoryBtn');
+const addedCategoriesInpt = document.getElementById('addedCategories');
+const deletedCategoriesInpt = document.getElementById('deletedCategories');
+const deleteCategoryBtns = document.querySelectorAll('.delete-category-btn');
+let addedCategories = [];
+let deletedCategories = [];
+const categoryFormItems = document.querySelectorAll('.category-form-item');
 // == Transaction Form Elements ==
+const transactionTypeInpt = document.getElementById('transactionType');
 const categoryInp = document.getElementById('categoryInput');
 const customSelect = document.getElementById('customSelect');
 const selectTrigger = document.getElementById('selectTrigger');
@@ -33,12 +42,7 @@ const UI_LABELS = {
   }
 };
 
-// IMPORTANT!: I NEED TO CLEAN THE INPUTS WHEN CLOSING THE MODAL OR SWITCHING BETWEEN INCOMES AND EXPENSES
-
-// I can avoid the problem of the btn an title labels using CSS, but it requires more HTML elements
-
-
-// Helper Functions
+// ====== HELPER FUNCTIONS ======
 function updateModal() {
   const view = mainModal.dataset.view;
   const type = mainModal.dataset.type;
@@ -52,7 +56,7 @@ function updateModal() {
     modalTitle.textContent = 'Añadir Transacción';
 
     // Update body
-    // Nothing to update
+    transactionTypeInpt.value = type;
 
     // Update footer
     submitBtn.textContent = config.btn;
@@ -63,9 +67,11 @@ function updateModal() {
     modalTitle.textContent = 'Administrar Categorias';
 
     // Update body
+    addedCategories = [];
     newCategoryInput.placeholder = config.placeholder;
     document.getElementById('add-category-label').textContent = config.label;
     document.getElementById('delete-category-label').textContent = config.label;
+    cateogriesTypeInpt.value = type;
 
     // Update footer
     submitBtn.textContent = 'Aceptar';
@@ -73,10 +79,10 @@ function updateModal() {
   }
 
   // Clear forms
-  clearForm();
+  clearForms();
 }
 
-function clearForm() {
+function clearForms() {
   document.getElementById('categories-form').reset()
   document.getElementById('transaction-form').reset()
   cleanSelect();
@@ -130,13 +136,55 @@ function handleOptClick(e) {
   closeSelect();
 }
 
-// Event Listeners
+// Categories section
+
+function addNewCategory(name) {
+  if (name.trim() === '' || typeof name !== 'string') {
+    // Just for the moment
+    alert('Por favor ingresa un nombre valido para la nueva categoria.');
+    return;
+  }
+
+  if (addedCategories.includes(name)) {
+    alert('Ya agregaste una categoria con el mismo nombre');
+    return
+  }
+
+  // IMPORTANT: I NEED TO MATCH THE ADDED CATEGORIES ARRAY WITH THE VALUE OF THE HIDDEN INPUT IN THE FORM BEFORE SENDING TO THE BACKEND
+
+  addedCategories.push(name);
+  newCategoryInput.value = '';
+}
+
+function deleteCategory(id) {
+  const parsedId = parseInt(id);
+  if (!parsedId || isNaN(parsedId) || deletedCategories.includes(parsedId)) {
+    alert('Ocurrio un error, intenta de nuevo');
+    return;
+  }
+
+  // IMPORTANT: I NEED TO MATCH THE DELETED CATEGORIES ARRAY WITH THE VALUE OF THE HIDDEN INPUT IN THE FORM BEFORE SENDING TO THE BACKEND
+
+  document.querySelector(`[data-category-id="${id}"]`).closest('.category-form-item').setAttribute('data-hidden', 'true');
+  deletedCategories.push(parsedId);
+}
+
+// ====== EVENT LISTENERS ======
+
+mainModal.addEventListener('hidden.bs.modal', ()=> {
+  clearForms();
+  deletedCategories = [];
+  categoryFormItems.forEach(elem => {
+    elem.removeAttribute('data-hidden');
+  })
+});
 
 actionBtns.forEach(btn => {
   btn.addEventListener('click', (e)=> {
     const view = e.currentTarget.dataset.modalAction;
     mainModal.dataset.view = view;
     mainModal.dataset.type = 'income'; // Default value
+    mainModal.iner
     updateModal();
   });
 });
@@ -152,7 +200,6 @@ toggleBtns.forEach(btn => {
 selectTrigger.addEventListener('click', toggleSelect);
 
 selectOptions.forEach(opt => {
-  // IMPORTANT: WHEN CLICKING ON AN OPTION DELETE "text-secondary" CLASS FROM SELECT TRIGGER LABEL
   opt.addEventListener('click', handleOptClick);
 });
 
@@ -162,3 +209,15 @@ analysisBtns.forEach(btn => {
     categoryAnalysisContainer.dataset.typeAnalysis = aType || 'income';
   });
 });
+
+addNewCategoryBtn.addEventListener('click', ()=> {
+  const cateName = newCategoryInput.value;
+  addNewCategory(cateName);
+});
+
+deleteCategoryBtns.forEach(btn => {
+  btn.addEventListener('click', (e)=> {
+    const categoryId = e.currentTarget.dataset.categoryId;
+    deleteCategory(categoryId);
+  })
+})
