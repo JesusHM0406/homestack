@@ -25,6 +25,8 @@ const selectTrigger = document.getElementById('selectTrigger');
 const selectOptList = document.getElementById('selectOptList');
 const selectOptions = document.querySelectorAll('.select-option');
 const selectLabel = document.getElementById('selectOptSelected');
+const descInpt = document.getElementById('description');
+const amountInpt = document.getElementById('amount');
 // == Analysis Section Elments
 const analysisBtns = document.querySelectorAll('.analysis-btn');
 const categoryAnalysisContainer = document.getElementById('categoryAnalysis');
@@ -73,7 +75,7 @@ function updateModal() {
     newCategoryInput.placeholder = config.placeholder;
     document.getElementById('add-category-label').textContent = config.label;
     document.getElementById('delete-category-label').textContent = config.label;
-    cateogriesTypeInpt.value = type;
+    categoriesTypeInpt.value = type;
 
     // Update footer
     submitBtn.textContent = 'Aceptar';
@@ -152,8 +154,6 @@ function addNewCategory(name) {
     return
   }
 
-  // IMPORTANT: I NEED TO MATCH THE ADDED CATEGORIES ARRAY WITH THE VALUE OF THE HIDDEN INPUT IN THE FORM BEFORE SENDING TO THE BACKEND
-
   addedCategories.push(name);
   newCategoryInput.value = '';
 }
@@ -164,8 +164,6 @@ function deleteCategory(id) {
     alert('Ocurrio un error, intenta de nuevo');
     return;
   }
-
-  // IMPORTANT: I NEED TO MATCH THE DELETED CATEGORIES ARRAY WITH THE VALUE OF THE HIDDEN INPUT IN THE FORM BEFORE SENDING TO THE BACKEND
 
   document.querySelector(`[data-category-id="${id}"]`).closest('.category-form-item').setAttribute('data-hidden', 'true');
   deletedCategories.push(parsedId);
@@ -178,7 +176,7 @@ function handleCategoriesForm(e) {
   const type = categoriesTypeInpt.value;
 
   if (type.trim() === '' ){
-    alert("Datos invalidos. Reiniciando formulario...")
+    alert("Datos inválidos. Reiniciando formulario...")
     categoriesForm.reset();
     return;
   }
@@ -192,8 +190,44 @@ function handleCategoriesForm(e) {
   }
 }
 
-function handleTransactionForm() {
+function handleTransactionForm(e) {
+  e.preventDefault();
 
+  const type = transactionTypeInpt.value;
+  const cateId = parseInt(categoryInp.value);
+  const desc = descInpt.value;
+  const amount = parseFloat(amountInpt.value);
+
+  if (type.trim() === '') {
+    alert('El tipo de transacción es obligatoria');
+    mainModal.dataset.type = 'income';
+    transactionTypeInpt.value = 'income';
+    cleanSelect();
+    return;
+  }
+
+  if (descInpt.getAttribute('type') !== 'text') {
+    alert('Datos inválidos. Reiniciando formulario...');
+    descInpt.setAttribute('type', 'text');
+    return;
+  }
+
+  if (desc.trim() === '') {
+    alert('Descriptión vacía');
+    return;
+  }
+
+  if (isNaN(cateId) || cateId <= 0) {
+    alert('Seleccione una categoría válida');
+    return;
+  }
+
+  if (isNaN(amount) || amount < 0.50) {
+    alert('El monto debe de ser un número superior o igual a 0.50');
+    return;
+  }
+
+  transactionForm.submit();
 }
 
 // ====== EVENT LISTENERS ======
