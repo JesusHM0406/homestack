@@ -4,6 +4,14 @@ from flask import Flask, render_template, redirect, request, session, flash, url
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import login_required
+from sqlalchemy.orm import DeclarativeBase
+from flask_sqlalchemy import SQLAlchemy
+
+# Initialize extension
+class Base(DeclarativeBase):
+  pass
+
+db = SQLAlchemy(model_class=Base)
 
 # Initialize flask app
 app = Flask(__name__)
@@ -12,11 +20,13 @@ app.secret_key = os.getenv("SECRET_KEY")
 # Session config
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+# DB config
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///finance.db"
+# Init session
 Session(app)
 
-# Initialize database
+db.init_app(app)
 
-db = None
 
 @app.route("/")
 @login_required
