@@ -6,7 +6,8 @@ const toggleBtns = document.querySelectorAll('.btn-toggle');
 const submitBtn = document.getElementById('submitBtn');
 const modalTitle = document.querySelector('.modal-title');
 // == Categories Form Elements ==
-const cateogriesTypeInpt = document.getElementById('categoriesType');
+const categoriesForm = document.getElementById('categories-form');
+const categoriesTypeInpt = document.getElementById('categoriesType');
 const newCategoryInput = document.getElementById('new_category_input');
 const addNewCategoryBtn = document.getElementById('addNewCategoryBtn');
 const addedCategoriesInpt = document.getElementById('addedCategories');
@@ -16,6 +17,7 @@ let addedCategories = [];
 let deletedCategories = [];
 const categoryFormItems = document.querySelectorAll('.category-form-item');
 // == Transaction Form Elements ==
+const transactionForm = document.getElementById('transaction-form');
 const transactionTypeInpt = document.getElementById('transactionType');
 const categoryInp = document.getElementById('categoryInput');
 const customSelect = document.getElementById('customSelect');
@@ -169,6 +171,31 @@ function deleteCategory(id) {
   deletedCategories.push(parsedId);
 }
 
+// FORM VALIDATION SECTION
+function handleCategoriesForm(e) {
+  e.preventDefault();
+
+  const type = categoriesTypeInpt.value;
+
+  if (type.trim() === '' ){
+    alert("Datos invalidos. Reiniciando formulario...")
+    categoriesForm.reset();
+    return;
+  }
+
+  if (addedCategories.length > 0 || deletedCategories.length > 0) {
+    addedCategoriesInpt.value = JSON.stringify(addedCategories);
+    deletedCategoriesInpt.value = JSON.stringify(deletedCategories);
+    categoriesForm.submit();
+  } else {
+    alert('No se han realizado cambios en las categorias');
+  }
+}
+
+function handleTransactionForm() {
+
+}
+
 // ====== EVENT LISTENERS ======
 
 mainModal.addEventListener('hidden.bs.modal', ()=> {
@@ -219,5 +246,8 @@ deleteCategoryBtns.forEach(btn => {
   btn.addEventListener('click', (e)=> {
     const categoryId = e.currentTarget.dataset.categoryId;
     deleteCategory(categoryId);
-  })
-})
+  });
+});
+
+categoriesForm.addEventListener('submit', handleCategoriesForm);
+transactionForm.addEventListener('submit', handleTransactionForm);
