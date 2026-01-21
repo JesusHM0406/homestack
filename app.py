@@ -4,7 +4,7 @@ from flask import Flask, render_template, redirect, request, session, flash, url
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import login_required
-from models import User, Category, Transaction
+from models import User, Category, Transaction, TypeEnum
 from extensions import db
 from sqlalchemy import func
 from datetime import date
@@ -201,6 +201,12 @@ def register():
 
       # Then we insert the user in the database
       new_user = User(username=username, hash=password_hash)
+      new_user.user_categories = [
+        Category(name="Comida", type=TypeEnum.EXPENSE),
+        Category(name="Renta", type=TypeEnum.EXPENSE),
+        Category(name="Salario", type=TypeEnum.INCOME),
+        Category(name="Extra", type=TypeEnum.INCOME)
+      ]
       db.session.add(new_user)
       db.session.commit()
 
@@ -240,7 +246,7 @@ def login():
     if not user or not check_password_hash(user.hash, password):
       flash("Nombre de usuario y/o contraseña invalidos", category="danger")
       return render_template("login.html")
-
+    
     # Login user
     session["user_id"] = user.id
     session["username"] = user.username
