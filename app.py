@@ -4,18 +4,8 @@ from flask import Flask, render_template, redirect, request, session, flash, url
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import login_required
-from enum import Enum
-from typing import List
-from sqlalchemy import Integer, String, Float, DateTime, ForeignKey, Enum as SQLEnum, func
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, timezone
-
-# Initialize extension
-class Base(DeclarativeBase):
-  pass
-
-db = SQLAlchemy(model_class=Base)
+from models import User, Category, Transaction
+from extensions import db
 
 # Initialize flask app
 app = Flask(__name__)
@@ -30,48 +20,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///finance.db"
 Session(app)
 
 db.init_app(app)
-
-class TypeEnum(Enum):
-  INCOME = "income"
-  EXPENSE = "expense"
-
-# Create Models
-class User(db.Model):
-  __tablename__ = "users"
-  
-  id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-  username: Mapped[str] = mapped_column(String(30), unique=True, nullable=False)
-  hash: Mapped[str] = mapped_column(String(255), nullable=False)
-  
-  # RELATIONSHIPS
-  user_categories: Mapped[List["Category"]] = relationship(back_populates="user", cascade="all, delete-orphan")
-  user_transactions: Mapped[List["Transaction"]] = relationship(back_populates="user", cascade="all, delete-orphan")
-
-class Category(db.Model):
-  __tablename__ = "categories"
-  
-  id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-  user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
-  name: Mapped[str] = mapped_column(String(50), nullable=False)
-  type: Mapped[TypeEnum] = mapped_column(SQLEnum(TypeEnum), nullable=False)
-  
-  # RELATIONSHIPS
-  user: Mapped["User"] = relationship(back_populates="user_categories")
-  transactions: Mapped[List["Transaction"]] = relationship(back_populates="category")
-
-class Transaction(db.Model):
-  __tablename__ = "transactions"
-  
-  id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-  user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
-  category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id"), nullable=False)
-  amount: Mapped[float] = mapped_column(Float, nullable=False)
-  concept: Mapped[str] = mapped_column(String(100), nullable=False)
-  date: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
-  
-  # RELATIONSHIPS
-  user: Mapped["User"] = relationship(back_populates="user_transactions")
-  category: Mapped["Category"] = relationship(back_populates="transactions")
 
 with app.app_context():
   db.create_all()
