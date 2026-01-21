@@ -156,7 +156,7 @@ def index():
 
   last_mov = db.session.execute(last_mov_stmt).all()
 
-  return render_template("index.html")
+  return render_template("index.html", username=session.get("username"), bal=balance, mon_inc=monthly_incomes, mon_exp=monthly_expenses, exp_cat_analysis=expenses_cat_analysis, inc_cat_analysis=income_cat_analysis, inc_cats=income_cats, exp_cats=expense_cats, mov=last_mov)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
