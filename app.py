@@ -54,7 +54,7 @@ def index():
 
   balance = db.session.execute(balance_stmt).scalar() or 0
   
-  # GET MONTHLY INCOME
+  # OBTAIN MONTHLY INCOME
   
   now = date.today()
   
@@ -71,7 +71,7 @@ def index():
   
   monthly_incomes = db.session.execute(monthly_income_stmt).scalar() or 0
   
-  # GET MONTHLY EXPENSES
+  # OBTAIN MONTHLY EXPENSES
   
   monthly_expenses_stmt = (
     db.select(func.sum(Transaction.amount))
@@ -85,6 +85,38 @@ def index():
   )
   
   monthly_expenses = db.session.execute(monthly_income_stmt).scalar() or 0
+  
+  # OBTAIN THE INDIVIDUAL INCOME FOR EACH INCOME CATEGORY
+  
+  incomes_per_cat_stmt = (
+    db.select(
+      Category.name,
+      func.sum(Transaction.amount).label("total")
+    )
+    .join(Transaction)
+    .where(
+      Category.user_id == user_id,
+      Category.type == "income"
+    ).group_by(Category.name)
+  )
+  
+  income_cat_analysis = db.session.execute(incomes_per_cat_stmt).all()
+  
+  # OBTAIN THE INDIVIDUAL EXPENSES FOR EACH EXPENSE CATEGORY
+  
+  expenses_per_cat_stmt = (
+    db.select(
+      Category.name,
+      func.sum(Transaction.amount).label("total")
+    )
+    .join(Transaction)
+    .where(
+      Category.user_id == user_id,
+      Category.type == "expense"
+    ).group_by(Category.name)
+  )
+  
+  expenses_cat_analysis = db.session.execute(incomes_per_cat_stmt).all()
   
   return render_template("index.html")
 
