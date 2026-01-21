@@ -26,6 +26,10 @@ db.init_app(app)
 with app.app_context():
   db.create_all()
 
+@app.template_filter('money')
+def moneda_filter(value):
+    return "${:,.2f}".format(float(value))
+
 @app.route("/")
 @login_required
 def index():
