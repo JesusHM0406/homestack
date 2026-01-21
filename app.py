@@ -118,6 +118,30 @@ def index():
   
   expenses_cat_analysis = db.session.execute(incomes_per_cat_stmt).all()
   
+  # OBTAIN ALL INCOME CATEGORIES
+  
+  income_cats_stmt = (
+    db.select(Category)
+    .where(
+      Category.user_id == user_id,
+      Category.type == "income"
+    )
+  )
+  
+  income_cats = db.session.scalars(income_cats_stmt).all()
+  
+  # OBTAIN ALL EXPENSE CATEGORIES
+  
+  expense_cats_stmt = (
+    db.select(Category)
+    .where(
+      Category.user_id == user_id,
+      Category.type == "expense"
+    )
+  )
+  
+  expense_cats = db.session.scalars(expense_cats_stmt).all()
+  
   return render_template("index.html")
 
 @app.route("/register", methods=["GET", "POST"])
