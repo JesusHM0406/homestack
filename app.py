@@ -71,6 +71,9 @@ class Transaction(db.Model):
   user: Mapped["User"] = relationship(back_populates="user_transactions")
   category: Mapped["Category"] = relationship(back_populates="transactions")
 
+with app.app_context():
+  db.create_all()
+
 @app.route("/")
 @login_required
 def index():
