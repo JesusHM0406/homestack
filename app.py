@@ -7,6 +7,7 @@ from helpers import login_required
 from models import User, Category, Transaction
 from extensions import db
 from sqlalchemy import func
+from datetime import date
 
 # Initialize flask app
 app = Flask(__name__)
@@ -36,7 +37,7 @@ def index():
     flash("Ocurrio un error, por favor intenta iniciar sesión de nuevo")
     return redirect(url_for("login"))
   
-  # Get Balance
+  # GET BALANCE
   
   balance_stmt = (
     db.select(
@@ -52,6 +53,38 @@ def index():
   )
 
   balance = db.session.execute(balance_stmt).scalar() or 0
+  
+  # GET MONTHLY INCOME
+  
+  now = date.today()
+  
+  monthly_income_stmt = (
+    db.select(func.sum(Transaction.amount))
+    .join(Category)
+    .where(
+      Transaction.user_id == user_id,
+      Category.type == "income",
+      db.extract("MONTH", Transaction.date) == now.month,
+      db.extract("YEAR", Transaction.date) == now.year
+    )
+  )
+  
+  monthly_incomes = db.session.execute(monthly_income_stmt).scalar() or 0
+  
+  # GET MONTHLY EXPENSES
+  
+  monthly_expenses_stmt = (
+    db.select(func.sum(Transaction.amount))
+    .join(Category)
+    .where(
+      Transaction.user_id == user_id,
+      Category.type == "expense",
+      db.extract("MONTH", Transaction.date) == now.month,
+      db.extract("YEAR", Transaction.date) == now.year
+    )
+  )
+  
+  monthly_expenses = db.session.execute(monthly_income_stmt).scalar() or 0
   
   return render_template("index.html")
 
