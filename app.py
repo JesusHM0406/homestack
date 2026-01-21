@@ -64,8 +64,8 @@ def index():
     .where(
       Transaction.user_id == user_id,
       Category.type == "income",
-      db.extract("MONTH", Transaction.date) == now.month,
-      db.extract("YEAR", Transaction.date) == now.year
+      db.extract("month", Transaction.date) == now.month,
+      db.extract("year", Transaction.date) == now.year
     )
   )
   
@@ -79,8 +79,8 @@ def index():
     .where(
       Transaction.user_id == user_id,
       Category.type == "expense",
-      db.extract("MONTH", Transaction.date) == now.month,
-      db.extract("YEAR", Transaction.date) == now.year
+      db.extract("month", Transaction.date) == now.month,
+      db.extract("year", Transaction.date) == now.year
     )
   )
   
@@ -141,7 +141,7 @@ def index():
   )
   
   expense_cats = db.session.scalars(expense_cats_stmt).all()
-  
+
   return render_template("index.html")
 
 @app.route("/register", methods=["GET", "POST"])
