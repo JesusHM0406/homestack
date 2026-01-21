@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block main %}
-<h1 class="index-title m-5">Hola, Admin</h1>
+<h1 class="index-title m-5">Hola, {{ username }}</h1>
 
 <div class="dashboard-container mb-5">
 
@@ -21,7 +21,7 @@
     <article class="card-item shadow-sm incomes-card border border-1 border-success-subtle">
       <div class="card-content">
           <h6 class="card-title mb-1">Ingresos del Mes</h6>
-          <h2 class="fw-bold incomes-amount">$2726.00</h2>
+          <h2 class="fw-bold incomes-amount">{{ mon_inc | money }}</h2>
       </div>
       <figure class="card-icon bg-success">
         <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-arrow-up" viewBox="0 0 16 16" aria-hidden="true">
@@ -33,7 +33,7 @@
     <article class="card-item stat-card shadow-sm expenses-card border border-1 border-danger-subtle">
       <div class="card-content">
           <h6 class="card-title mb-1">Gastos del Mes</h6>
-          <h2 class="fw-bold expenses-amount">$2726.00</h2>
+          <h2 class="fw-bold expenses-amount">{{ mon_exp | money }}</h2>
       </div>
       <figure class="card-icon bg-danger">
         <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="#fff" class="bi bi-arrow-down" viewBox="0 0 16 16" aria-hidden="true">
