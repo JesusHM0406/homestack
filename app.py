@@ -95,7 +95,7 @@ def register():
       return redirect(url_for("register"))
 
     # We need to check if that username already exists in our database since it stores unique usernames
-    user_exists = db.session.execute(db.select(User).filter_by(username=username)).scalar_one_or_none
+    user_exists = db.session.execute(db.select(User).filter_by(username=username)).scalar_one_or_none()
 
     if user_exists:
       flash("Ya existe ese nombre de usuario, intenta con otro", category="danger")
@@ -151,16 +151,16 @@ def login():
     Replace this with the ORM migration
     """
 
-    # rows = db.execute("SELECT * FROM users WHERE username = ?", username)
+    user = db.session.execute(db.select(User).filter_by(username=username)).scalar_one_or_none()
 
-    # # There is no user with that username or the password is incorrect
-    # if len(rows) != 1 or not check_password_hash(rows[0]["hash"], password):
-    #   flash("Nombre de usuario y/o contraseña invalidos", category="danger")
-    #   return render_template("login.html")
+    # There is no user with that username or the password is incorrect
+    if not user or not check_password_hash(user.hash, password):
+      flash("Nombre de usuario y/o contraseña invalidos", category="danger")
+      return render_template("login.html")
 
     # Login user
-    # session["user_id"] = rows[0]["id"]
-    # session["username"] = rows[0]["username"]
+    session["user_id"] = user.id
+    session["username"] = user.username
 
     return redirect("/")
   
