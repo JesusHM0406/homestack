@@ -142,6 +142,20 @@ def index():
   
   expense_cats = db.session.scalars(expense_cats_stmt).all()
 
+  # OBTAIN LAST 5 MOVEMENTS
+  
+  last_mov_stmt = (
+    db.select(Transaction, Category)
+    .join(Category)
+    .where(
+      Transaction.user_id == user_id
+    )
+    .order_by(Transaction.date.desc())
+    .limit(5)
+  )
+
+  last_mov = db.session.execute(last_mov_stmt).all()
+
   return render_template("index.html")
 
 @app.route("/register", methods=["GET", "POST"])
