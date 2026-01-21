@@ -46,10 +46,10 @@ def index():
   balance_stmt = (
     db.select(
       func.sum(
-        db.case((Category.type == "income", Transaction.amount), else_=0)
+        db.case((Category.type == TypeEnum.INCOME, Transaction.amount), else_=0)
       ) -
       func.sum(
-        db.case((Category.type == "expense", Transaction.amount), else_=0)
+        db.case((Category.type == TypeEnum.INCOME, Transaction.amount), else_=0)
       )
     )
     .join(Category)
@@ -67,7 +67,7 @@ def index():
     .join(Category)
     .where(
       Transaction.user_id == user_id,
-      Category.type == "income",
+      Category.type == TypeEnum.INCOME,
       db.extract("month", Transaction.date) == now.month,
       db.extract("year", Transaction.date) == now.year
     )
@@ -82,7 +82,7 @@ def index():
     .join(Category)
     .where(
       Transaction.user_id == user_id,
-      Category.type == "expense",
+      Category.type == TypeEnum.INCOME,
       db.extract("month", Transaction.date) == now.month,
       db.extract("year", Transaction.date) == now.year
     )
@@ -100,7 +100,7 @@ def index():
     .join(Transaction)
     .where(
       Category.user_id == user_id,
-      Category.type == "income"
+      Category.type == TypeEnum.INCOME
     ).group_by(Category.name)
   )
   
@@ -116,7 +116,7 @@ def index():
     .join(Transaction)
     .where(
       Category.user_id == user_id,
-      Category.type == "expense"
+      Category.type == TypeEnum.INCOME
     ).group_by(Category.name)
   )
   
@@ -128,7 +128,7 @@ def index():
     db.select(Category)
     .where(
       Category.user_id == user_id,
-      Category.type == "income"
+      Category.type == TypeEnum.INCOME
     )
   )
   
@@ -140,7 +140,7 @@ def index():
     db.select(Category)
     .where(
       Category.user_id == user_id,
-      Category.type == "expense"
+      Category.type == TypeEnum.INCOME
     )
   )
   
