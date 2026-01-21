@@ -6,6 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import login_required
 from models import User, Category, Transaction
 from extensions import db
+from sqlalchemy import func
 
 # Initialize flask app
 app = Flask(__name__)
@@ -27,6 +28,31 @@ with app.app_context():
 @app.route("/")
 @login_required
 def index():
+  user_id = session.get("user_id")
+  
+  user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one_or_none()
+  
+  if not user:
+    flash("Ocurrio un error, por favor intenta iniciar sesión de nuevo")
+    return redirect(url_for("login"))
+  
+  # Get Balance
+  
+  balance_stmt = (
+    db.select(
+      func.sum(
+        db.case((Category.type == "income", Transaction.amount), else_=0)
+      ) -
+      func.sum(
+        db.case((Category.type == "expense", Transaction.amount), else_=0)
+      )
+    )
+    .join(Category)
+    .where(Transaction.user_id == user_id)
+  )
+
+  balance = db.session.execute(balance_stmt).scalar() or 0
+  
   return render_template("index.html")
 
 @app.route("/register", methods=["GET", "POST"])
