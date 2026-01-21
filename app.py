@@ -82,11 +82,9 @@ def index():
 @app.route("/register", methods=["GET", "POST"])
 def register():
   
-  # The user reached the page via the navigation bar or via link
   if request.method == "POST":
     MIN_PASSWORD_SIZE = 8
-
-    # The user submited his info
+    
     username = request.form.get("username")
     password = request.form.get("password")
     confirm = request.form.get("confirm")
@@ -140,9 +138,7 @@ def login():
   # Clear all sessions before log in
   session.clear()
 
-  # The user wants to login
   if request.method == "POST":
-    # The user already send his info to login
     username = request.form.get("username")
     password = request.form.get("password")
 
