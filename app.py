@@ -161,8 +161,12 @@ def index():
   # OBTAIN LAST 5 MOVEMENTS
   
   last_mov_stmt = (
-    db.select(Transaction, Category)
-    .join(Category)
+    db.select(
+      Transaction, 
+      db.case((Transaction.category_id != None, Category.name), else_="Sin categoría")
+    )
+    .select_from(Transaction)
+    .outerjoin(Category, Transaction.category_id == Category.id)
     .where(
       Transaction.user_id == user_id
     )
