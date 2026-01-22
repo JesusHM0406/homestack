@@ -49,13 +49,12 @@ def index():
   balance_stmt = (
     db.select(
       func.sum(
-        db.case((Category.type == TypeEnum.INCOME, Transaction.amount), else_=0)
+        db.case((Transaction.type == TypeEnum.INCOME, Transaction.amount), else_=0)
       ) -
       func.sum(
-        db.case((Category.type == TypeEnum.EXPENSE, Transaction.amount), else_=0)
+        db.case((Transaction.type == TypeEnum.EXPENSE, Transaction.amount), else_=0)
       )
     )
-    .join(Category)
     .where(Transaction.user_id == user_id)
   )
 
