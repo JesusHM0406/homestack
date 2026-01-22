@@ -332,14 +332,15 @@ def new_transaction():
       user_id=user_id,
       category_id=category.id,
       amount=amount,
-      concept=concept
+      concept=concept,
+      type=type_enum
     )
     
     db.session.add(new_transaction)
     db.session.commit()
     
     flash("¡Transacción guardada exitosamente!", category="success")
-  except Exception:
+  except Exception as e:
     db.session.rollback()
     flash("Ocurrió un error al guardar la transacción", category="danger")
 
@@ -397,7 +398,17 @@ def update_categories():
       new_cat = Category(user_id=user_id, name=cat_name, type=cat_type)
       db.session.add(new_cat)
 
-    db.session.execute(db.delete(Category).where(Category.id.in_(deleted_cat), Category.user_id == user_id))
+    db.session.execute(
+      db.update(Transaction)
+      .where(Transaction.category_id.in_(deleted_cat))
+      .values(category_id=None)
+    )
+    
+    db.session.execute(
+      db.delete(Category)
+      .where(Category.id.in_(deleted_cat), Category.user_id == user_id)
+    )
+    
     db.session.commit()
 
     flash("Categorias actualizadas con éxito", category="success")
