@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, redirect, request, session, flash, url_for
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import login_required
+from helpers import login_required, money_filter
 from models import User, Category, Transaction, TypeEnum
 from extensions import db
 from sqlalchemy import func
@@ -27,11 +27,7 @@ db.init_app(app)
 with app.app_context():
   db.create_all()
 
-@app.template_filter('money')
-def money_filter(value):
-  if value < 0:
-    return "-${:,.2f}".format(float(abs(value)))
-  return "${:,.2f}".format(float(value))
+app.jinja_env.filters['money'] = money_filter
 
 @app.route("/")
 @login_required

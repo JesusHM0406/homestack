@@ -9,3 +9,8 @@ def login_required(f):
       return redirect(url_for("login"))
     return f(*args, **kwargs)
   return decorated_function
+
+def money_filter(value):
+  if value < 0:
+    return "-${:,.2f}".format(float(abs(value)))
+  return "${:,.2f}".format(float(value))
