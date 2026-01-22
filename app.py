@@ -264,3 +264,8 @@ def logout():
   session.clear()
   
   return redirect(url_for("login"))
+
+@app.route("/new-transaction", methods=["POST"])
+@login_required
+def new_transaction():
+  return redirect(url_for("index"))
