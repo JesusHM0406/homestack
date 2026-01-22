@@ -533,15 +533,20 @@ svg {
   border-radius: var(--br-s);
 }
 
+.none-category {
+  display: none;
+  padding: 5px;
+}
+
 .category-form-item[data-hidden="true"] {
   display: none !important;
 }
 
-[data-type="income"] .category-form-item.income-category {
+[data-type="income"] .category-form-item.income-category, [data-type="income"] .none-category.income-category {
   display: flex;
 }
 
-[data-type="expense"] .category-form-item.expense-category {
+[data-type="expense"] .category-form-item.expense-category, [data-type="expense"] .none-category.expense-category {
   display: flex;
 }
 

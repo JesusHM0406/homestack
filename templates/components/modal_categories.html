@@ -15,7 +15,7 @@
     <span class="fw-medium">Categorias de <span id="delete-category-label">Ingreso</span></span>
     <ul class="category-form-list">
       {% if not inc_cats %}
-        <li class="income-category bg-secondary-subtle border border-1 border-secondary none-category">
+        <li class="income-category bg-secondary-subtle border border-1 border-secondary rounded-2 none-category">
           <span class="text-center text-secondary">Parece que no tienes categorias de ingreso.</span>
         </li>
       {% else %}
@@ -28,7 +28,7 @@
       {% endif %}
 
       {% if not exp_cats %}
-        <li class="expense-category bg-secondary-subtle border border-1 border-secondary none-category">
+        <li class="expense-category bg-secondary-subtle border border-1 border-secondary rounded-2 none-category">
           <span class="text-center text-secondary">Parece que no tienes categorias de gasto.</span>
         </li>
       {% else %}
