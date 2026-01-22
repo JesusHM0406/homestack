@@ -298,7 +298,18 @@ def new_transaction():
   try:
     category_id = int(category_id)
   except ValueError:
-    flash("Ocurrio un error con la categoría, por favor intenta de nuevo")
+    flash("Ocurrió un error con la categoría, por favor intenta de nuevo", category="danger")
+    return redirect(url_for("index"))
+  
+  user_id = session.get("user_id")
+  
+  category = db.session.execute(
+    db.select(Category)
+    .where(Category.id == category_id, Category.user_id == user_id, Category.type == transaction_type)
+  ).scalar_one_or_none()
+  
+  if not category:
+    flash("Parece que la categoría no existe", category="danger")
     return redirect(url_for("index"))
 
   return redirect(url_for("index"))
