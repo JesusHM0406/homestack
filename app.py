@@ -82,13 +82,13 @@ def index():
     .join(Category)
     .where(
       Transaction.user_id == user_id,
-      Category.type == TypeEnum.INCOME,
+      Category.type == TypeEnum.EXPENSE,
       db.extract("month", Transaction.date) == now.month,
       db.extract("year", Transaction.date) == now.year
     )
   )
   
-  monthly_expenses = db.session.execute(monthly_income_stmt).scalar() or 0
+  monthly_expenses = db.session.execute(monthly_expenses_stmt).scalar() or 0
   
   # OBTAIN THE INDIVIDUAL INCOME FOR EACH INCOME CATEGORY IN THE CURRENT MONTH
   
