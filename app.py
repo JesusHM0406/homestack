@@ -27,8 +27,10 @@ with app.app_context():
   db.create_all()
 
 @app.template_filter('money')
-def moneda_filter(value):
-    return "${:,.2f}".format(float(value))
+def money_filter(value):
+  if value < 0:
+    return "-${:,.2f}".format(float(abs(value)))
+  return "${:,.2f}".format(float(value))
 
 @app.route("/")
 @login_required
