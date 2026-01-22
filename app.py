@@ -303,9 +303,12 @@ def new_transaction():
   
   user_id = session.get("user_id")
   
+  # Instantiate the transaction type so that the database can compare a TypeEnum with another TypeEnum
+  type_enum = TypeEnum(transaction_type)
+  
   category = db.session.execute(
     db.select(Category)
-    .where(Category.id == category_id, Category.user_id == user_id, Category.type == transaction_type)
+    .where(Category.id == category_id, Category.user_id == user_id, Category.type == type_enum)
   ).scalar_one_or_none()
   
   if not category:
