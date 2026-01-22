@@ -107,9 +107,9 @@
       <h2 class="analysis-title">Gastos por Categoría</h2>
       <div class="scroll-area">
         <ul class="analysis-list">
-          {% if inc_cat_analysis %}
-            {% for row in inc_cat_analysis %}
-              {% set percentage = (row.total / mon_inc * 100)|round %}
+          {% if exp_cat_analysis %}
+            {% for row in exp_cat_analysis %}
+              {% set percentage = (row.total / mon_exp * 100)|round %}
               <li class="analysis_item">
                 <div class="category-header">
                   <span>{{ row.name }}</span>
