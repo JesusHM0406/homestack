@@ -100,16 +100,17 @@ def index():
   
   incomes_per_cat_stmt = (
     db.select(
-      Category.name,
+      db.case((Transaction.category_id != None, Category.name), else_="Sin categoría"),
       func.sum(Transaction.amount).label("total")
     )
-    .join(Transaction)
+    .select_from(Transaction)
+    .outerjoin(Category, Transaction.category_id == Category.id)
     .where(
-      Category.user_id == user_id,
-      Category.type == TypeEnum.INCOME,
+      Transaction.user_id == user_id,
+      Transaction.type == TypeEnum.INCOME,
       db.extract("month", Transaction.date) == now.month,
       db.extract("year", Transaction.date) == now.year
-    ).group_by(Category.name)
+    ).group_by(Category.name, Transaction.category_id)
   )
   
   income_cat_analysis = db.session.execute(incomes_per_cat_stmt).all()
@@ -118,16 +119,17 @@ def index():
   
   expenses_per_cat_stmt = (
     db.select(
-      Category.name,
+      db.case((Transaction.category_id != None, Category.name), else_="Sin categoría"),
       func.sum(Transaction.amount).label("total")
     )
-    .join(Transaction)
+    .select_from(Transaction)
+    .join(Category, Transaction.category_id == Category.id)
     .where(
-      Category.user_id == user_id,
-      Category.type == TypeEnum.EXPENSE,
+      Transaction.user_id == user_id,
+      Transaction.type == TypeEnum.EXPENSE,
       db.extract("month", Transaction.date) == now.month,
       db.extract("year", Transaction.date) == now.year
-    ).group_by(Category.name)
+    ).group_by(Category.name, Transaction.category_id)
   )
   
   expenses_cat_analysis = db.session.execute(expenses_per_cat_stmt).all()
