@@ -80,35 +80,25 @@
       <h2 class="analysis-title">Ingresos por Categoría</h2>
       <div class="scroll-area">
         <ul class="analysis-list">
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
+          {% if inc_cat_analysis %}
+            {% for row in inc_cat_analysis %}
+              {% set percentage = (row.total / mon_inc * 100)|round %}
+              <li class="analysis_item">
+                <div class="category-header">
+                  <span>{{ row.name }}</span>
+                  <span class="fw-bold">{{ row.total|money }}</span>
+                </div>
+                <div class="progress" role="progressbar" aria-label="{{ row.name }}" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100">
+                  <div class="progress-bar bg-success" style="width: {{ percentage }}%;"></div>
+                </div>
+                <small class="text-secondary">{{ percentage }}% del ingreso total mensual</small>
+              </li>
+            {% endfor %}
+          {% else %}
+            <div class="text-center py-4">
+                <span class="text-secondary italic">Este mes no has hecho ningún movimiento de ingreso.</span>
             </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-success" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-success" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-success" style="width: 50%"></div>
-            </div>
-          </li>
+          {% endif %}
         </ul>
       </div>
     </div>
@@ -117,165 +107,25 @@
       <h2 class="analysis-title">Gastos por Categoría</h2>
       <div class="scroll-area">
         <ul class="analysis-list">
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
+          {% if inc_cat_analysis %}
+            {% for row in inc_cat_analysis %}
+              {% set percentage = (row.total / mon_inc * 100)|round %}
+              <li class="analysis_item">
+                <div class="category-header">
+                  <span>{{ row.name }}</span>
+                  <span class="fw-bold">{{ row.total|money }}</span>
+                </div>
+                <div class="progress" role="progressbar" aria-label="{{ row.name }}" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100">
+                  <div class="progress-bar bg-danger" style="width: {{ percentage }}%;"></div>
+                </div>
+                <small class="text-secondary">{{ percentage }}% del gasto total mensual</small>
+              </li>
+            {% endfor %}
+          {% else %}
+            <div class="text-center py-4">
+                <span class="text-secondary italic text-balance">Este mes no has hecho ningún movimiento de gasto.</span>
             </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
-
-          <li class="analysis_item">
-            <div class="category-header">
-              <span>Comida</span>
-              <span>$1200</span>
-            </div>
-            <div class="progress" role="progressbar" aria-label="Comida" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-danger" style="width: 50%"></div>
-            </div>
-          </li>
+          {% endif %}
         </ul>
       </div>
     </div>
