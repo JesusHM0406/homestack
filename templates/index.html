@@ -138,41 +138,26 @@
     </div>
     
     <ul class="movements-list">
-      <li class="movement-item">
-        <div class="movement-desc">
-          <span class="name">Mercado</span>
-          <span class="meta text-secondary">15 de enero 2025 • Alimentación</span>
-        </div>
+      {% if mov %}
+        {% for transaction, category in mov %}
+          {% set isIncome =  category.type.value == "income" %}
+          <li class="movement-item">
+            <div class="movement-desc">
+              <span class="concept">{{ transaction.concept }}</span>
+              <span class="meta text-secondary">{{ transaction.date.strftime("%d de %B de %Y") }} • {{ category.name }}</span>
+            </div>
 
-        <div class="movement-amount">
-          <span class="expense-amount fw-medium text-danger">- $85</span>
-        </div>
-      </li>
-
-      <li class="movement-item">
-        <div class="movement-desc">
-          <span class="name">Mercado</span>
-          <span class="meta text-body-tertiary">15 de enero 2025 • Alimentación</span>
-        </div>
-
-        <div class="movement-amount">
-          <span class="expense-amount fw-medium text-danger">- $85</span>
-        </div>
-      </li>
-
-      <li class="movement-item">
-        <div class="movement-desc">
-          <span class="name">Salario</span>
-          <span class="meta text-body-tertiary">15 de enero 2025 • Salario</span>
-        </div>
-
-        <div class="movement-amount">
-          <span class="income-amount fw-medium text-success">+ $20,000</span>
-        </div>
-      </li>
-    </ul>
-
-  </section>
+            <div class="movement-amount">
+              <span class="fw-medium text-{{ 'succes' if isIncome else 'danger' }}">{{ "+" if isIncome else "-" }} {{ transaction.amount|money }}</span>
+            </div>
+          </li>
+        {% endfor %}
+      {% else %}
+          <div class="text-center py-4">
+            <span class="text-secondary italic">Parece que aún no has hecho ningún movimiento.</span>
+          </div>
+      {% endif %}
+    </section>
 </div>
 
 {% endblock %}
