@@ -283,8 +283,9 @@ def new_transaction():
   category_id = request.form.get("category")
   concept = request.form.get("concept")
   amount = request.form.get("amount")
+  date_val = request.form.get("date")
   
-  if not transaction_type or not category_id or not concept or not amount:
+  if not transaction_type or not category_id or not concept or not amount or not date_val:
     flash("Todos los campos son obligatorios", category="danger")
     return redirect(url_for("index"))
   
@@ -310,6 +311,12 @@ def new_transaction():
     flash("Ocurrió un error con la categoría, por favor intenta de nuevo", category="danger")
     return redirect(url_for("index"))
   
+  try:
+    transaction_date = date.fromisoformat(date_val)
+  except ValueError as e:
+    flash("Formato de fecha inválido")
+    return redirect(url_for("index"))
+  
   user_id = session.get("user_id")
   
   # Instantiate the transaction type so that the database can compare a TypeEnum with another TypeEnum
@@ -330,7 +337,8 @@ def new_transaction():
       category_id=category.id,
       amount=amount,
       concept=concept,
-      type=type_enum
+      type=type_enum,
+      date=transaction_date
     )
     
     db.session.add(new_transaction)
