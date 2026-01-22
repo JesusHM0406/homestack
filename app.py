@@ -65,11 +65,13 @@ def index():
   now = date.today()
   
   monthly_income_stmt = (
-    db.select(func.sum(Transaction.amount))
-    .join(Category)
+    db.select(
+      func.sum(
+        db.case((Transaction.type == TypeEnum.INCOME, Transaction.amount), else_=0)
+      )
+    )
     .where(
       Transaction.user_id == user_id,
-      Category.type == TypeEnum.INCOME,
       db.extract("month", Transaction.date) == now.month,
       db.extract("year", Transaction.date) == now.year
     )
@@ -80,11 +82,13 @@ def index():
   # OBTAIN MONTHLY EXPENSES
   
   monthly_expenses_stmt = (
-    db.select(func.sum(Transaction.amount))
-    .join(Category)
+    db.select(
+      func.sum(
+        db.case((Transaction.type == TypeEnum.EXPENSE, Transaction.amount), else_=0)
+      )
+    )
     .where(
       Transaction.user_id == user_id,
-      Category.type == TypeEnum.EXPENSE,
       db.extract("month", Transaction.date) == now.month,
       db.extract("year", Transaction.date) == now.year
     )
