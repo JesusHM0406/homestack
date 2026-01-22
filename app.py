@@ -311,5 +311,21 @@ def new_transaction():
   if not category:
     flash("Parece que la categoría no existe", category="danger")
     return redirect(url_for("index"))
+  
+  try:
+    new_transaction = Transaction(
+      user_id=user_id,
+      category_id=category.id,
+      amount=amount,
+      concept=concept
+    )
+    
+    db.session.add(new_transaction)
+    db.session.commit()
+    
+    flash("¡Transacción guardada exitosamente!", category="success")
+  except Exception:
+    db.session.rollback()
+    flash("Ocurrió un error al guardar la transacción", category="danger")
 
   return redirect(url_for("index"))
