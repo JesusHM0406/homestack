@@ -148,7 +148,7 @@
             </div>
 
             <div class="movement-amount">
-              <span class="fw-medium text-{{ 'success' if isIncome else 'danger' }}">{{ "+" if isIncome else "-" }} {{ transaction.amount|money }}</span>
+              <span class="fw-medium text-{{ 'success' if isIncome else 'danger' }}">{{ "+" if isIncome else "-" }}{{ transaction.amount|money }}</span>
             </div>
           </li>
         {% endfor %}
