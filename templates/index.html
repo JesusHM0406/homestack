@@ -141,12 +141,12 @@
     
     <ul class="movements-list">
       {% if mov %}
-        {% for transaction, category in mov %}
-          {% set isIncome =  category.type.value == "income" %}
+        {% for transaction, category_name in mov %}
+          {% set isIncome =  transaction.type.value == "income" %}
           <li class="movement-item">
             <div class="movement-desc">
               <span class="concept">{{ transaction.concept }}</span>
-              <span class="meta text-secondary">{{ transaction.date.strftime("%d de %B de %Y") }} • {{ category.name }}</span>
+              <span class="meta text-secondary">{{ transaction.date.strftime("%d de %B de %Y") }} • {{ category_name }}</span>
             </div>
 
             <div class="movement-amount">
