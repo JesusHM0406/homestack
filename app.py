@@ -49,7 +49,7 @@ def index():
         db.case((Category.type == TypeEnum.INCOME, Transaction.amount), else_=0)
       ) -
       func.sum(
-        db.case((Category.type == TypeEnum.INCOME, Transaction.amount), else_=0)
+        db.case((Category.type == TypeEnum.EXPENSE, Transaction.amount), else_=0)
       )
     )
     .join(Category)
