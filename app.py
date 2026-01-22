@@ -295,6 +295,10 @@ def new_transaction():
     flash("Monto inválido, asegurate de ingresar un número mayor o igual a 0.5", category="danger")
     return redirect(url_for("index"))
   
-  
+  try:
+    category_id = int(category_id)
+  except ValueError:
+    flash("Ocurrio un error con la categoría, por favor intenta de nuevo")
+    return redirect(url_for("index"))
 
   return redirect(url_for("index"))
