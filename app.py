@@ -8,6 +8,7 @@ from models import User, Category, Transaction, TypeEnum
 from extensions import db
 from sqlalchemy import func
 from datetime import date
+import json
 
 # Initialize flask app
 app = Flask(__name__)
@@ -338,4 +339,42 @@ def new_transaction():
 @app.route("/update-categories", methods=["POST"])
 @login_required
 def update_categories():
+  cat_type = request.form.get("categories_type")
+  added_cat = request.form.get("added_categories")
+  deleted_cat = request.form.get("deleted_categories")
+    
+  if not cat_type or cat_type not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]: 
+    flash("El tipo es inválido", category="danger")
+    return redirect(url_for("index"))
+  
+  added_cat_error = False
+  deleted_cat_error = False
+  
+  try:
+    added_cat = json.loads(added_cat)
+    
+    if not isinstance(added_cat, list):
+      raise TypeError
+  except (json.JSONDecodeError, TypeError):
+    added_cat_error = True
+  
+  try:
+    deleted_cat = json.loads(deleted_cat)
+    
+    if not isinstance(deleted_cat, list):
+      raise TypeError
+  except (json.JSONDecodeError, TypeError):
+    deleted_cat_error = True
+  
+  if not added_cat and not deleted_cat:
+    flash("No se hizo ningún cambio en las categorías", category="warning")
+    return redirect(url_for("index"))
+  
+  if added_cat_error and deleted_cat_error:
+    flash("Ocurrió un error al procesar las categorías añadidas y eliminadas")
+    return redirect(url_for("index"))
+  
+  
+  
+  
   return redirect(url_for("index"))
