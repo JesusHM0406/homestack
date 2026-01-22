@@ -268,4 +268,8 @@ def logout():
 @app.route("/new-transaction", methods=["POST"])
 @login_required
 def new_transaction():
+  transaction_type = request.form.get("transaction_type")
+  category_id = request.form.get("category")
+  concept = request.form.get("concept")
+
   return redirect(url_for("index"))
