@@ -118,13 +118,13 @@ def index():
     .join(Transaction)
     .where(
       Category.user_id == user_id,
-      Category.type == TypeEnum.INCOME,
+      Category.type == TypeEnum.EXPENSE,
       db.extract("month", Transaction.date) == now.month,
       db.extract("year", Transaction.date) == now.year
     ).group_by(Category.name)
   )
   
-  expenses_cat_analysis = db.session.execute(incomes_per_cat_stmt).all()
+  expenses_cat_analysis = db.session.execute(expenses_per_cat_stmt).all()
   
   # OBTAIN ALL INCOME CATEGORIES
   
