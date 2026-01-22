@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, redirect, request, session, flash, url_for
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import login_required, money_filter
+from helpers import login_required, money_filter, format_date_spanish
 from models import User, Category, Transaction, TypeEnum
 from extensions import db
 from sqlalchemy import func
@@ -28,6 +28,7 @@ with app.app_context():
   db.create_all()
 
 app.jinja_env.filters['money'] = money_filter
+app.jinja_env.filters['date_es'] = format_date_spanish
 
 @app.route("/")
 @login_required
