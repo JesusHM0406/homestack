@@ -25,7 +25,7 @@ const selectTrigger = document.getElementById('selectTrigger');
 const selectOptList = document.getElementById('selectOptList');
 const selectOptions = document.querySelectorAll('.select-option');
 const selectLabel = document.getElementById('selectOptSelected');
-const descInpt = document.getElementById('description');
+const conceptInpt = document.getElementById('concept');
 const amountInpt = document.getElementById('amount');
 // == Analysis Section Elments
 const analysisBtns = document.querySelectorAll('.analysis-btn');
@@ -195,7 +195,7 @@ function handleTransactionForm(e) {
 
   const type = transactionTypeInpt.value;
   const cateId = parseInt(categoryInp.value);
-  const desc = descInpt.value;
+  const desc = conceptInpt.value;
   const amount = parseFloat(amountInpt.value);
 
   if (type.trim() === '') {
@@ -206,9 +206,9 @@ function handleTransactionForm(e) {
     return;
   }
 
-  if (descInpt.getAttribute('type') !== 'text') {
+  if (conceptInpt.getAttribute('type') !== 'text') {
     alert('Datos inválidos. Reiniciando formulario...');
-    descInpt.setAttribute('type', 'text');
+    conceptInpt.setAttribute('type', 'text');
     return;
   }
 
