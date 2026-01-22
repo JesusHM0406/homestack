@@ -1,9 +1,10 @@
 from enum import Enum
 from typing import List
-from sqlalchemy import Integer, String, Float, DateTime, ForeignKey, Enum as SQLEnum, func
+from sqlalchemy import Integer, String, Numeric, DateTime, ForeignKey, Enum as SQLEnum, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime, timezone
 from extensions import db
+from decimal import Decimal
 
 class TypeEnum(Enum):
   INCOME = "income"
@@ -39,7 +40,7 @@ class Transaction(db.Model):
   id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
   user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
   category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id"), nullable=False)
-  amount: Mapped[float] = mapped_column(Float, nullable=False)
+  amount: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
   concept: Mapped[str] = mapped_column(String(100), nullable=False)
   date: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
   
