@@ -268,8 +268,33 @@ def logout():
 @app.route("/new-transaction", methods=["POST"])
 @login_required
 def new_transaction():
+  MAX_CONCEPT_SIZE = 100
+  
   transaction_type = request.form.get("transaction_type")
   category_id = request.form.get("category")
   concept = request.form.get("concept")
+  amount = request.form.get("amount")
+  
+  if not transaction_type or not category_id or not concept or not amount:
+    flash("Todos los campos son obligatorios", category="danger")
+    return redirect(url_for("index"))
+  
+  if transaction_type not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
+    flash("Tipo de transacción inválido, intenta de nuevo", category="danger")
+    return redirect(url_for("index"))
+
+  if len(concept) > MAX_CONCEPT_SIZE:
+    flash ("El concepto excede el limite de tamaño, intenta reducirlo", category="danger")
+    return redirect(url_for("index"))
+  
+  try:
+    amount = float(amount)
+    if amount < 0.5:
+      raise ValueError
+  except ValueError:
+    flash("Monto inválido, asegurate de ingresar un número mayor o igual a 0.5", category="danger")
+    return redirect(url_for("index"))
+  
+  
 
   return redirect(url_for("index"))
