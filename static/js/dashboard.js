@@ -13,6 +13,7 @@ const addNewCategoryBtn = document.getElementById('addNewCategoryBtn');
 const addedCategoriesInpt = document.getElementById('addedCategories');
 const deletedCategoriesInpt = document.getElementById('deletedCategories');
 const deleteCategoryBtns = document.querySelectorAll('.delete-category-btn');
+const dateInpt = document.getElementById('date');
 let addedCategories = [];
 let deletedCategories = [];
 const categoryFormItems = document.querySelectorAll('.category-form-item');
@@ -197,6 +198,7 @@ function handleTransactionForm(e) {
   const cateId = parseInt(categoryInp.value);
   const desc = conceptInpt.value;
   const amount = parseFloat(amountInpt.value);
+  const date = new Date(dateInpt.value);
 
   if (type.trim() === '') {
     alert('El tipo de transacción es obligatoria');
@@ -224,6 +226,12 @@ function handleTransactionForm(e) {
 
   if (isNaN(amount) || amount < 0.50) {
     alert('El monto debe de ser un número superior o igual a 0.50');
+    return;
+  }
+
+  if (!date || date.toString() === 'Invalid Date' || dateInpt.getAttribute('type') != 'date') {
+    alert('Fecha invalida');
+    dateInpt.setAttribute('type', 'date');
     return;
   }
 
