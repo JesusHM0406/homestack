@@ -14,25 +14,31 @@
   <div class="form-group">
     <span class="fw-medium">Categorias de <span id="delete-category-label">Ingreso</span></span>
     <ul class="category-form-list">
-      <li class="category-form-item income-category">
-        <span class="category-form-name">Salario</span>
-        <button type="button" class="delete-category-btn" data-category-id="1">&times;</button>
-      </li>
+      {% if not inc_cats %}
+        <li class="income-category bg-secondary-subtle border border-1 border-secondary none-category">
+          <span class="text-center text-secondary">Parece que no tienes categorias de ingreso.</span>
+        </li>
+      {% else %}
+        {% for cat in inc_cats %}
+          <li class="category-form-item income-category">
+            <span class="category-form-name">{{ cat.name }}</span>
+            <button type="button" class="delete-category-btn" data-category-id="{{ cat.id }}">&times;</button>
+          </li>
+        {% endfor %}
+      {% endif %}
 
-      <li class="category-form-item income-category">
-        <span class="category-form-name">Bonus</span>
-        <button type="button" class="delete-category-btn" data-category-id="2">&times;</button>
-      </li>
-
-      <li class="category-form-item expense-category">
-        <span class="category-form-name">Comida</span>
-        <button type="button" class="delete-category-btn" data-category-id="3">&times;</button>
-      </li>
-
-      <li class="category-form-item expense-category">
-        <span class="category-form-name">Mercado</span>
-        <button type="button" class="delete-category-btn" data-category-id="4">&times;</button>
-      </li>
+      {% if not exp_cats %}
+        <li class="expense-category bg-secondary-subtle border border-1 border-secondary none-category">
+          <span class="text-center text-secondary">Parece que no tienes categorias de gasto.</span>
+        </li>
+      {% else %}
+        {% for cat in exp_cats %}
+          <li class="category-form-item expense-category">
+            <span class="category-form-name">{{ cat.name }}</span>
+            <button type="button" class="delete-category-btn" data-category-id="{{ cat.id }}">&times;</button>
+          </li>
+        {% endfor %}
+      {% endif %}
     </ul>
   </div>
 </form>
