@@ -90,7 +90,7 @@ def index():
   
   monthly_expenses = db.session.execute(monthly_income_stmt).scalar() or 0
   
-  # OBTAIN THE INDIVIDUAL INCOME FOR EACH INCOME CATEGORY
+  # OBTAIN THE INDIVIDUAL INCOME FOR EACH INCOME CATEGORY IN THE CURRENT MONTH
   
   incomes_per_cat_stmt = (
     db.select(
@@ -100,13 +100,15 @@ def index():
     .join(Transaction)
     .where(
       Category.user_id == user_id,
-      Category.type == TypeEnum.INCOME
+      Category.type == TypeEnum.INCOME,
+      db.extract("month", Transaction.date) == now.month,
+      db.extract("year", Transaction.date) == now.year
     ).group_by(Category.name)
   )
   
   income_cat_analysis = db.session.execute(incomes_per_cat_stmt).all()
   
-  # OBTAIN THE INDIVIDUAL EXPENSES FOR EACH EXPENSE CATEGORY
+  # OBTAIN THE INDIVIDUAL EXPENSES FOR EACH EXPENSE CATEGORY IN THE CURRENT MONTH
   
   expenses_per_cat_stmt = (
     db.select(
@@ -116,7 +118,9 @@ def index():
     .join(Transaction)
     .where(
       Category.user_id == user_id,
-      Category.type == TypeEnum.INCOME
+      Category.type == TypeEnum.INCOME,
+      db.extract("month", Transaction.date) == now.month,
+      db.extract("year", Transaction.date) == now.year
     ).group_by(Category.name)
   )
   
