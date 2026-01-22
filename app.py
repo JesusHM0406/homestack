@@ -59,7 +59,7 @@ def index():
   
   # OBTAIN MONTHLY INCOME
   
-  now = date.today()
+  today = date.today()
   
   monthly_income_stmt = (
     db.select(
@@ -69,8 +69,8 @@ def index():
     )
     .where(
       Transaction.user_id == user_id,
-      db.extract("month", Transaction.date) == now.month,
-      db.extract("year", Transaction.date) == now.year
+      db.extract("month", Transaction.date) == today.month,
+      db.extract("year", Transaction.date) == today.year
     )
   )
   
@@ -86,8 +86,8 @@ def index():
     )
     .where(
       Transaction.user_id == user_id,
-      db.extract("month", Transaction.date) == now.month,
-      db.extract("year", Transaction.date) == now.year
+      db.extract("month", Transaction.date) == today.month,
+      db.extract("year", Transaction.date) == today.year
     )
   )
   
@@ -105,8 +105,8 @@ def index():
     .where(
       Transaction.user_id == user_id,
       Transaction.type == TypeEnum.INCOME,
-      db.extract("month", Transaction.date) == now.month,
-      db.extract("year", Transaction.date) == now.year
+      db.extract("month", Transaction.date) == today.month,
+      db.extract("year", Transaction.date) == today.year
     ).group_by(Category.name, Transaction.category_id)
   )
   
@@ -124,8 +124,8 @@ def index():
     .where(
       Transaction.user_id == user_id,
       Transaction.type == TypeEnum.EXPENSE,
-      db.extract("month", Transaction.date) == now.month,
-      db.extract("year", Transaction.date) == now.year
+      db.extract("month", Transaction.date) == today.month,
+      db.extract("year", Transaction.date) == today.year
     ).group_by(Category.name, Transaction.category_id)
   )
   
@@ -173,7 +173,7 @@ def index():
 
   last_mov = db.session.execute(last_mov_stmt).all()
 
-  return render_template("index.html", username=session.get("username"), bal=balance, mon_inc=monthly_incomes, mon_exp=monthly_expenses, exp_cat_analysis=expenses_cat_analysis, inc_cat_analysis=income_cat_analysis, inc_cats=income_cats, exp_cats=expense_cats, mov=last_mov)
+  return render_template("index.html", username=session.get("username"), bal=balance, mon_inc=monthly_incomes, mon_exp=monthly_expenses, exp_cat_analysis=expenses_cat_analysis, inc_cat_analysis=income_cat_analysis, inc_cats=income_cats, exp_cats=expense_cats, mov=last_mov, today=today)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
