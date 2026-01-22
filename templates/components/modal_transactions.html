@@ -27,7 +27,7 @@
 
       <ul class="select-options-list" id="selectOptList">
         {% if not inc_cats %}
-          <li class="opt-income">
+          <li class="opt-income none-opt">
             <span class="text-center text-secondary">Parece que no tienes categorias de ingreso.</span>
           </li>
         {% else %}
@@ -44,7 +44,7 @@
         {% endif %}
 
         {% if not exp_cats %}
-          <li class="opt-expense">
+          <li class="opt-expense none-opt">
             <span class="text-center text-secondary">Parece que no tienes categorias de gasto.</span>
           </li>
         {% else %}

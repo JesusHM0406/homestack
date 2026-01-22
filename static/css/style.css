@@ -429,6 +429,10 @@ svg {
   border-radius: var(--br-s);
 }
 
+.none-opt {
+  display: none;
+}
+
 .select-opt-icon svg{
   fill: transparent;
 }
@@ -437,7 +441,7 @@ svg {
   background-color: var(--gray);
 }
 
-[data-type="income"] .select-option.opt-income {
+[data-type="income"] .select-option.opt-income, [data-type="income"] .none-opt.opt-income {
   display: flex;
 }
 
@@ -450,7 +454,7 @@ svg {
   background-color: var(--gray);
 }
 
-[data-type="expense"] .select-option.opt-expense {
+[data-type="expense"] .select-option.opt-expense, [data-type="expense"] .none-opt.opt-expense {
   display: flex;
 }
 
