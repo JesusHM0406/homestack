@@ -347,6 +347,8 @@ def update_categories():
     flash("El tipo es inválido", category="danger")
     return redirect(url_for("index"))
   
+  cat_type = TypeEnum(cat_type)
+  
   added_cat_error = False
   deleted_cat_error = False
   
@@ -370,11 +372,29 @@ def update_categories():
     flash("No se hizo ningún cambio en las categorías", category="warning")
     return redirect(url_for("index"))
   
-  if added_cat_error and deleted_cat_error:
-    flash("Ocurrió un error al procesar las categorías añadidas y eliminadas")
+  if added_cat_error or deleted_cat_error:
+    flash("Ocurrió un error al procesar las categorías", category="danger")
     return redirect(url_for("index"))
+
+  user_id = session.get("user_id")
+  user = db.session.execute(db.select(User).where(User.id == user_id)).scalar_one_or_none()
   
+  if not user:
+    flash("Ocurrió un error al procesar tu información, intenta iniciar sesión de nuevo", category="danger")
+    return redirect(url_for("login"))
   
-  
+  try:
+    for cat_name in added_cat:
+      new_cat = Category(user_id=user_id, name=cat_name, type=cat_type)
+      db.session.add(new_cat)
+
+    db.session.execute(db.delete(Category).where(Category.id.in_(deleted_cat), Category.user_id == user_id))
+    db.session.commit()
+
+    flash("Categorias actualizadas con éxito", category="success")
+  except Exception as e:
+    db.session.rollback()
+    flash("Error Crítico: No se realizaron cambios para proteger tus datos", category="danger")
+    print(f"DEBUG: {e}")
   
   return redirect(url_for("index"))
