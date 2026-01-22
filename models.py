@@ -39,9 +39,10 @@ class Transaction(db.Model):
   
   id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
   user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
-  category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id"), nullable=False)
+  category_id: Mapped[int] = mapped_column(Integer, ForeignKey("categories.id"), nullable=True)
   amount: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
   concept: Mapped[str] = mapped_column(String(100), nullable=False)
+  type: Mapped[TypeEnum] = mapped_column(SQLEnum(TypeEnum), nullable=False)
   date: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
   
   # RELATIONSHIPS
