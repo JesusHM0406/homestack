@@ -87,10 +87,10 @@
               {% set percentage = (row.total / mon_inc * 100)|round %}
               <li class="analysis_item">
                 <div class="category-header">
-                  <span>{{ row.name }}</span>
+                  <span>{{ row[0] }}</span>
                   <span class="fw-bold">{{ row.total|money }}</span>
                 </div>
-                <div class="progress" role="progressbar" aria-label="{{ row.name }}" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress" role="progressbar" aria-label="{{ row[0] }}" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100">
                   <div class="progress-bar bg-success" style="width: {{ percentage }}%;"></div>
                 </div>
                 <small class="text-secondary">{{ percentage }}% del ingreso total mensual</small>
@@ -114,10 +114,10 @@
               {% set percentage = (row.total / mon_exp * 100)|round %}
               <li class="analysis_item">
                 <div class="category-header">
-                  <span>{{ row.name }}</span>
+                  <span>{{ row[0] }}</span>
                   <span class="fw-bold">{{ row.total|money }}</span>
                 </div>
-                <div class="progress" role="progressbar" aria-label="{{ row.name }}" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress" role="progressbar" aria-label="{{ row[0] }}" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100">
                   <div class="progress-bar bg-danger" style="width: {{ percentage }}%;"></div>
                 </div>
                 <small class="text-secondary">{{ percentage }}% del gasto total mensual</small>

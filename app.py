@@ -123,7 +123,7 @@ def index():
       func.sum(Transaction.amount).label("total")
     )
     .select_from(Transaction)
-    .join(Category, Transaction.category_id == Category.id)
+    .outerjoin(Category, Transaction.category_id == Category.id)
     .where(
       Transaction.user_id == user_id,
       Transaction.type == TypeEnum.EXPENSE,
