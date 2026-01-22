@@ -1,4 +1,4 @@
-<form action="/" method="POST" id="categories-form" class="dashboard-form">
+<form action="{{ url_for('update_categories') }}" method="POST" id="categories-form" class="dashboard-form">
   <input type="hidden" name="categories_type" value="income" id="categoriesType">
   <input type="hidden" name="added_categories" value="[]" id="addedCategories">
   <input type="hidden" name="deleted_categories" value="[]" id="deletedCategories">

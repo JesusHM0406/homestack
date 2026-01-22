@@ -334,3 +334,8 @@ def new_transaction():
     flash("Ocurrió un error al guardar la transacción", category="danger")
 
   return redirect(url_for("index"))
+
+@app.route("/update-categories", methods=["POST"])
+@login_required
+def update_categories():
+  return redirect(url_for("index"))
