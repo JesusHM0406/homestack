@@ -144,7 +144,7 @@ def index():
     db.select(Category)
     .where(
       Category.user_id == user_id,
-      Category.type == TypeEnum.INCOME
+      Category.type == TypeEnum.EXPENSE
     )
   )
   
