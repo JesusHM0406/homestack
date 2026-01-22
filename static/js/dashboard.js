@@ -260,6 +260,12 @@ toggleBtns.forEach(btn => {
 
 selectTrigger.addEventListener('click', toggleSelect);
 
+customSelect.addEventListener('keydown', (e)=>{
+  if (e.key === 'Enter' || e.key === ' ') {
+    toggleSelect(e)
+  }
+})
+
 selectOptions.forEach(opt => {
   opt.addEventListener('click', handleOptClick);
 });
