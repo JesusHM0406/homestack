@@ -13,6 +13,7 @@
   --red: #FF5555;
   --dark-gray: #999999;
   --bx-s: 0 0 20px 0 #0002;
+  --blue: #1465EC;
 }
 
 /* ==== GENERAL ==== */
@@ -97,7 +98,7 @@ svg {
 /* BALANCE CARD */
 .balance-card {
   background-image: linear-gradient(345deg, #DBEAFE, #EDF5FF);
-  color: #1465EC;
+  color: var(--blue);
 }
 
 .balance-amount {
@@ -490,7 +491,7 @@ svg {
 }
 
 [data-view="categories"] .submit-modal-btn {
-  background-color: #1465EC;
+  background-color: var(--blue);
 }
 
 /* CATEGORIES SECTION */
@@ -587,6 +588,40 @@ svg {
 
 [data-type="expense"] .expense-category .delete-category-btn:hover {
   background-color: #ff555560;
+}
+
+/* ====== HISTORY ====== */
+/* == FILTER SECTION == */
+.bi-funnel {
+  stroke: #333;
+}
+
+.filters-container {
+  max-width: 560px;
+  width: 100%;
+}
+
+[data-type-f="all"] #filterAllBtn {
+  border-color: var(--blue) !important;
+  background-color: color-mix(in srgb, var(--blue) 20%, var(--white) 80%);
+  color: var(--blue) !important;
+}
+
+[data-type-f="income"] #filterIncBtn {
+  border-color: var(--green) !important;
+  background-color: var(--gs);
+  color: var(--green) !important;
+}
+
+[data-type-f="expense"] #filterExpBtn {
+  border-color: var(--red) !important;
+  background-color: var(--rs);
+  color: var(--red) !important;
+}
+
+.bi-caret-down-fill {
+  fill: var(--dark-gray) !important;
+  stroke: none;
 }
 
 /* ====== MEDIA QUERIES ====== */
