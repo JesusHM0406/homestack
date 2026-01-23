@@ -630,6 +630,20 @@ svg {
   margin-inline: auto;
 }
 
+/* == TRANSACTIONS HISTORY == */
+.history-item {
+  background-color: #eff2f4;
+  transition: background-color .2s ease;
+  font-size: 1.1rem;
+}
+
+.history-item:hover {
+  background-color: #e5e6e9;
+}
+
+.history-item .meta {
+  font-size: .92rem;
+}
 
 @media screen and (min-width: 560px) {
   .historical-summary-container {
