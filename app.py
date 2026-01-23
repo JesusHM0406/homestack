@@ -480,10 +480,22 @@ def history():
     
     return render_template("history.html", type_f=category.type, category=category, categories=categories, page=pagination)
   
+  # If there is no cat_id parameter, then we filter by type
   if type_f not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
     flash("Filtro de tipo inválido", "danger")
     return render_template("history.html", type_f="all")
   
   type_enum = TypeEnum(type_f)
+  
+  all_filtered_transactions_stmt = (
+    db.select(Transaction)
+    .where(
+      Transaction.user_id == user_id,
+      Transaction.type == type_enum
+    )
+    .order_by(Transaction.date.desc())
+  )
+  
+  transaction_pagination = db.paginate(all_filtered_transactions_stmt, page=page, per_page=20, error_out=False)
   
   return render_template("history.html")
