@@ -462,7 +462,7 @@ def history():
     all_cat = db.session.scalars(db.select(Category).where(Category.user_id == user_id)).all()
     all_transactions = db.paginate(db.select(Transaction).where(Transaction.user_id == user_id).order_by(Transaction.date.desc()), page=page, per_page=20, error_out=False)
     
-    return render_template("history.html", type_f="all", categories=all_cat, page=all_transactions)
+    return render_template("history.html", type_f="all", categories=all_cat, page=all_transactions, bal=total_balance, inc=total_income, exp=total_expense)
   
   # If there is a category id in cat_f, then we can skip type filter
   if cat_f:
@@ -499,7 +499,7 @@ def history():
     
     categories = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == category.type)).all()
     
-    return render_template("history.html", type_f=category.type, category=category, categories=categories, page=pagination)
+    return render_template("history.html", type_f=category.type, category=category, categories=categories, page=pagination, bal=total_balance, inc=total_income, exp=total_expense)
   
   # If there is no cat_id parameter, then we filter by type
   if type_f not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
@@ -521,4 +521,4 @@ def history():
   
   filtered_cat = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == type_enum)).all()
   
-  return render_template("history.html", type_f=type_enum.value, categories=filtered_cat, page=transaction_pagination)
+  return render_template("history.html", type_f=type_enum.value, categories=filtered_cat, page=transaction_pagination, bal=total_balance, inc=total_income, exp=total_expense)
