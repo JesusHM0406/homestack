@@ -1,17 +1,31 @@
 const filterBtns = document.querySelectorAll('.filter-btn');
 const selectTrigger = document.getElementById('selectTriggerF');
-const select = document.getElementById('customSelectF'); 
+const select = document.getElementById('customSelectF');
+const selectOptList = document.getElementById('selectOptListF');
 
 // HELPER FUNCTIONS
-function toggleSelect(e) {
-  const isExpanded = select.ariaExpanded === 'true';
-
-  if (isExpanded) {
-    select.ariaExpanded = 'false';
-    return;
+function handleSelectList(e) {
+  if (!selectOptList.contains(e.target)) {
+    closeSelect();
   }
+}
 
-  select.ariaExpanded = 'true';
+function closeSelect() {
+  select.ariaExpanded = 'false';
+  window.removeEventListener('click', handleSelectList);
+}
+
+function toggleSelect(e) {
+  e.stopPropagation();
+
+  const isOpen = select.ariaExpanded === 'true';
+
+  if (isOpen) {
+    closeSelect();
+  } else {
+    select.ariaExpanded = 'true';
+    window.addEventListener('click', handleSelectList);
+  }
 }
 
 // EVENT LISTENERS
