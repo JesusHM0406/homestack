@@ -472,9 +472,12 @@ def history():
     pagination = db.paginate(category_filt_stmt, page=page, per_page=20, error_out=False)
     
     if not pagination.items:
-      flash(f"No se encontraron resultados para la categoría {category.name} y página {page}", "danger")
-      return redirect(url_for("history", filter=type_f))
-    
+      if page == 1:
+        flash(f"No se encontraron resultados para la categoría {category.name}", "danger")
+        return redirect(url_for("history", filter=type_f))
+      else:
+        flash(f"No se encontraron más resultados para la categoria {category.name}, estos son los últimos resultados", "warning")
+        return redirect(url_for("history", cat_id=category.id, page=page - 1))
     
     categories = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == category.type)).all()
     
