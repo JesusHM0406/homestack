@@ -493,9 +493,10 @@ def history():
       if page == 1:
         flash(f"No se encontraron resultados para la categoría {category.name}", "danger")
         return redirect(url_for("history", filter=type_f))
-      else:
-        flash(f"No se encontraron más resultados para la categoria {category.name}, estos son los últimos resultados", "warning")
-        return redirect(url_for("history", cat_id=category.id, page=page - 1))
+      
+      if page > pagination.pages:
+        flash(f"La categoria {category.name} solo cuenta con {pagination.pages} página(s)", "danger")
+        return redirect(url_for("history", cat_id=cat_id, page=pagination.pages))
     
     categories = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == category.type)).all()
     
