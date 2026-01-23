@@ -136,15 +136,12 @@
       {% endif %}
     </ul>
     <div class="history-links d-flex justify-content-center gap-5">
-      {% if page.has_prev and category %}
-        <a href="{{ url_for('history', cat_id=category.id, filter=type_f ,page=page.prev_num) }}" class="text-decoration-none fs-5">&larr; Anterior</a>
-      {% elif page.has_prev %}
-        <a href="{{ url_for('history', filter=type_f ,page=page.prev_num) }}" class="text-decoration-none fs-5">&larr; Anterior</a>
+      {% if page.has_prev %}
+        <a href="{{ url_for('history', cat_id=category.id if category else None, filter=type_f ,page=page.prev_num) }}" class="text-decoration-none fs-5">&larr; Anterior</a>
       {% endif %}
-      {% if page.has_next and category %}
-        <a href="{{ url_for('history', cat_id=category.id, filter=type_f ,page=page.next_num) }}" class="text-decoration-none fs-5">Siguiente &rarr;</a>
-      {% elif page.has_next %}
-        <a href="{{ url_for('history', filter=type_f ,page=page.next_num) }}" class="text-decoration-none fs-5">Siguiente &rarr;</a>
+
+      {% if page.has_next %}
+        <a href="{{ url_for('history', cat_id=category.id if category else None , filter=type_f ,page=page.next_num) }}" class="text-decoration-none fs-5">Siguiente &rarr;</a>
       {% endif %}
     </div>
   </section>
