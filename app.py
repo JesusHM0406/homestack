@@ -429,8 +429,8 @@ def update_categories():
 @login_required
 def history():
   user_id = session.get("user_id")
-  type_f = request.args.get("filter", None)
-  cat_f = request.args.get("cat_id", None)
+  type_f = request.args.get("filter", "all")
+  cat_f = request.args.get("cat_id", type=int)
   page = request.args.get("page", 1)
   
   total_balance_stmt = (
@@ -464,68 +464,41 @@ def history():
   current_cat = None
   available_categories = []
   
-  if not type_f and not cat_f or type_f == "all":
-    all_cat = db.session.scalars(db.select(Category).where(Category.user_id == user_id)).all()
-    all_transactions = db.paginate(db.select(Transaction).where(Transaction.user_id == user_id).order_by(Transaction.date.desc()), page=page, per_page=20, error_out=False)
-    
-    return render_template("history.html", type_f="all", categories=all_cat, page=all_transactions, bal=total_balance, inc=total_income, exp=total_expense)
-  
   # If there is a category id in cat_f, then we can skip type filter
   if cat_f:
-    try:
-      cat_id = int(cat_f)
-    except ValueError as e:
+    current_cat = db.session.execute(db.select(Category).where(Category.id == cat_f, Category.user_id == user_id)).scalar_one_or_none()
+    
+    if not current_cat:
       flash("Categoría inválida", "danger")
-      return redirect(url_for("history", filter=type_f))
+      return redirect(url_for("history"))
     
-    category = db.session.execute(db.select(Category).where(Category.id == cat_id, Category.user_id == user_id)).scalar_one_or_none()
+    query = query.where(Transaction.category_id == cat_f)
     
-    if not category:
-      flash("Categoría inválida", "danger")
-      return redirect(url_for("history", filter=type_f))
-    
-    category_filt_stmt = (
-      db.select(Transaction)
-      .where(
-        Transaction.user_id == user_id,
-        Transaction.category_id == category.id
-      )
-      .order_by(Transaction.date.desc())
-    )
-    
-    pagination = db.paginate(category_filt_stmt, page=page, per_page=20, error_out=False)
-    
-    if not pagination.items:
-      if page == 1:
-        flash(f"No se encontraron resultados para la categoría {category.name}", "danger")
-        return redirect(url_for("history", filter=type_f))
-      
-      if page > pagination.pages:
-        flash(f"La categoria {category.name} solo cuenta con {pagination.pages} página(s)", "danger")
-        return redirect(url_for("history", cat_id=cat_id, page=pagination.pages))
-    
-    categories = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == category.type)).all()
-    
-    return render_template("history.html", type_f=category.type.value, category=category, categories=categories, page=pagination, bal=total_balance, inc=total_income, exp=total_expense)
+    type_f = current_cat.type.value
+    available_categories = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == current_cat.type)).all()
   
   # If there is no cat_id parameter, then we filter by type
-  if type_f not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
-    flash("Filtro de tipo inválido", "danger")
-    return redirect(url_for("history"))
+  elif type_f in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
+    type_enum = TypeEnum(type_f)
+    
+    query = query.where(Transaction.type == type_enum)
+    
+    available_categories = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == type_enum)).all()
+    
+  else:
+    type_f = "all"
+    
+    available_categories = db.session.scalars(db.select(Category).where(Category.user_id == user_id)).all()
   
-  type_enum = TypeEnum(type_f)
+  pagination = db.paginate(query, page=page, per_page=20, error_out=False)
   
-  all_filtered_transactions_stmt = (
-    db.select(Transaction)
-    .where(
-      Transaction.user_id == user_id,
-      Transaction.type == type_enum
-    )
-    .order_by(Transaction.date.desc())
+  return render_template(
+    "history.html",
+    page=pagination,
+    type_f=type_f,
+    category=current_cat,
+    categories=available_categories,
+    bal=total_balance,
+    inc=total_income,
+    exp=total_expense
   )
-  
-  transaction_pagination = db.paginate(all_filtered_transactions_stmt, page=page, per_page=20, error_out=False)
-  
-  filtered_cat = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == type_enum)).all()
-  
-  return render_template("history.html", type_f=type_enum.value, categories=filtered_cat, page=transaction_pagination, bal=total_balance, inc=total_income, exp=total_expense)
