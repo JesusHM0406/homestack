@@ -432,6 +432,20 @@ def history():
   cat_f = request.args.get("cat_id", None)
   page = request.args.get("page", 1)
   
+  total_balance_stmt = (
+    db.select(
+      func.sum(
+        db.case((Transaction.type == TypeEnum.INCOME, Transaction.amount), else_=0)
+      ) -
+      func.sum(
+        db.case((Transaction.type == TypeEnum.EXPENSE, Transaction.amount), else_=0)
+      )
+    )
+    .where(Transaction.user_id == user_id)
+  )
+  
+  total_balance = db.session.execute(total_balance_stmt).scalar() or 0
+  
   try:
     page = int(page)
     
