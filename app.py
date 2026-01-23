@@ -432,7 +432,7 @@ def history():
   cat_f = request.args.get("cat_id", None)
   page = request.args.get("page", 1)
   
-  if not type_f and not cat_f:
+  if not type_f and cat_f:
     return render_template("history.html", type_f="all")
 
   try:
@@ -483,7 +483,7 @@ def history():
   # If there is no cat_id parameter, then we filter by type
   if type_f not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
     flash("Filtro de tipo inválido", "danger")
-    return render_template("history.html", type_f="all")
+    return redirect(url_for("history"))
   
   type_enum = TypeEnum(type_f)
   
