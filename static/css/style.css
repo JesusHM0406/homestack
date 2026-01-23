@@ -624,6 +624,23 @@ svg {
   stroke: none;
 }
 
+/* == HISTORIC SUMMARY SECTION == */
+.historical-summary-container, .history-container {
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+
+@media screen and (min-width: 560px) {
+  .historical-summary-container {
+    flex-direction: row !important;
+  }
+
+  .hist-card-item {
+    flex-grow: 1;
+  }
+}
+
 /* ====== MEDIA QUERIES ====== */
 @media screen and (min-width: 768px) {
   .dashboard-container {
