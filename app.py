@@ -434,6 +434,20 @@ def history():
   if not type_f and not cat_f:
     return render_template("history.html", type_f="all")
   
+  # If there is a category id in cat_f, then we can skip type filter
+  if cat_f:
+    try:
+      cat_id = int(cat_f)
+    except ValueError as e:
+      flash("Categoría inválida", "danger")
+      return redirect(url_for("history", filter=type_f))
+    
+    category = db.session.execute(db.select(Category).where(Category.id == cat_id, Category.user_id == user_id)).scalar_one_or_none()
+    
+    if not category:
+      flash("Categoría inválida", "danger")
+      return redirect(url_for("history", filter=type_f))
+  
   if type_f not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
     flash("Filtro de tipo inválido", "danger")
     return render_template("history.html", type_f="all")
