@@ -2,6 +2,7 @@ const filterBtns = document.querySelectorAll('.filter-btn');
 const selectTrigger = document.getElementById('selectTriggerF');
 const select = document.getElementById('customSelectF');
 const selectOptList = document.getElementById('selectOptListF');
+const catOpts = document.querySelectorAll('.cat-option');
 
 // HELPER FUNCTIONS
 function handleSelectList(e) {
@@ -38,3 +39,24 @@ filterBtns.forEach(btn => {
 });
 
 selectTrigger.addEventListener('click', toggleSelect);
+
+catOpts.forEach(opt => {
+  opt.addEventListener('click', (e)=>{
+    const cat_id = e.currentTarget.dataset.catId;
+
+    if (!cat_id) {
+      window.location.reload();
+      return;
+    }
+
+    let id = parseInt(cat_id);
+
+    if (isNaN(id)) {
+      alert('La categoría es invalida');
+      window.location.reload();
+      return;
+    }
+
+    window.location.href = `./history?cat_id=${id}`;
+  })
+})
