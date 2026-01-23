@@ -619,6 +619,29 @@ svg {
   color: var(--red) !important;
 }
 
+#selectOptListF {
+  transform: scale(0);
+  transition: transform .05s ease;
+}
+
+#customSelectF[aria-expanded="true"] #selectOptListF {
+  transform: scale(1);
+}
+
+.cat-option figure svg {
+  display: none;
+}
+
+.cat-option[aria-selected="true"] {
+  background-color: #e3e3e3;
+}
+
+.cat-option[aria-selected="true"] figure svg{
+  display: block;
+  fill: var(--dark-gray);
+  stroke: none;
+}
+
 .bi-caret-down-fill {
   fill: var(--dark-gray) !important;
   stroke: none;
