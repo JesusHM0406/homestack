@@ -32,22 +32,6 @@ function toggleSelect(e) {
 }
 
 // EVENT LISTENERS
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', (e)=> {
-    const filter = e.currentTarget.dataset.filter;
-
-    const isValid = filters.includes(filter);
-
-    if (!isValid) {
-      alert('Filtro inválido');
-      window.location.reload();
-      return;
-    }
-
-    window.location.href = `./history?filter=${filter}`;
-  });
-});
-
 selectTrigger.addEventListener('click', toggleSelect);
 
 catOpts.forEach(opt => {
