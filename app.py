@@ -430,20 +430,17 @@ def history():
   user_id = session.get("user_id")
   type_f = request.args.get("filter", None)
   cat_f = request.args.get("cat_id", None)
-  page = request.args.get("page", None)
+  page = request.args.get("page", 1)
   
   if not type_f and not cat_f:
     return render_template("history.html", type_f="all")
-  
-  if page:
-    try:
-      page = int(page)
-      
-      if page <= 0:
-        raise ValueError
-    except ValueError as e:
-      page = 1
-  else:
+
+  try:
+    page = int(page)
+    
+    if page <= 0:
+      raise ValueError
+  except ValueError as e:
     page = 1
   
   # If there is a category id in cat_f, then we can skip type filter
