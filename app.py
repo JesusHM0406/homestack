@@ -469,15 +469,16 @@ def history():
       .order_by(Transaction.date.desc())
     )
     
-    page = db.paginate(category_filt_stmt, page=page, per_page=20, error_out=False)
+    pagination = db.paginate(category_filt_stmt, page=page, per_page=20, error_out=False)
     
-    if not page.items:
-      flash(f"No se encontraron resultados para la categoría {category.name} y página {page}")
+    if not pagination.items:
+      flash(f"No se encontraron resultados para la categoría {category.name} y página {page}", "danger")
       return redirect(url_for("history", filter=type_f))
+    
     
     categories = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == category.type)).all()
     
-    return render_template("history.html", type_f=category.type, category=category, categories=categories, page=page)
+    return render_template("history.html", type_f=category.type, category=category, categories=categories, page=pagination)
   
   if type_f not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
     flash("Filtro de tipo inválido", "danger")
