@@ -432,9 +432,6 @@ def history():
   cat_f = request.args.get("cat_id", None)
   page = request.args.get("page", 1)
   
-  if not type_f and cat_f:
-    return render_template("history.html", type_f="all")
-
   try:
     page = int(page)
     
@@ -442,6 +439,12 @@ def history():
       raise ValueError
   except ValueError as e:
     page = 1
+  
+  if not type_f and cat_f:
+    all_cat = db.session.scalars(db.select(Category).where(Category.user_id == user_id)).all()
+    all_transactions = db.paginate(db.select(Transaction).where(Transaction.user_id == user_id).order_by(Transaction.date.desc()), page=page, per_page=20, error_out=False)
+    
+    return render_template("history.html", type_f="all", categories=all_cat, page=all_transactions)
   
   # If there is a category id in cat_f, then we can skip type filter
   if cat_f:
