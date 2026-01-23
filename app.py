@@ -476,6 +476,8 @@ def history():
       return redirect(url_for("history", filter=type_f))
     
     categories = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == category.type)).all()
+    
+    return render_template("history.html", type_f=category.type, category=category, categories=categories, page=page)
   
   if type_f not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
     flash("Filtro de tipo inválido", "danger")
