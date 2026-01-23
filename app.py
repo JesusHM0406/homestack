@@ -446,6 +446,10 @@ def history():
   
   total_balance = db.session.execute(total_balance_stmt).scalar() or 0
   
+  total_income = db.session.execute(db.select(func.sum(Transaction.amount)).where(Transaction.user_id == user_id, Transaction.type == TypeEnum.INCOME)).scalar() or 0
+  
+  total_expense = db.session.execute(db.select(func.sum(Transaction.amount)).where(Transaction.user_id == user_id, Transaction.type == TypeEnum.EXPENSE)).scalar() or 0
+  
   try:
     page = int(page)
     
