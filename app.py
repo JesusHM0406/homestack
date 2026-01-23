@@ -459,6 +459,17 @@ def history():
     if not category:
       flash("Categoría inválida", "danger")
       return redirect(url_for("history", filter=type_f))
+    
+    category_filt_stmt = (
+      db.select(Transaction)
+      .where(
+        Transaction.user_id == user_id,
+        Transaction.category_id == category.id
+      )
+      .order_by(Transaction.date.desc())
+    )
+    
+    page = db.paginate(category_filt_stmt, page=page, per_page=20, error_out=False)
   
   if type_f not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
     flash("Filtro de tipo inválido", "danger")
