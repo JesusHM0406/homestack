@@ -498,4 +498,6 @@ def history():
   
   transaction_pagination = db.paginate(all_filtered_transactions_stmt, page=page, per_page=20, error_out=False)
   
-  return render_template("history.html")
+  filtered_cat = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == type_enum)).all()
+  
+  return render_template("history.html", type_f=type_enum.value, categories=filtered_cat, page=transaction_pagination)
