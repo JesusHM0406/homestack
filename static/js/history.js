@@ -4,6 +4,8 @@ const select = document.getElementById('customSelectF');
 const selectOptList = document.getElementById('selectOptListF');
 const catOpts = document.querySelectorAll('.cat-option');
 
+const filters = ['all', 'income', 'expense'];
+
 // HELPER FUNCTIONS
 function handleSelectList(e) {
   if (!selectOptList.contains(e.target)) {
@@ -33,6 +35,14 @@ function toggleSelect(e) {
 filterBtns.forEach(btn => {
   btn.addEventListener('click', (e)=> {
     const filter = e.currentTarget.dataset.filter;
+
+    const isValid = filters.includes(filter);
+
+    if (!isValid) {
+      alert('Filtro inválido');
+      window.location.reload();
+      return;
+    }
 
     window.location.href = `./history?filter=${filter}`;
   });
