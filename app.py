@@ -470,6 +470,12 @@ def history():
     )
     
     page = db.paginate(category_filt_stmt, page=page, per_page=20, error_out=False)
+    
+    if not page.items:
+      flash(f"No se encontraron resultados para la categoría {category.name} y página {page}")
+      return redirect(url_for("history", filter=type_f))
+    
+    
   
   if type_f not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
     flash("Filtro de tipo inválido", "danger")
