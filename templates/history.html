@@ -111,196 +111,41 @@
   <section class="history-container my-5 border border-1 border-secondary-subtle px-3 py-4 rounded-3 d-flex flex-column gap-4">
     <h2 class="history-mov-title text-center">Transacciones</h2>
     <ul class="history-list d-flex flex-column gap-3">
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Salario</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
+      {% if not page.items and type_f == "all" %}
+        <li class="text-center text-secondary fs-4 my-4">
+          <span class="d-block">No tienes transacciones aún</span>
+          <a href="{{ url_for('index') }}">Volver al inicio</a>
+        </li>
+      {% elif not page.items %}
+        <li class="text-center text-secondary fs-4 my-4">
+          <span class="d-block">No se encontraron resultados con el filtro seleccionado</span>
+        </li>
+      {% else %}
+        {% for item in page %}
+          <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
+            <div class="history-mov-desc d-flex flex-column">
+              <span class="concept">{{ item.concept }}</span>
+              <span class="meta text-secondary">{{ item.date | date_es }} • {{ item.category.name if item.category_id != None else 'Sin categoría' }}</span>
+            </div>
 
-        <div class="history-mov-amount">
-          <span class="fw-medium text-success">+$4500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Salario</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-success">+$4500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Salario</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-success">+$4500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Salario</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-success">+$4500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Comida</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-danger">-$500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Comida</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-danger">-$500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Comida</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-danger">-$500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Comida</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-danger">-$500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Comida</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-danger">-$500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Comida</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-danger">-$500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Comida</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-danger">-$500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Salario</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-success">+$4500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Salario</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-success">+$4500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Salario</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-success">+$4500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Comida</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-danger">-$500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Comida</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-danger">-$500</span>
-        </div>
-      </li>
-
-      <li class="history-item d-flex justify-content-between align-items-center p-2 rounded-2">
-        <div class="history-mov-desc d-flex flex-column">
-          <span class="concept">Comida</span>
-          <span class="meta text-secondary">14 de enero de 2025 • Salario</span>
-        </div>
-
-        <div class="history-mov-amount">
-          <span class="fw-medium text-danger">-$500</span>
-        </div>
-      </li>
+            <div class="history-mov-amount">
+              <span class="fw-medium text-{{ 'success' if item.type.value == 'income' else 'danger' }}">{{ '+' if item.type.value == 'income' else '-' }}{{ item.amount | money }}</span>
+            </div>
+          </li>
+        {% endfor %}
+      {% endif %}
     </ul>
     <div class="history-links d-flex justify-content-center gap-5">
-      <a href="#" class="text-decoration-none fs-5">&larr; Previous</a>
-      <a href="#" class="text-decoration-none fs-5">Next &rarr;</a>
+      {% if page.has_prev and category %}
+        <a href="{{ url_for('history', cat_id=category.id, filter=type_f ,page=page.prev_num) }}" class="text-decoration-none fs-5">&larr; Anterior</a>
+      {% elif page.has_prev %}
+        <a href="{{ url_for('history', filter=type_f ,page=page.prev_num) }}" class="text-decoration-none fs-5">&larr; Anterior</a>
+      {% endif %}
+      {% if page.has_next and category %}
+        <a href="{{ url_for('history', cat_id=category.id, filter=type_f ,page=page.next_num) }}" class="text-decoration-none fs-5">Siguiente &rarr;</a>
+      {% elif page.has_next %}
+        <a href="{{ url_for('history', filter=type_f ,page=page.next_num) }}" class="text-decoration-none fs-5">Siguiente &rarr;</a>
+      {% endif %}
     </div>
   </section>
 {% endblock %}
