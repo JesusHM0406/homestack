@@ -5,7 +5,7 @@
 {% block main %}
   <h1 class="history-title text-center mt-5 mb-5">Historial de transacciones</h1>
 
-  <section class="filters-container container border border-1 border-secondary-subtle rounded-3 p-3 d-flex flex-column gap-4" data-type-f="all">
+  <section class="filters-container container border border-1 border-secondary-subtle rounded-3 p-3 d-flex flex-column gap-4" data-type-f="{{ type_f }}">
     <div class="filters-header d-flex gap-2 align-items-center">
       <figure>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16" aria-hidden="true">
@@ -42,7 +42,6 @@
               </figure>
             </div>
 
-            <!-- IMPORTANT: ul ELEMENT HAS DISPLAY NONE -->
             <ul class="select-options-list-f m-0 p-2 bg-light border border-1 border-secondary-subtle rounded-3 shadow-sm d-flex flex-column gap-2 overflow-y-auto position-absolute w-100" id="selectOptListF">
               <li aria-selected="false" class="cat-option d-flex justify-content-between py-1 px-2 rounded-2" data-cat-id="1">
                 <span>Comida</span>

@@ -440,7 +440,7 @@ def history():
   except ValueError as e:
     page = 1
   
-  if not type_f and cat_f:
+  if not type_f and not cat_f or type_f == "all":
     all_cat = db.session.scalars(db.select(Category).where(Category.user_id == user_id)).all()
     all_transactions = db.paginate(db.select(Transaction).where(Transaction.user_id == user_id).order_by(Transaction.date.desc()), page=page, per_page=20, error_out=False)
     
