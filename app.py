@@ -499,7 +499,7 @@ def history():
     
     categories = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == category.type)).all()
     
-    return render_template("history.html", type_f=category.type, category=category, categories=categories, page=pagination, bal=total_balance, inc=total_income, exp=total_expense)
+    return render_template("history.html", type_f=category.type.value, category=category, categories=categories, page=pagination, bal=total_balance, inc=total_income, exp=total_expense)
   
   # If there is no cat_id parameter, then we filter by type
   if type_f not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
