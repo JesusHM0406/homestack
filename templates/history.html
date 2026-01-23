@@ -34,7 +34,15 @@
         <div class="filter-categories w-100 position-relative">
           <div class="custom-select-f" id="customSelectF" aria-expanded="false" tabindex="0">
             <div class="select-trigger-f d-flex justify-content-between py-2 px-3 bg-secondary-subtle rounded-2" id="selectTriggerF">
-              <span class="fw-bold">Todos</span>
+                {% if category %}
+                  <span class="fw-bold">{{ category.name }}</span>
+                {% elif categories %}
+                  <span class="fw-bold">Todas</span>
+                {% elif type != "all" %}
+                  <span class="text-secondary">No tienes categorias con el filtro seleccionado</span>
+                {% else %}
+                  <span class="text-secondary">No tienes categorias</span>
+                {% endif %}
               <figure>
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#bbb" class="bi bi-caret-down-fill" viewBox="0 0 16 16" aria-hidden="true">
                   <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
@@ -43,77 +51,39 @@
             </div>
 
             <ul class="select-options-list-f m-0 p-2 bg-light border border-1 border-secondary-subtle rounded-3 shadow-sm d-flex flex-column gap-2 overflow-y-auto position-absolute w-100" id="selectOptListF">
-              <li aria-selected="false" class="cat-option d-flex justify-content-between py-1 px-2 rounded-2" data-cat-id="1">
-                <span>Comida</span>
-                <figure class="cat-opt-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
-                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                  </svg>
-                </figure>
-              </li>
-
-              <li aria-selected="false" class="cat-option d-flex justify-content-between py-1 px-2 rounded-2" data-cat-id="2">
-                <span>Comida</span>
-                <figure class="cat-opt-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
-                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                  </svg>
-                </figure>
-              </li>
-
-              <li aria-selected="false" class="cat-option d-flex justify-content-between py-1 px-2 rounded-2" data-cat-id="3">
-                <span>Comida</span>
-                <figure class="cat-opt-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
-                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                  </svg>
-                </figure>
-              </li>
-
-              <li aria-selected="false" class="cat-option d-flex justify-content-between py-1 px-2 rounded-2" data-cat-id="4">
-                <span>Comida</span>
-                <figure class="cat-opt-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
-                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                  </svg>
-                </figure>
-              </li>
-
-              <li aria-selected="false" class="cat-option d-flex justify-content-between py-1 px-2 rounded-2" data-cat-id="5">
-                <span>Comida</span>
-                <figure class="cat-opt-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
-                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                  </svg>
-                </figure>
-              </li>
-
-              <li aria-selected="false" class="cat-option d-flex justify-content-between py-1 px-2 rounded-2" data-cat-id="6">
-                <span>Comida</span>
-                <figure class="cat-opt-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
-                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                  </svg>
-                </figure>
-              </li>
-
-              <li aria-selected="false" class="cat-option d-flex justify-content-between py-1 px-2 rounded-2" data-cat-id="7">
-                <span>Comida</span>
-                <figure class="cat-opt-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
-                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                  </svg>
-                </figure>
-              </li>
-
-              <li aria-selected="false" class="cat-option d-flex justify-content-between py-1 px-2 rounded-2" data-cat-id="8">
-                <span>Comida</span>
-                <figure class="cat-opt-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
-                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                  </svg>
-                </figure>
-              </li>
+              {% if categories %}
+                {% for cat in categories %}
+                  {% if category and cat.name == category.name %}
+                    <li aria-selected="true" class="cat-option d-flex justify-content-between py-1 px-2 rounded-2" data-cat-id="{{ cat.id }}">
+                      <span>{{ cat.name }}</span>
+                      <figure class="cat-opt-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
+                          <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                        </svg>
+                      </figure>
+                    </li>
+                  {% else %}
+                    <li aria-selected="false" class="cat-option d-flex justify-content-between py-1 px-2 rounded-2" data-cat-id="{{ cat.id }}">
+                      <span>{{ cat.name }}</span>
+                      <figure class="cat-opt-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
+                          <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                        </svg>
+                      </figure>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+                {% if type_f != "all" %}
+                  <li class="text-center">
+                    <span class="text-secondary">No tienes categorias con el filtro seleccionado</span>
+                  </li>
+                {% else %}
+                  <li class="text-center">
+                    <span class="text-secondary">No tienes categorias</span>
+                  </li>
+                {% endif %}
+              {% endif %}
             </ul>
           </div>
         </div>
