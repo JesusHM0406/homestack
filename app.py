@@ -534,23 +534,18 @@ def reports():
 
   monthly_exp_parsed = [{"name": row.name, "total": float(row.total)} for row in monthly_exp_data]
 
-  six_months_ago = today - relativedelta(months=6)
+  start_date = (today - relativedelta(months=6)).replace(day=1)
   
   monthly_ev_query = (
     db.select(
-      db.func.sum(
-        db.case((Transaction.type == TypeEnum.INCOME, Transaction.amount), else_= 0)
-      ).label("income"),
-      db.func.sum(
-        db.case((Transaction.type == TypeEnum.EXPENSE, Transaction.amount), else_= 0)
-      ).label("expense"),
+      db.func.sum(db.case((Transaction.type == TypeEnum.INCOME, Transaction.amount), else_= 0)).label("income"),
+      db.func.sum(db.case((Transaction.type == TypeEnum.EXPENSE, Transaction.amount), else_= 0)).label("expense"),
       db.extract("year", Transaction.date).label("year"),
       db.extract("month", Transaction.date).label("month")
     )
     .where(
       Transaction.user_id == user_id,
-      Transaction.date >= six_months_ago,
-      Transaction.date <= today
+      Transaction.date >= start_date
     )
     .group_by("year", "month")
     .order_by("year", "month")
@@ -559,66 +554,29 @@ def reports():
   monthly_ev = db.session.execute(monthly_ev_query).all()
   
   data_map = {}
-  current_step = six_months_ago + relativedelta(months=1)
   
-  for _ in range(6):
-    key = (current_step.year, current_step.month)
+  pointer_date = start_date
+  while pointer_date <= today:
+    key = (pointer_date.year, pointer_date.month)
     data_map[key] = {
       "income": 0,
       "expense": 0,
-      "year": current_step.year,
-      "month": current_step.month
+      "balance": 0,
+      "year": pointer_date.year,
+      "month": pointer_date.month
     }
-    current_step = current_step + relativedelta(months=1)
+    pointer_date += relativedelta(months=1)
   
   for row in monthly_ev:
     key = (int(row.year), int(row.month))
     if key in data_map:
-      data_map[key]["income"] = float(row.income)
-      data_map[key]["expense"] = float(row.expense)
+      inc = float(row.income)
+      exp = float(row.expense)
+      data_map[key]["income"] = inc
+      data_map[key]["expense"] = exp
+      data_map[key]["balance"] = inc - exp
   
-  monthly_ev = list(data_map.values())
-  
-  monthly_bal_ev_query = (
-    db.select(
-      (db.func.sum(
-        db.case((Transaction.type == TypeEnum.INCOME, Transaction.amount), else_= 0)
-      ) -
-      db.func.sum(
-        db.case((Transaction.type == TypeEnum.EXPENSE, Transaction.amount), else_= 0)
-      )).label("balance"),
-      db.extract("year", Transaction.date).label("year"),
-      db.extract("month", Transaction.date).label("month")
-    )
-    .where(
-      Transaction.user_id == user_id,
-      Transaction.date >= six_months_ago,
-      Transaction.date <= today
-    )
-    .group_by("year", "month")
-    .order_by("year", "month")
-  )
-  
-  monthly_bal_ev = db.session.execute(monthly_bal_ev_query).all()
-  
-  data_map = {}
-  current_step = six_months_ago + relativedelta(months=1)
-  
-  for _ in range(6):
-    key = (current_step.year, current_step.month)
-    data_map[key] = {
-      "balance": 0,
-      "year": current_step.year,
-      "month": current_step.month
-    }
-    current_step = current_step + relativedelta(months=1)
-  
-  for row in monthly_bal_ev:
-    key = (int(row.year), int(row.month))
-    if key in data_map:
-      data_map[key]["balance"] = float(row.balance)
-  
-  monthly_bal_ev = list(data_map.values())
+  final_ev_data = list(data_map.values())
   
   transaction_dates_query = (
     db.select(
@@ -637,8 +595,7 @@ def reports():
 
   return render_template(
     "reports.html",
-    mon_ev=monthly_ev,
-    mon_bal_ev=monthly_bal_ev,
+    mon_ev=final_ev_data,
     tranc_dates=transaction_dates,
     mon_exp=monthly_exp_parsed,
     date_f=target_date,
