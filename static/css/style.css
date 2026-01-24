@@ -678,6 +678,12 @@ svg {
   }
 }
 
+/* ====== REPORTS SECTION ====== */
+.charts-container{
+  max-width: 768px;
+  margin: auto;
+}
+
 /* ====== MEDIA QUERIES ====== */
 @media screen and (min-width: 768px) {
   .dashboard-container {
