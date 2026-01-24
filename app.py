@@ -644,4 +644,11 @@ def reports():
   
   monthly_exp = db.session.execute(monthly_exp_query).all()
   
-  return render_template("reports.html")
+  return render_template(
+    "reports.html",
+    mon_ev=monthly_ev,
+    mon_bal_ev=monthly_bal_ev,
+    tranc_dates=transcation_dates,
+    mon_exp=monthly_exp,
+    date_f=date_filt
+  )
