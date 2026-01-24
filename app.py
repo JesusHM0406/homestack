@@ -646,13 +646,18 @@ def reports():
   transaction_dates = db.session.execute(transaction_dates_query).all()
   
   monthly_exp = db.session.execute(monthly_exp_query).all()
+
+  monthly_exp_parsed = []
   
+  for row in monthly_exp:
+    monthly_exp_parsed.append({"name": row.name, "total": float(row.total)})
+
   return render_template(
     "reports.html",
     mon_ev=monthly_ev,
     mon_bal_ev=monthly_bal_ev,
     tranc_dates=transaction_dates,
-    mon_exp=monthly_exp,
+    mon_exp=monthly_exp_parsed,
     date_f=date_filt,
     today=today
   )
