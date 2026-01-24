@@ -9,8 +9,8 @@
     <h2 class="balance-ev-title text-center mb-4">Evolución Mensual: Ingreso vs Gasto</h2>
     <div class="chart-c" style="width: 100%; max-width: 600px; margin: auto;">
       {% if not tranc_dates or not mon_ev %}
-      <span class="d-block mt-4 text-secondary fs-5 text-center">No has hecho ninguna transacción en los últimos 6 meses.</span>
-      <span class="d-block mb-4 text-secondary fs-5 text-center">Crea una nueva transacción <a href="{{ url_for('index') }}">aquí</a>.</span>
+      <span class="d-block mt-5 text-secondary fs-5 text-center">No has hecho ninguna transacción en los últimos 6 meses.</span>
+      <span class="d-block text-secondary fs-5 text-center">Crea una nueva transacción <a href="{{ url_for('index') }}">aquí</a>.</span>
       {% else %}
       <canvas id="monthlyEvoChart"></canvas>
       {% endif %}
@@ -20,7 +20,12 @@
   <section class="balance-ev-container charts-container border border-1 border-secondary-subtle rounded-3 p-3 my-5">
     <h2 class="balance-ev-title text-center mb-4">Balance Mensual</h2>
     <div class="chart-c" style="width: 100%; max-width: 600px; margin: auto;">
+      {% if not tranc_dates or not mon_bal_ev %}
+      <span class="d-block mt-5 text-secondary fs-5 text-center">No has hecho ninguna transacción en los últimos 6 meses.</span>
+      <span class="d-block text-secondary fs-5 text-center">Crea una nueva transacción <a href="{{ url_for('index') }}">aquí</a>.</span>
+      {% else %}
       <canvas id="monthlyBalChart"></canvas>
+      {% endif %}
     </div>
   </section>
 
