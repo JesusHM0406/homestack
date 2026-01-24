@@ -505,4 +505,21 @@ def history():
 
 @app.route("/reports")
 def reports():
+  user_id = session.get("user_id")
+  
+  date_filt = request.args.get("date")
+  
+  monthly_exp_query = (
+    db.select(
+      db.case((Transaction.category_id != None, Category.name), else_="Sin categoría").label("name"),
+      func.sum(Transaction.amount).label("total")
+    )
+    .select_from(Transaction)
+    .outerjoin(Category, Transaction.category_id == Category.id)
+    .where(
+      Transaction.user_id == user_id,
+      Transaction.type == TypeEnum.EXPENSE,
+    ).group_by(Category.name, Transaction.category_id)
+  )
+  
   return render_template("reports.html")
