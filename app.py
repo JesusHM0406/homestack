@@ -587,4 +587,26 @@ def reports():
   
   monthly_ev = list(data_map.values())
   
+  monthly_bal_ev_query = (
+    db.select(
+      (db.func.sum(
+        db.case((Transaction.type == TypeEnum.INCOME, Transaction.amount), else_= 0)
+      ) -
+      db.func.sum(
+        db.case((Transaction.type == TypeEnum.EXPENSE, Transaction.amount), else_= 0)
+      )).label("balance"),
+      db.extract("year", Transaction.date).label("year"),
+      db.extract("month", Transaction.date).label("month")
+    )
+    .where(
+      Transaction.user_id == user_id,
+      Transaction.date >= six_months_ago,
+      Transaction.date <= today
+    )
+    .group_by("year", "month")
+    .order_by("year", "month")
+  )
+  
+  monthly_bal_ev = db.session.execute(monthly_bal_ev_query).all()
+  
   return render_template("reports.html")
