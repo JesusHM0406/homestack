@@ -522,6 +522,8 @@ def reports():
     ).group_by(Category.name, Transaction.category_id)
   )
   
+  today = date.today()
+  
   if date_filt:
     try:
       date_filt = datetime.strptime(date_filt, "%Y-%m-%d")
@@ -532,6 +534,11 @@ def reports():
     monthly_exp_query = monthly_exp_query.where(
       db.extract("year", Transaction.date) == date_filt.year,
       db.extract("month", Transaction.date) == date_filt.month
+    )
+  else:
+    monthly_exp_query = monthly_exp_query.where(
+      db.extract("year", Transaction.date) == today.year,
+      db.extract("month", Transaction.date) == today.month
     )
   
   return render_template("reports.html")
