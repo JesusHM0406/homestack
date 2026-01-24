@@ -609,4 +609,23 @@ def reports():
   
   monthly_bal_ev = db.session.execute(monthly_bal_ev_query).all()
   
+  data_map = {}
+  current_step = six_months_ago + relativedelta(months=1)
+  
+  for _ in range(6):
+    key = (current_step.year, current_step.month)
+    data_map[key] = {
+      "balance": 0,
+      "year": current_step.year,
+      "month": current_step.month
+    }
+    current_step = current_step + relativedelta(months=1)
+  
+  for row in monthly_bal_ev:
+    key = (int(row.year), int(row.month))
+    if key in data_map:
+      data_map[key]["balance"] = float(row.balance)
+  
+  monthly_bal_ev = list(data_map.values())
+  
   return render_template("reports.html")
