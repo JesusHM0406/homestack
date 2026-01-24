@@ -81,7 +81,7 @@
         {% endif %}
       </ul>
       {% if not mon_exp %}
-      <span class="d-block mt-5 text-secondary fs-5 text-center">No hubo movimientos de gasto en {{ date_f | date_es(short=True) }}.</span>
+      <span class="d-block mt-5 text-secondary fs-5 text-center">No se registraron gastos en {{ date_f | date_es(short=True) }}.</span>
       {% else %}
       <div style="width: 100%; max-width: 600px; margin: auto;">
         <canvas id="expCatChart"></canvas>
@@ -102,6 +102,7 @@
     const ebc = document.getElementById('expCatChart');
     const mon_ev_data = {{ mon_ev | tojson }};
     const mon_bal_ev_data = {{ mon_bal_ev | tojson }};
+    const mon_exp_data = {{ mon_exp | tojson }};
 
     const months = {
       1: "Ene", 2: "Feb", 3: "Mar", 4: "Abr", 5: "May", 6: "Jun", 7: "Jul", 8: "Ago", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dic"
@@ -121,6 +122,14 @@
 
     mon_bal_ev_data.forEach(elem => {
       mon_bals.push(elem.balance);
+    });
+
+    const mon_exp_labels = [];
+    const mon_exp_values = [];
+
+    mon_exp_data.forEach(elem => {
+      mon_exp_labels.push(elem.name);
+      mon_exp_values.push(elem.total);
     });
 
     new Chart(ctx, {
@@ -185,11 +194,11 @@
     new Chart(ebc, {
       type: 'doughnut',
       data: {
-        labels: ['Comida', 'Renta', 'Luz'],
+        labels: mon_exp_labels,
         datasets: [
           {
             label: 'Gastos',
-            data: [1234, 3241, 2431],
+            data: mon_exp_values,
           }
         ]
       },
