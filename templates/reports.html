@@ -80,9 +80,13 @@
           {% endfor %}
         {% endif %}
       </ul>
-    </div>
-    <div style="width: 100%; max-width: 600px; margin: auto;">
-      <canvas id="expCatChart"></canvas>
+      {% if not mon_exp %}
+      <span class="d-block mt-5 text-secondary fs-5 text-center">No hubo movimientos de gasto en {{ date_f | date_es(short=True) }}.</span>
+      {% else %}
+      <div style="width: 100%; max-width: 600px; margin: auto;">
+        <canvas id="expCatChart"></canvas>
+      </div>
+      {% endif %}
     </div>
   </section>
 {% endblock %}
