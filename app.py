@@ -630,7 +630,7 @@ def reports():
   
   monthly_bal_ev = list(data_map.values())
   
-  transcation_dates_query = (
+  transaction_dates_query = (
     db.select(
       db.extract("year", Transaction.date).label("year"),
       db.extract("month", Transaction.date).label("month"),
@@ -643,7 +643,7 @@ def reports():
     .order_by("year", "month")
   )
   
-  transcation_dates = db.session.execute(transcation_dates_query).all()
+  transaction_dates = db.session.execute(transaction_dates_query).all()
   
   monthly_exp = db.session.execute(monthly_exp_query).all()
   
@@ -651,7 +651,7 @@ def reports():
     "reports.html",
     mon_ev=monthly_ev,
     mon_bal_ev=monthly_bal_ev,
-    tranc_dates=transcation_dates,
+    tranc_dates=transaction_dates,
     mon_exp=monthly_exp,
     date_f=date_filt,
     today=today
