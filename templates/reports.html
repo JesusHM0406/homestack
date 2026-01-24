@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}Gráficas{% endblock %}
+
+{% block main %}
+  <div class="balance-ev-container border border-1 border-secondary-subtle rounded-3 p-4">
+    <h2 class="balance-ev-title text-center mb-4">Evolución Mensual: Ingreso vs Gasto</h2>
+    <div style="width: 100%; max-width: 600px; margin: auto;">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
+        datasets: [
+          {
+            label: 'Ingresos',
+            data: [2760, 2760, 2760, 2760, 2760],
+            backgroundColor: '#44BB7787',
+            borderColor: '#44BB77',
+            borderWidth: 1
+          },
+          {
+            label: 'Gastos',
+            data: [2760, 2760,2760, 2760, 2760],
+            backgroundColor: '#FF555587',
+            borderColor: '#FF5555',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        scales: {
+          x: {
+            stacked: false
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+{% endblock %}
