@@ -101,6 +101,7 @@
     const mbc = document.getElementById('monthlyBalChart');
     const ebc = document.getElementById('expCatChart');
     const mon_ev_data = {{ mon_ev | tojson }};
+    const mon_bal_ev_data = {{ mon_bal_ev | tojson }};
 
     const months = {
       1: "Ene", 2: "Feb", 3: "Mar", 4: "Abr", 5: "May", 6: "Jun", 7: "Jul", 8: "Ago", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dic"
@@ -114,6 +115,12 @@
       mon_ev_labels.push(`${months[elem.month]} ${elem.year}`);
       mon_ev_incs.push(elem.income);
       mon_ev_exps.push(elem.expense);
+    });
+
+    const mon_bals = [];
+
+    mon_bal_ev_data.forEach(elem => {
+      mon_bals.push(elem.balance);
     });
 
     new Chart(ctx, {
@@ -154,10 +161,11 @@
     new Chart(mbc, {
       type: 'line',
       data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+        // We can use the same labels since both are of the same interval of time
+        labels: mon_ev_labels,
         datasets: [{
           label: 'Balance',
-          data: [2760, 3760, 2760, 1760, 4760, 2543],
+          data: mon_bals,
           borderColor: '#1465EC',
           fill: false,
           tension: 0.3
