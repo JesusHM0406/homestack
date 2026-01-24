@@ -642,4 +642,6 @@ def reports():
   
   transcation_dates = db.session.execute(transcation_dates_query).all()
   
+  monthly_exp = db.session.execute(monthly_exp_query).all()
+  
   return render_template("reports.html")
