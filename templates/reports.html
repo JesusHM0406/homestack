@@ -6,7 +6,14 @@
   <div class="balance-ev-container border border-1 border-secondary-subtle rounded-3 p-4">
     <h2 class="balance-ev-title text-center mb-4">Evolución Mensual: Ingreso vs Gasto</h2>
     <div style="width: 100%; max-width: 600px; margin: auto;">
-      <canvas id="myChart"></canvas>
+      <canvas id="monthlyEvoChart"></canvas>
+    </div>
+  </div>
+
+  <div class="balance-ev-container border border-1 border-secondary-subtle rounded-3 p-4 my-5">
+    <h2 class="balance-ev-title text-center mb-4">Balance Mensual</h2>
+    <div style="width: 100%; max-width: 600px; margin: auto;">
+      <canvas id="monthlyBalChart"></canvas>
     </div>
   </div>
 {% endblock %}
@@ -14,7 +21,8 @@
 {% block script %}
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    const ctx = document.getElementById('myChart');
+    const ctx = document.getElementById('monthlyEvoChart');
+    const mbc = document.getElementById('monthlyBalChart')
 
     new Chart(ctx, {
       type: 'bar',
@@ -42,6 +50,27 @@
           x: {
             stacked: false
           },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    new Chart(mbc, {
+      type: 'line',
+      data: {
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
+        datasets: [{
+          label: 'Balance',
+          data: [2760, 3760, 2760, 1760, 4760],
+          borderColor: '#1465EC',
+          fill: false,
+          tension: 0.3
+        }]
+      },
+      options: {
+        scales: {
           y: {
             beginAtZero: true
           }
