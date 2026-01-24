@@ -507,10 +507,17 @@ def history():
 @app.route("/reports")
 def reports():
   user_id = session.get("user_id")
+  today = datetime.now(timezone.utc)
   
   date_filt = request.args.get("date")
+  target_date = today
+  if date_filt:
+    try:
+      target_date = datetime.strptime(date_filt, "%Y-%m-%d")
+    except ValueError as e:
+      flash("Formato de fecha inválido", "danger")
   
-  monthly_exp_query = (
+  monthly_exp_data = db.session.execute(
     db.select(
       db.case((Transaction.category_id != None, Category.name), else_="Sin categoría").label("name"),
       func.sum(Transaction.amount).label("total")
@@ -520,29 +527,12 @@ def reports():
     .where(
       Transaction.user_id == user_id,
       Transaction.type == TypeEnum.EXPENSE,
+      db.extract("year", Transaction.date) == target_date.year,
+      db.extract("month", Transaction.date) == target_date.month
     ).group_by(Category.name, Transaction.category_id)
-  )
-  
-  today = datetime.now(timezone.utc)
-  
-  if date_filt:
-    try:
-      date_filt = datetime.strptime(date_filt, "%Y-%m-%d")
-    except ValueError as e:
-      flash("Formato de fecha inválido", "danger")
-      return redirect(url_for("reports"))
-    
-    monthly_exp_query = monthly_exp_query.where(
-      db.extract("year", Transaction.date) == date_filt.year,
-      db.extract("month", Transaction.date) == date_filt.month
-    )
-  else:
-    date_filt = today
-    
-    monthly_exp_query = monthly_exp_query.where(
-      db.extract("year", Transaction.date) == today.year,
-      db.extract("month", Transaction.date) == today.month
-    )
+  ).all()
+
+  monthly_exp_parsed = [{"name": row.name, "total": float(row.total)} for row in monthly_exp_data]
 
   six_months_ago = today - relativedelta(months=6)
   
@@ -644,13 +634,6 @@ def reports():
   )
   
   transaction_dates = db.session.execute(transaction_dates_query).all()
-  
-  monthly_exp = db.session.execute(monthly_exp_query).all()
-
-  monthly_exp_parsed = []
-  
-  for row in monthly_exp:
-    monthly_exp_parsed.append({"name": row.name, "total": float(row.total)})
 
   return render_template(
     "reports.html",
@@ -658,6 +641,6 @@ def reports():
     mon_bal_ev=monthly_bal_ev,
     tranc_dates=transaction_dates,
     mon_exp=monthly_exp_parsed,
-    date_f=date_filt,
+    date_f=target_date,
     today=today
   )
