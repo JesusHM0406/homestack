@@ -502,3 +502,7 @@ def history():
     inc=total_income,
     exp=total_expense
   )
+
+@app.route("/reports")
+def reports():
+  return render_template("reports.html")
