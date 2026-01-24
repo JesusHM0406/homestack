@@ -537,6 +537,8 @@ def reports():
       db.extract("month", Transaction.date) == date_filt.month
     )
   else:
+    date_filt = today
+    
     monthly_exp_query = monthly_exp_query.where(
       db.extract("year", Transaction.date) == today.year,
       db.extract("month", Transaction.date) == today.month
@@ -631,7 +633,8 @@ def reports():
   transcation_dates_query = (
     db.select(
       db.extract("year", Transaction.date).label("year"),
-      db.extract("month", Transaction.date).label("month")
+      db.extract("month", Transaction.date).label("month"),
+      db.extract("day", Transaction.date).label("day")
     )
     .where(
       Transaction.user_id == user_id
@@ -644,11 +647,14 @@ def reports():
   
   monthly_exp = db.session.execute(monthly_exp_query).all()
   
+  print(transcation_dates)
+  
   return render_template(
     "reports.html",
     mon_ev=monthly_ev,
     mon_bal_ev=monthly_bal_ev,
     tranc_dates=transcation_dates,
     mon_exp=monthly_exp,
-    date_f=date_filt
+    date_f=date_filt,
+    today=today
   )

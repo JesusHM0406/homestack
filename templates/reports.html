@@ -34,50 +34,51 @@
 
     <div class="cat-select my-4 position-relative" id="catSelect" aria-expanded="false" tabindex="0">
       <div class="select-trigger-c d-flex justify-content-between py-2 px-3 bg-secondary-subtle rounded-2" id="selectTriggerC">
-        <span class="fw-bold">Mes actual</span>
+        {% if not tranc_dates %}
+          <span class="text-secondary text-center w-100">No has hecho transacciones aún</span>
+        {% else %}
+        <span class="fw-bold">
+          {% if not date_f %}
+          {{ today | date_es(short=True) }}
+          {% else %}
+          {{ date_f | date_es(short=True) }}
+          {% endif %}
+        </span>
         <figure>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#bbb" class="bi bi-caret-down-fill" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
           </svg>
         </figure>
+        {% endif %}
       </div>
 
       <ul class="select-options-list-c m-0 p-2 bg-light border border-1 border-secondary-subtle rounded-3 shadow-sm d-flex flex-column gap-2 overflow-y-auto position-absolute w-100" id="selectOptListC">
-        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-06-02">
-          <span>Junio de 2026</span>
-          <figure class="cat-opt-icon-c">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
-              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-            </svg>
-          </figure>
-        </li>
-
-        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-05-02">
-          <span>Mayo de 2026</span>
-          <figure class="cat-opt-icon-c">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
-              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-            </svg>
-          </figure>
-        </li>
-
-        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-04-02">
-          <span>Abril de 2026</span>
-          <figure class="cat-opt-icon-c">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
-              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-            </svg>
-          </figure>
-        </li>
-
-        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-03-02">
-          <span>Marzo de 2026</span>
-          <figure class="cat-opt-icon-c">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
-              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-            </svg>
-          </figure>
-        </li>
+        
+        {% if not tranc_dates %}
+          <span class="text-secondary text-center">No has hecho transacciones aún</span>
+        {% else %}
+          {% for t_date in tranc_dates %}
+            {% if t_date.year == date_f.year and t_date.month == date_f.month %}
+            <li aria-selected="true" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="{{ t_date.year }}-{{ t_date.month }}-{{ t_date.day }}">
+              <span>{{ t_date | date_es(short=True) }}</span>
+              <figure class="cat-opt-icon-c">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                </svg>
+              </figure>
+            </li>
+            {% else %}
+            <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="{{ t_date.year }}-{{ t_date.month }}-{{ t_date.day }}">
+              <span>{{ t_date | date_es(short=True) }}</span>
+              <figure class="cat-opt-icon-c">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                </svg>
+              </figure>
+            </li>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
       </ul>
     </div>
     <div style="width: 100%; max-width: 600px; margin: auto;">
