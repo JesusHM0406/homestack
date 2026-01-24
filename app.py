@@ -566,4 +566,25 @@ def reports():
   
   monthly_ev = db.session.execute(monthly_ev_query).all()
   
+  data_map = {}
+  current_step = six_months_ago + relativedelta(months=1)
+  
+  for _ in range(6):
+    key = (current_step.year, current_step.month)
+    data_map[key] = {
+      "income": 0,
+      "expense": 0,
+      "year": current_step.year,
+      "month": current_step.month
+    }
+    current_step = current_step + relativedelta(months=1)
+  
+  for row in monthly_ev:
+    key = (int(row.year), int(row.month))
+    if key in data_map:
+      data_map[key]["income"] = float(row.income)
+      data_map[key]["expense"] = float(row.expense)
+  
+  monthly_ev = list(data_map.values())
+  
   return render_template("reports.html")
