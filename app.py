@@ -8,7 +8,7 @@ from models import User, Category, Transaction, TypeEnum
 from extensions import db
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 import json
 
 # Initialize flask app
@@ -522,7 +522,7 @@ def reports():
     ).group_by(Category.name, Transaction.category_id)
   )
   
-  today = date.today()
+  today = datetime.now(timezone.utc)
   
   if date_filt:
     try:
