@@ -9,6 +9,7 @@ from extensions import db
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from datetime import date, datetime, timezone
+from dateutil.relativedelta import relativedelta
 import json
 
 # Initialize flask app
@@ -540,5 +541,29 @@ def reports():
       db.extract("year", Transaction.date) == today.year,
       db.extract("month", Transaction.date) == today.month
     )
+
+  six_months_ago = today - relativedelta(months=6)
+  
+  monthly_ev_query = (
+    db.select(
+      db.func.sum(
+        db.case((Transaction.type == TypeEnum.INCOME, Transaction.amount), else_= 0)
+      ).label("income"),
+      db.func.sum(
+        db.case((Transaction.type == TypeEnum.EXPENSE, Transaction.amount), else_= 0)
+      ).label("expense"),
+      db.extract("year", Transaction.date).label("year"),
+      db.extract("month", Transaction.date).label("month")
+    )
+    .where(
+      Transaction.user_id == user_id,
+      Transaction.date >= six_months_ago,
+      Transaction.date <= today
+    )
+    .group_by("year", "month")
+    .order_by("year", "month")
+  )
+  
+  monthly_ev = db.session.execute(monthly_ev_query).all()
   
   return render_template("reports.html")
