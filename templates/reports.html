@@ -106,31 +106,31 @@
       1: "Ene", 2: "Feb", 3: "Mar", 4: "Abr", 5: "May", 6: "Jun", 7: "Jul", 8: "Ago", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dic"
     };
 
-    const mov_ev_labels = []
-    const mov_ev_incs = []
-    const mov_ev_exps = []
+    const mon_ev_labels = []
+    const mon_ev_incs = []
+    const mon_ev_exps = []
 
     mon_ev_data.forEach(elem => {
-      mov_ev_labels.push(`${months[elem.month]} ${elem.year}`);
-      mov_ev_incs.push(elem.income);
-      mov_ev_exps.push(elem.expense);
+      mon_ev_labels.push(`${months[elem.month]} ${elem.year}`);
+      mon_ev_incs.push(elem.income);
+      mon_ev_exps.push(elem.expense);
     });
 
     new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: mov_ev_labels,
+        labels: mon_ev_labels,
         datasets: [
           {
             label: 'Ingresos',
-            data: mov_ev_incs,
+            data: mon_ev_incs,
             backgroundColor: '#44BB7787',
             borderColor: '#44BB77',
             borderWidth: 1
           },
           {
             label: 'Gastos',
-            data: mov_ev_exps,
+            data: mon_ev_exps,
             backgroundColor: '#FF555587',
             borderColor: '#FF5555',
             borderWidth: 1
