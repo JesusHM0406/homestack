@@ -684,6 +684,15 @@ svg {
   margin: auto;
 }
 
+#selectOptListC {
+  transform: scale(0);
+  transition: transform .03s ease;
+}
+
+#catSelect[aria-expanded="true"] #selectOptListC {
+  transform: scale(1);
+}
+
 /* ====== MEDIA QUERIES ====== */
 @media screen and (min-width: 768px) {
   .dashboard-container {

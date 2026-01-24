@@ -22,7 +22,7 @@
   <section class="exp-cat-container charts-container border border-1 border-secondary-subtle rounded-3 p-3 my-5">
     <h2 class="balance-ev-title text-center mb-4">Gastos por Categoría</h2>
 
-    <div class="cat-select my-4 position-relative" id="cat-select" aria-expanded="false" tabindex="0">
+    <div class="cat-select my-4 position-relative" id="catSelect" aria-expanded="false" tabindex="0">
       <div class="select-trigger-c d-flex justify-content-between py-2 px-3 bg-secondary-subtle rounded-2" id="selectTriggerC">
         <span class="fw-bold">Mes actual</span>
         <figure>
@@ -32,8 +32,8 @@
         </figure>
       </div>
 
-      <ul class="select-options-list-c m-0 p-2 bg-light border border-1 border-secondary-subtle rounded-3 shadow-sm d-flex flex-column gap-2 overflow-y-auto position-absolute w-100 d-none" id="selectOptListC">
-        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-06-01">
+      <ul class="select-options-list-c m-0 p-2 bg-light border border-1 border-secondary-subtle rounded-3 shadow-sm d-flex flex-column gap-2 overflow-y-auto position-absolute w-100" id="selectOptListC">
+        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-06-02">
           <span>Junio de 2026</span>
           <figure class="cat-opt-icon-c">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
@@ -42,7 +42,7 @@
           </figure>
         </li>
 
-        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-05-01">
+        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-05-02">
           <span>Mayo de 2026</span>
           <figure class="cat-opt-icon-c">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
@@ -51,7 +51,7 @@
           </figure>
         </li>
 
-        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-04-01">
+        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-04-02">
           <span>Abril de 2026</span>
           <figure class="cat-opt-icon-c">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
@@ -60,7 +60,7 @@
           </figure>
         </li>
 
-        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-03-01">
+        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-03-02">
           <span>Marzo de 2026</span>
           <figure class="cat-opt-icon-c">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
@@ -160,4 +160,5 @@
       }
     })
   </script>
+  <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
 {% endblock %}
