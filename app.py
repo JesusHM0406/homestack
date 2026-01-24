@@ -8,7 +8,7 @@ from models import User, Category, Transaction, TypeEnum
 from extensions import db
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
-from datetime import date
+from datetime import date, datetime
 import json
 
 # Initialize flask app
@@ -521,5 +521,17 @@ def reports():
       Transaction.type == TypeEnum.EXPENSE,
     ).group_by(Category.name, Transaction.category_id)
   )
+  
+  if date_filt:
+    try:
+      date_filt = datetime.strptime(date_filt, "%Y-%m-%d")
+    except ValueError as e:
+      flash("Formato de fecha inválido", "danger")
+      return redirect(url_for("reports"))
+    
+    monthly_exp_query = monthly_exp_query.where(
+      db.extract("year", Transaction.date) == date_filt.year,
+      db.extract("month", Transaction.date) == date_filt.month
+    )
   
   return render_template("reports.html")
