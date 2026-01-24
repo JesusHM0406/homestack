@@ -684,13 +684,27 @@ svg {
   margin: auto;
 }
 
+#catSelect {
+  max-width: 300px;
+  margin: auto;
+}
+
 #selectOptListC {
   transform: scale(0);
   transition: transform .03s ease;
 }
 
+.cat-opt-icon-c svg{
+  display: none;
+}
+
 #catSelect[aria-expanded="true"] #selectOptListC {
   transform: scale(1);
+}
+
+.cat-option-c[aria-selected="true"] .cat-opt-icon-c svg{
+  display: block;
+  stroke: #999999;
 }
 
 /* ====== MEDIA QUERIES ====== */
