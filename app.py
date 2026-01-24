@@ -581,8 +581,7 @@ def reports():
   transaction_dates_query = (
     db.select(
       db.extract("year", Transaction.date).label("year"),
-      db.extract("month", Transaction.date).label("month"),
-      db.extract("day", Transaction.date).label("day")
+      db.extract("month", Transaction.date).label("month")
     )
     .where(
       Transaction.user_id == user_id
@@ -592,11 +591,15 @@ def reports():
   )
   
   transaction_dates = db.session.execute(transaction_dates_query).all()
-
+  
+  formatted_dates = []
+  for row in transaction_dates:
+    formatted_dates.append(datetime(row.year, row.month, 1))
+  
   return render_template(
     "reports.html",
     mon_ev=final_ev_data,
-    tranc_dates=transaction_dates,
+    tranc_dates=formatted_dates,
     mon_exp=monthly_exp_parsed,
     date_f=target_date,
     today=today
