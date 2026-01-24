@@ -16,13 +16,73 @@
       <canvas id="monthlyBalChart"></canvas>
     </div>
   </div>
+
+  <div class="balance-ev-container border border-1 border-secondary-subtle rounded-3 p-4 my-5">
+    <h2 class="balance-ev-title text-center mb-4">Gastos por Categoría</h2>
+
+    <div class="cat-select my-4 position-relative" id="cat-select" aria-expanded="false" tabindex="0">
+      <div class="select-trigger-c d-flex justify-content-between py-2 px-3 bg-secondary-subtle rounded-2" id="selectTriggerC">
+        <span class="fw-bold">Mes actual</span>
+        <figure>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#bbb" class="bi bi-caret-down-fill" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+          </svg>
+        </figure>
+      </div>
+
+      <ul class="select-options-list-c m-0 p-2 bg-light border border-1 border-secondary-subtle rounded-3 shadow-sm d-flex flex-column gap-2 overflow-y-auto position-absolute w-100 d-none" id="selectOptListC">
+        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-06-01">
+          <span>Junio de 2026</span>
+          <figure class="cat-opt-icon-c">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+            </svg>
+          </figure>
+        </li>
+
+        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-05-01">
+          <span>Mayo de 2026</span>
+          <figure class="cat-opt-icon-c">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+            </svg>
+          </figure>
+        </li>
+
+        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-04-01">
+          <span>Abril de 2026</span>
+          <figure class="cat-opt-icon-c">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+            </svg>
+          </figure>
+        </li>
+
+        <li aria-selected="false" class="cat-option-c d-flex justify-content-between py-1 px-2 rounded-2" data-date="2026-03-01">
+          <span>Marzo de 2026</span>
+          <figure class="cat-opt-icon-c">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+            </svg>
+          </figure>
+        </li>
+      </ul>
+    </div>
+    <div style="width: 100%; max-width: 600px; margin: auto;">
+      <canvas id="expCatChart"></canvas>
+    </div>
+  </div>
 {% endblock %}
 
 {% block script %}
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
   <script>
+    const autocolors = window['chartjs-plugin-autocolors'];
+
     const ctx = document.getElementById('monthlyEvoChart');
-    const mbc = document.getElementById('monthlyBalChart')
+    const mbc = document.getElementById('monthlyBalChart');
+    const ebc = document.getElementById('expCatChart');
 
     new Chart(ctx, {
       type: 'bar',
@@ -77,5 +137,25 @@
         }
       }
     });
+
+    new Chart(ebc, {
+      type: 'doughnut',
+      data: {
+        labels: ['Comida', 'Renta', 'Luz'],
+        datasets: [
+          {
+            label: 'Gastos',
+            data: [1234, 3241, 2431],
+          }
+        ]
+      },
+      options: {
+        plugins: {
+          autocolors: {
+            enabled: true
+          }
+        }
+      }
+    })
   </script>
 {% endblock %}
