@@ -707,6 +707,10 @@ svg {
   stroke: #999999;
 }
 
+.chart-c {
+  height: 30dvh;
+}
+
 /* ====== MEDIA QUERIES ====== */
 @media screen and (min-width: 768px) {
   .dashboard-container {

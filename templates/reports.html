@@ -19,7 +19,7 @@
 
   <section class="balance-ev-container charts-container border border-1 border-secondary-subtle rounded-3 p-3 my-5">
     <h2 class="balance-ev-title text-center mb-4">Balance Mensual</h2>
-    <div style="width: 100%; max-width: 600px; margin: auto;">
+    <div class="chart-c" style="width: 100%; max-width: 600px; margin: auto;">
       <canvas id="monthlyBalChart"></canvas>
     </div>
   </section>
@@ -94,18 +94,18 @@
     new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
         datasets: [
           {
             label: 'Ingresos',
-            data: [2760, 2760, 2760, 2760, 2760],
+            data: [2760, 2760, 2760, 2760, 2760, 2760],
             backgroundColor: '#44BB7787',
             borderColor: '#44BB77',
             borderWidth: 1
           },
           {
             label: 'Gastos',
-            data: [2760, 2760, 2760, 2760, 2760],
+            data: [2760, 2760, 2760, 2760, 2760, 2760],
             backgroundColor: '#FF555587',
             borderColor: '#FF5555',
             borderWidth: 1
@@ -113,6 +113,8 @@
         ]
       },
       options: {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
           x: {
             stacked: false
@@ -127,16 +129,18 @@
     new Chart(mbc, {
       type: 'line',
       data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
         datasets: [{
           label: 'Balance',
-          data: [2760, 3760, 2760, 1760, 4760],
+          data: [2760, 3760, 2760, 1760, 4760, 2543],
           borderColor: '#1465EC',
           fill: false,
           tension: 0.3
         }]
       },
       options: {
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
           y: {
             beginAtZero: true
