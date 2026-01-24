@@ -628,4 +628,18 @@ def reports():
   
   monthly_bal_ev = list(data_map.values())
   
+  transcation_dates_query = (
+    db.select(
+      db.extract("year", Transaction.date).label("year"),
+      db.extract("month", Transaction.date).label("month")
+    )
+    .where(
+      Transaction.user_id == user_id
+    )
+    .group_by("year", "month")
+    .order_by("year", "month")
+  )
+  
+  transcation_dates = db.session.execute(transcation_dates_query).all()
+  
   return render_template("reports.html")
