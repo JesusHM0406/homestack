@@ -181,7 +181,7 @@ def register():
       flash(f"{e}", "danger")
       return redirect(url_for("register"))
   
-  return render_template("register.html", user=current_user)
+  return render_template("auth/register.html", user=current_user)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -196,7 +196,7 @@ def login():
     except ValueError as e:
       flash(f"{e}", "danger")
   
-  return render_template("login.html", user=current_user)
+  return render_template("auth/login.html", user=current_user)
 
 @app.route("/logout")
 @login_required
