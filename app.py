@@ -13,7 +13,7 @@ from datetime import date, datetime, timezone
 from dateutil.relativedelta import relativedelta
 import json
 from auth_service import register_user, services_login_user
-from main_service import get_index_data, create_new_transaction
+from main_service import get_index_data, create_new_transaction, handle_update_categories
 
 # Initialize flask app
 app = Flask(__name__)
@@ -107,68 +107,12 @@ def new_transaction():
 @app.route("/update-categories", methods=["POST"])
 @login_required
 def update_categories():
-  cat_type = request.form.get("categories_type")
-  added_cat = request.form.get("added_categories")
-  deleted_cat = request.form.get("deleted_categories")
-    
-  if not cat_type or cat_type not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]: 
-    flash("El tipo es inválido", category="danger")
-    return redirect(url_for("index"))
-  
-  cat_type = TypeEnum(cat_type)
-  
-  added_cat_error = False
-  deleted_cat_error = False
-  
   try:
-    added_cat = json.loads(added_cat)
-    
-    if not isinstance(added_cat, list):
-      raise TypeError
-  except (json.JSONDecodeError, TypeError):
-    added_cat_error = True
-  
-  try:
-    deleted_cat = json.loads(deleted_cat)
-    
-    if not isinstance(deleted_cat, list):
-      raise TypeError
-  except (json.JSONDecodeError, TypeError):
-    deleted_cat_error = True
-  
-  if not added_cat and not deleted_cat:
-    flash("No se hizo ningún cambio en las categorías", category="warning")
-    return redirect(url_for("index"))
-  
-  if added_cat_error or deleted_cat_error:
-    flash("Ocurrió un error al procesar las categorías", category="danger")
-    return redirect(url_for("index"))
-  
-  user = current_user
-  
-  try:
-    for cat_name in added_cat:
-      new_cat = Category(user_id=user.id, name=cat_name, type=cat_type)
-      db.session.add(new_cat)
-
-    db.session.execute(
-      db.update(Transaction)
-      .where(Transaction.category_id.in_(deleted_cat))
-      .values(category_id=None)
-    )
-    
-    db.session.execute(
-      db.delete(Category)
-      .where(Category.id.in_(deleted_cat), Category.user_id == user.id)
-    )
-    
-    db.session.commit()
+    handle_update_categories(request.form)
 
     flash("Categorias actualizadas con éxito", category="success")
-  except Exception as e:
-    db.session.rollback()
-    flash("Error Crítico: No se realizaron cambios para proteger tus datos", category="danger")
-    print(f"DEBUG: {e}")
+  except ValueError as e:
+    flash(f"{e}", category="danger")
   
   return redirect(url_for("index"))
 

@@ -2,6 +2,7 @@ from models import User, Category, TypeEnum, Transaction
 from extensions import db
 from datetime import datetime, timezone, date
 from flask_login import current_user
+import json
 
 def get_index_data():
   today = date.today()
@@ -194,5 +195,66 @@ def create_new_transaction(form):
   except Exception as e:
     db.session.rollback()
     raise ValueError("Ocurrió un error al guardar la transacción")
+  
+  return
+
+def handle_update_categories(form):
+  cat_type = form.get("categories_type")
+  added_cat = form.get("added_categories")
+  deleted_cat = form.get("deleted_categories")
+    
+  if not cat_type or cat_type not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]: 
+    raise ValueError("El tipo es inválido")
+  
+  cat_type = TypeEnum(cat_type)
+  
+  added_cat_error = False
+  deleted_cat_error = False
+  
+  try:
+    added_cat = json.loads(added_cat)
+    
+    if not isinstance(added_cat, list):
+      raise TypeError
+  except (json.JSONDecodeError, TypeError):
+    added_cat_error = True
+  
+  try:
+    deleted_cat = json.loads(deleted_cat)
+    
+    if not isinstance(deleted_cat, list):
+      raise TypeError
+  except (json.JSONDecodeError, TypeError):
+    deleted_cat_error = True
+  
+  if not added_cat and not deleted_cat:
+    raise ValueError("No se hizo ningún cambio en las categorias")
+  
+  if added_cat_error or deleted_cat_error:
+    raise ValueError("Ocurrió un error al procesar las categorias")
+  
+  user = current_user
+  
+  try:
+    for cat_name in added_cat:
+      new_cat = Category(user_id=user.id, name=cat_name, type=cat_type)
+      db.session.add(new_cat)
+
+    db.session.execute(
+      db.update(Transaction)
+      .where(Transaction.category_id.in_(deleted_cat))
+      .values(category_id=None)
+    )
+    
+    db.session.execute(
+      db.delete(Category)
+      .where(Category.id.in_(deleted_cat), Category.user_id == user.id)
+    )
+    
+    db.session.commit()
+  except Exception as e:
+    db.session.rollback()
+    print(f"DEBUG: {e}")
+    raise ValueError("Error Crítico: No se realizaron cambios para proteger tus datos")
   
   return
