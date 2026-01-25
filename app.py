@@ -155,7 +155,7 @@ def index():
   last_mov = db.session.execute(last_mov_stmt).all()
 
   return render_template(
-    "index.html",
+    "main/index.html",
     user=current_user,
     bal=balance,
     mon_inc=monthly_incomes,
@@ -405,7 +405,7 @@ def history():
   pagination = db.paginate(query, page=page, per_page=20, error_out=False)
   
   return render_template(
-    "history.html",
+    "main/history.html",
     user=current_user,
     page=pagination,
     type_f=type_f,
@@ -521,7 +521,7 @@ def reports():
   }
 
   return render_template(
-    "reports.html",
+    "main/reports.html",
     user=current_user,
     mon_ev=final_ev_data,
     tranc_dates=formatted_dates,
