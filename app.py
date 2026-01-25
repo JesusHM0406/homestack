@@ -478,7 +478,7 @@ def history():
 
 @app.route("/reports")
 def reports():
-  user_id = session.get("user_id")
+  user = current_user
   today = datetime.now(timezone.utc)
   
   date_filt = request.args.get("date")
@@ -497,7 +497,7 @@ def reports():
     .select_from(Transaction)
     .outerjoin(Category, Transaction.category_id == Category.id)
     .where(
-      Transaction.user_id == user_id,
+      Transaction.user_id == user.id,
       Transaction.type == TypeEnum.EXPENSE,
       db.extract("year", Transaction.date) == target_date.year,
       db.extract("month", Transaction.date) == target_date.month
@@ -516,7 +516,7 @@ def reports():
       db.extract("month", Transaction.date).label("month")
     )
     .where(
-      Transaction.user_id == user_id,
+      Transaction.user_id == user.id,
       Transaction.date >= start_date
     )
     .group_by("year", "month")
@@ -556,7 +556,7 @@ def reports():
       db.extract("month", Transaction.date).label("month")
     )
     .where(
-      Transaction.user_id == user_id
+      Transaction.user_id == user.id
     )
     .group_by("year", "month")
     .order_by(db.desc("year"), db.desc("month"))
