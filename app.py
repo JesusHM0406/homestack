@@ -8,6 +8,7 @@ from models import User, Category, Transaction, TypeEnum
 from extensions import db
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
+from flask_migrate import Migrate
 from datetime import date, datetime, timezone
 from dateutil.relativedelta import relativedelta
 import json
@@ -25,9 +26,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///finance.db"
 Session(app)
 
 db.init_app(app)
-
-with app.app_context():
-  db.create_all()
+migrate = Migrate(app, db)
 
 app.jinja_env.filters['money'] = money_filter
 app.jinja_env.filters['date_es'] = format_date_spanish
