@@ -4,10 +4,10 @@ from flask import Flask, render_template, redirect, request, flash, url_for
 from filters import money_filter, format_date_spanish
 from models import User
 from extensions import db, migrate, login_manager
-from flask_login import logout_user, current_user, login_required
-from auth_service import register_user, services_login_user
+from flask_login import current_user, login_required
 from main_service import get_index_data, create_new_transaction, handle_update_categories, handle_history, handle_reports
 from config import Config
+from routes import auth
 
 # Initialize flask app
 app = Flask(__name__)
@@ -23,6 +23,8 @@ app.jinja_env.filters['date_es'] = format_date_spanish
 @login_manager.user_loader
 def load_user(user_id):
   return db.session.execute(db.select(User).where(User.id == user_id)).scalar_one_or_none()
+
+app.register_blueprint(auth.bp)
 
 @app.route("/")
 @login_required
@@ -42,42 +44,6 @@ def index():
     mov=data["mov"],
     today=data["today"]
   )
-
-@app.route("/register", methods=["GET", "POST"])
-def register():
-  if request.method == "POST":
-    try:
-      register_user(request.form)
-      
-      flash("¡Registro exisotso! Ya puedes iniciar sesión", "success")
-      
-      return redirect(url_for("login"))
-    except ValueError as e:
-      flash(f"{e}", "danger")
-      return redirect(url_for("register"))
-  
-  return render_template("auth/register.html", user=current_user)
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-  # Clear all sessions before log in
-  logout_user()
-
-  if request.method == "POST":
-    try:
-      services_login_user(request.form)
-      
-      return redirect(url_for("index"))
-    except ValueError as e:
-      flash(f"{e}", "danger")
-  
-  return render_template("auth/login.html", user=current_user)
-
-@app.route("/logout")
-@login_required
-def logout():
-  logout_user()
-  return redirect(url_for("login"))
 
 @app.route("/new-transaction", methods=["POST"])
 @login_required
