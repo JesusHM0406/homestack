@@ -2,8 +2,8 @@ from enum import Enum
 from typing import List
 from sqlalchemy import Integer, String, Numeric, DateTime, ForeignKey, Enum as SQLEnum, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from datetime import datetime, timezone
-from extensions import db
+from datetime import datetime
+from app.extensions import db
 from decimal import Decimal
 from flask_login import UserMixin
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, request, flash, redirect, url_for, render_template
 from flask_login import login_required, current_user
-from services import get_index_data, create_new_transaction, handle_update_categories, handle_history, handle_reports
+from app.services import get_index_data, create_new_transaction, handle_update_categories, handle_history, handle_reports
 
 bp = Blueprint("views", __name__)
 

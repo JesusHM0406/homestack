@@ -1,6 +1,6 @@
 from flask import Blueprint, request, flash, redirect, url_for, render_template
 from flask_login import login_required, current_user, logout_user
-from services import register_user, services_login_user
+from app.services import register_user, services_login_user
 
 bp = Blueprint("auth", __name__)
 
