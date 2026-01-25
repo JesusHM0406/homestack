@@ -2,6 +2,7 @@ from models import User, Category, TypeEnum, Transaction
 from extensions import db
 from datetime import datetime, timezone, date
 from flask_login import current_user
+from sqlalchemy.orm import joinedload
 import json
 
 def get_index_data():
@@ -258,3 +259,65 @@ def handle_update_categories(form):
     raise ValueError("Error Crítico: No se realizaron cambios para proteger tus datos")
   
   return
+
+def handle_history(args):
+  user = current_user
+  type_f = args.get("filter", "all")
+  cat_f = args.get("cat_id", type=int)
+  page = args.get("page", 1)
+  
+  total_income = db.session.execute(db.select(db.func.sum(Transaction.amount)).where(Transaction.user_id == user.id, Transaction.type == TypeEnum.INCOME)).scalar() or 0
+  
+  total_expense = db.session.execute(db.select(db.func.sum(Transaction.amount)).where(Transaction.user_id == user.id, Transaction.type == TypeEnum.EXPENSE)).scalar() or 0
+  
+  total_balance = total_income - total_expense
+  
+  try:
+    page = int(page)
+    
+    if page <= 0:
+      raise ValueError
+  except ValueError as e:
+    page = 1
+  
+  query = db.select(Transaction).options(joinedload(Transaction.category)).where(Transaction.user_id == user.id).order_by(Transaction.date.desc())
+  
+  current_cat = None
+  available_categories = []
+  
+  # If there is a category id in cat_f, then we can skip type filter
+  if cat_f:
+    current_cat = db.session.execute(db.select(Category).where(Category.id == cat_f, Category.user_id == user.id)).scalar_one_or_none()
+    
+    if not current_cat:
+      raise ValueError("Categoría inválida")
+    
+    query = query.where(Transaction.category_id == cat_f)
+    
+    type_f = current_cat.type.value
+    available_categories = db.session.scalars(db.select(Category).where(Category.user_id == user.id, Category.type == current_cat.type)).all()
+  
+  # If there is no cat_id parameter, then we filter by type
+  elif type_f in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
+    type_enum = TypeEnum(type_f)
+    
+    query = query.where(Transaction.type == type_enum)
+    
+    available_categories = db.session.scalars(db.select(Category).where(Category.user_id == user.id, Category.type == type_enum)).all()
+    
+  else:
+    type_f = "all"
+    
+    available_categories = db.session.scalars(db.select(Category).where(Category.user_id == user.id)).all()
+  
+  pagination = db.paginate(query, page=page, per_page=20, error_out=False)
+  
+  return {
+    "page": pagination,
+    "type_f": type_f,
+    "category": current_cat,
+    "categories": available_categories,
+    "bal": total_balance,
+    "inc": total_income,
+    "exp": total_expense
+  }
