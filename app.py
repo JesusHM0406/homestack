@@ -383,10 +383,6 @@ def update_categories():
   
   user = current_user
   
-  if not user:
-    flash("Ocurrió un error al procesar tu información, intenta iniciar sesión de nuevo", category="danger")
-    return redirect(url_for("login"))
-  
   try:
     for cat_name in added_cat:
       new_cat = Category(user_id=user.id, name=cat_name, type=cat_type)
