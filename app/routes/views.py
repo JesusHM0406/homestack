@@ -69,6 +69,7 @@ def history():
   )
 
 @bp.route("/reports")
+@login_required
 def reports():
   try:
     data = handle_reports(request.args)
