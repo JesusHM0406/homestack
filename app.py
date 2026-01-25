@@ -1,11 +1,7 @@
-import os
-
-from flask import Flask, render_template, redirect, request, flash, url_for
+from flask import Flask
 from filters import money_filter, format_date_spanish
 from models import User
 from extensions import db, migrate, login_manager
-from flask_login import current_user, login_required
-from services.main_service import get_index_data, create_new_transaction, handle_update_categories, handle_history, handle_reports
 from config import Config
 from routes import auth, views
 
