@@ -19,6 +19,10 @@ def create_app():
   def load_user(user_id):
     return db.session.execute(db.select(User).where(User.id == user_id)).scalar_one_or_none()
 
+  login_manager.login_view = 'auth.login'
+  login_manager.login_message = 'Por favor inicia sesión para acceder.'
+  login_manager.login_message_category = 'warning'
+
   app.register_blueprint(auth.bp)
   app.register_blueprint(views.bp)
   
