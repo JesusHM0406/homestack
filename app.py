@@ -8,15 +8,11 @@ from flask_migrate import Migrate
 from flask_login import logout_user, LoginManager, current_user, login_required
 from auth_service import register_user, services_login_user
 from main_service import get_index_data, create_new_transaction, handle_update_categories, handle_history, handle_reports
+from config import Config
 
 # Initialize flask app
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
-
-# Session config
-app.config["SESSION_PERMANENT"] = False
-# DB config
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///finance.db"
+app.config.from_object(Config)
 
 db.init_app(app)
 migrate = Migrate(app, db)
