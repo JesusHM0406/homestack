@@ -13,7 +13,7 @@ from datetime import date, datetime, timezone
 from dateutil.relativedelta import relativedelta
 import json
 from auth_service import register_user, services_login_user
-from main_service import get_index_data
+from main_service import get_index_data, create_new_transaction
 
 # Initialize flask app
 app = Flask(__name__)
@@ -95,77 +95,12 @@ def logout():
 @app.route("/new-transaction", methods=["POST"])
 @login_required
 def new_transaction():
-  MAX_CONCEPT_SIZE = 100
-  
-  transaction_type = request.form.get("transaction_type")
-  category_id = request.form.get("category")
-  concept = request.form.get("concept")
-  amount = request.form.get("amount")
-  date_val = request.form.get("date")
-  
-  if not transaction_type or not category_id or not concept or not amount or not date_val:
-    flash("Todos los campos son obligatorios", category="danger")
-    return redirect(url_for("index"))
-  
-  if transaction_type not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
-    flash("Tipo de transacción inválido, intenta de nuevo", category="danger")
-    return redirect(url_for("index"))
-
-  if len(concept) > MAX_CONCEPT_SIZE:
-    flash ("El concepto excede el limite de tamaño, intenta reducirlo", category="danger")
-    return redirect(url_for("index"))
-  
   try:
-    amount = float(amount)
-    if amount < 0.5:
-      raise ValueError
-  except ValueError:
-    flash("Monto inválido, asegurate de ingresar un número mayor o igual a 0.5", category="danger")
-    return redirect(url_for("index"))
-  
-  try:
-    category_id = int(category_id)
-  except ValueError:
-    flash("Ocurrió un error con la categoría, por favor intenta de nuevo", category="danger")
-    return redirect(url_for("index"))
-  
-  try:
-    transaction_date = date.fromisoformat(date_val)
-  except ValueError as e:
-    flash("Formato de fecha inválido")
-    return redirect(url_for("index"))
-  
-  user = current_user
-  
-  # Instantiate the transaction type so that the database can compare a TypeEnum with another TypeEnum
-  type_enum = TypeEnum(transaction_type)
-  
-  category = db.session.execute(
-    db.select(Category)
-    .where(Category.id == category_id, Category.user_id == user.id, Category.type == type_enum)
-  ).scalar_one_or_none()
-  
-  if not category:
-    flash("Parece que la categoría no existe", category="danger")
-    return redirect(url_for("index"))
-  
-  try:
-    new_transaction = Transaction(
-      user_id=user.id,
-      category_id=category.id,
-      amount=amount,
-      concept=concept,
-      type=type_enum,
-      date=transaction_date
-    )
-    
-    db.session.add(new_transaction)
-    db.session.commit()
+    create_new_transaction(request.form)
     
     flash("¡Transacción guardada exitosamente!", category="success")
-  except Exception as e:
-    db.session.rollback()
-    flash("Ocurrió un error al guardar la transacción", category="danger")
+  except ValueError as e:
+    flash(f"{e}", "danger")
 
   return redirect(url_for("index"))
 

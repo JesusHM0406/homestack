@@ -130,3 +130,69 @@ def get_index_data():
     "mov": last_mov,
     "today": today
   }
+
+def create_new_transaction(form):
+  MAX_CONCEPT_SIZE = 100
+  
+  transaction_type = form.get("transaction_type")
+  category_id = form.get("category")
+  concept = form.get("concept")
+  amount = form.get("amount")
+  date_val = form.get("date")
+  
+  if not transaction_type or not category_id or not concept or not amount or not date_val:
+    raise ValueError("Todos los campos son obligatorios")
+  
+  if transaction_type not in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
+    raise ValueError("Tipo de transacción inválido, intenta de nuevo")
+
+  if len(concept) > MAX_CONCEPT_SIZE:
+    raise ValueError("El concepto excede el limite de tamaño, intenta reducirlo")
+  
+  try:
+    amount = float(amount)
+    if amount < 0.5:
+      raise ValueError
+  except ValueError:
+    raise ValueError("Monto inválido, asegurate de ingresar un número mayor o igual a 0.5")
+  
+  try:
+    category_id = int(category_id)
+  except ValueError:
+    raise ValueError("Ocurrió un error con la categoría, por favor intenta de nuevo")
+  
+  try:
+    transaction_date = date.fromisoformat(date_val)
+  except ValueError as e:
+    raise ValueError("Formato de fecha inválido")
+  
+  user = current_user
+  
+  # Instantiate the transaction type so that the database can compare a TypeEnum with another TypeEnum
+  type_enum = TypeEnum(transaction_type)
+  
+  category = db.session.execute(
+    db.select(Category)
+    .where(Category.id == category_id, Category.user_id == user.id, Category.type == type_enum)
+  ).scalar_one_or_none()
+  
+  if not category:
+    raise ValueError("Parece que la categoría no existe")
+  
+  try:
+    new_transaction = Transaction(
+      user_id=user.id,
+      category_id=category.id,
+      amount=amount,
+      concept=concept,
+      type=type_enum,
+      date=transaction_date
+    )
+    
+    db.session.add(new_transaction)
+    db.session.commit()
+  except Exception as e:
+    db.session.rollback()
+    raise ValueError("Ocurrió un error al guardar la transacción")
+  
+  return
