@@ -12,6 +12,7 @@ from flask_login import login_user, logout_user, LoginManager, current_user, log
 from datetime import date, datetime, timezone
 from dateutil.relativedelta import relativedelta
 import json
+from auth_service import register_user
 
 # Initialize flask app
 app = Flask(__name__)
@@ -169,62 +170,15 @@ def index():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-  
   if request.method == "POST":
-    MIN_PASSWORD_SIZE = 8
-    
-    username = request.form.get("username")
-    password = request.form.get("password")
-    confirm = request.form.get("confirm")
-
-    # Verify that the user input is not blank
-    if not username or not password or not confirm:
-      flash("Todos los datos son obligatorios", category="danger")
-      return redirect(url_for("register"))
-
-    # We need to check if that username already exists in our database since it stores unique usernames
-    user_exists = db.session.execute(db.select(User).filter_by(username=username)).scalar_one_or_none()
-
-    if user_exists:
-      flash("Ya existe ese nombre de usuario, intenta con otro", category="danger")
-      return redirect(url_for("register"))
-
-    # We need to validate if that password contains a minimun of 8 characters for security
-    if len(password) < MIN_PASSWORD_SIZE:
-      flash(f"La contraseña debe contener un minimo de {MIN_PASSWORD_SIZE} caracteres", category="danger")
-      return redirect(url_for("register"))
-
-    # If the username is correct (unique) and the password is valid, then we need to compare the password with the confirmation
-    if password != confirm:
-      flash("Las contraseñas no coinciden", category="danger")
-      return redirect(url_for("register"))
-
-    # If all the data is correct, then now we can insert the user in the database
     try:
-      # First we need to make the hash of the password
-      password_hash = generate_password_hash(password)
-
-      # Then we insert the user in the database
-      new_user = User(username=username, hash=password_hash)
-      new_user.user_categories = [
-        Category(name="Comida", type=TypeEnum.EXPENSE),
-        Category(name="Renta", type=TypeEnum.EXPENSE),
-        Category(name="Salario", type=TypeEnum.INCOME),
-        Category(name="Extra", type=TypeEnum.INCOME)
-      ]
-      db.session.add(new_user)
-      db.session.commit()
-
-      # The registration was successful
+      register_user(request.form)
+      
       flash("¡Registro exisotso! Ya puedes iniciar sesión", category="success")
-
-      login_user(new_user)
-
-      # Redirect user to login page
+      
       return redirect(url_for("login"))
-    except Exception as e:
-      db.session.rollback()
-      flash("Ocurrio un error al registrar el usuario. Intentalo de nuevo", category="danger")
+    except ValueError as e:
+      flash(f"{e}", category="danger")
       return redirect(url_for("register"))
   
   return render_template("register.html", user=current_user)
