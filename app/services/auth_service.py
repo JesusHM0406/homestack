@@ -1,4 +1,5 @@
-from app.models import User, Category, TypeEnum
+from app.models import User, Category
+from app.models.type_enum import TypeEnum
 from app.extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user

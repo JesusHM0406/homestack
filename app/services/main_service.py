@@ -1,5 +1,6 @@
 import json
-from app.models import Category, TypeEnum, Transaction
+from app.models import Category, Transaction
+from app.models.type_enum import TypeEnum
 from app.extensions import db
 from datetime import datetime, timezone, date
 from dateutil.relativedelta import relativedelta
