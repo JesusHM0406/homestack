@@ -412,7 +412,7 @@ def update_categories():
 @app.route("/history")
 @login_required
 def history():
-  user_id = session.get("user_id")
+  user = current_user
   type_f = request.args.get("filter", "all")
   cat_f = request.args.get("cat_id", type=int)
   page = request.args.get("page", 1)
@@ -426,14 +426,14 @@ def history():
         db.case((Transaction.type == TypeEnum.EXPENSE, Transaction.amount), else_=0)
       )
     )
-    .where(Transaction.user_id == user_id)
+    .where(Transaction.user_id == user.id)
   )
   
   total_balance = db.session.execute(total_balance_stmt).scalar() or 0
   
-  total_income = db.session.execute(db.select(func.sum(Transaction.amount)).where(Transaction.user_id == user_id, Transaction.type == TypeEnum.INCOME)).scalar() or 0
+  total_income = db.session.execute(db.select(func.sum(Transaction.amount)).where(Transaction.user_id == user.id, Transaction.type == TypeEnum.INCOME)).scalar() or 0
   
-  total_expense = db.session.execute(db.select(func.sum(Transaction.amount)).where(Transaction.user_id == user_id, Transaction.type == TypeEnum.EXPENSE)).scalar() or 0
+  total_expense = db.session.execute(db.select(func.sum(Transaction.amount)).where(Transaction.user_id == user.id, Transaction.type == TypeEnum.EXPENSE)).scalar() or 0
   
   try:
     page = int(page)
@@ -443,14 +443,14 @@ def history():
   except ValueError as e:
     page = 1
   
-  query = db.select(Transaction).options(joinedload(Transaction.category)).where(Transaction.user_id == user_id).order_by(Transaction.date.desc())
+  query = db.select(Transaction).options(joinedload(Transaction.category)).where(Transaction.user_id == user.id).order_by(Transaction.date.desc())
   
   current_cat = None
   available_categories = []
   
   # If there is a category id in cat_f, then we can skip type filter
   if cat_f:
-    current_cat = db.session.execute(db.select(Category).where(Category.id == cat_f, Category.user_id == user_id)).scalar_one_or_none()
+    current_cat = db.session.execute(db.select(Category).where(Category.id == cat_f, Category.user_id == user.id)).scalar_one_or_none()
     
     if not current_cat:
       flash("Categoría inválida", "danger")
@@ -459,7 +459,7 @@ def history():
     query = query.where(Transaction.category_id == cat_f)
     
     type_f = current_cat.type.value
-    available_categories = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == current_cat.type)).all()
+    available_categories = db.session.scalars(db.select(Category).where(Category.user_id == user.id, Category.type == current_cat.type)).all()
   
   # If there is no cat_id parameter, then we filter by type
   elif type_f in [TypeEnum.INCOME.value, TypeEnum.EXPENSE.value]:
@@ -467,12 +467,12 @@ def history():
     
     query = query.where(Transaction.type == type_enum)
     
-    available_categories = db.session.scalars(db.select(Category).where(Category.user_id == user_id, Category.type == type_enum)).all()
+    available_categories = db.session.scalars(db.select(Category).where(Category.user_id == user.id, Category.type == type_enum)).all()
     
   else:
     type_f = "all"
     
-    available_categories = db.session.scalars(db.select(Category).where(Category.user_id == user_id)).all()
+    available_categories = db.session.scalars(db.select(Category).where(Category.user_id == user.id)).all()
   
   pagination = db.paginate(query, page=page, per_page=20, error_out=False)
   
