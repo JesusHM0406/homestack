@@ -42,14 +42,7 @@ def load_user(user_id):
 @app.route("/")
 @login_required
 def index():
-  user_id = session.get("user_id")
-  
-  user = db.session.execute(db.select(User).filter_by(id=user_id)).scalar_one_or_none()
-  
-  if not user:
-    flash("Ocurrio un error, por favor intenta iniciar sesión de nuevo")
-    return redirect(url_for("login"))
-  
+  user = current_user
   # GET BALANCE
   
   balance_stmt = (
@@ -61,7 +54,7 @@ def index():
         db.case((Transaction.type == TypeEnum.EXPENSE, Transaction.amount), else_=0)
       )
     )
-    .where(Transaction.user_id == user_id)
+    .where(Transaction.user_id == user.id)
   )
 
   balance = db.session.execute(balance_stmt).scalar() or 0
@@ -77,7 +70,7 @@ def index():
       )
     )
     .where(
-      Transaction.user_id == user_id,
+      Transaction.user_id == user.id,
       db.extract("month", Transaction.date) == today.month,
       db.extract("year", Transaction.date) == today.year
     )
@@ -94,7 +87,7 @@ def index():
       )
     )
     .where(
-      Transaction.user_id == user_id,
+      Transaction.user_id == user.id,
       db.extract("month", Transaction.date) == today.month,
       db.extract("year", Transaction.date) == today.year
     )
@@ -112,7 +105,7 @@ def index():
     .select_from(Transaction)
     .outerjoin(Category, Transaction.category_id == Category.id)
     .where(
-      Transaction.user_id == user_id,
+      Transaction.user_id == user.id,
       Transaction.type == TypeEnum.INCOME,
       db.extract("month", Transaction.date) == today.month,
       db.extract("year", Transaction.date) == today.year
@@ -131,7 +124,7 @@ def index():
     .select_from(Transaction)
     .outerjoin(Category, Transaction.category_id == Category.id)
     .where(
-      Transaction.user_id == user_id,
+      Transaction.user_id == user.id,
       Transaction.type == TypeEnum.EXPENSE,
       db.extract("month", Transaction.date) == today.month,
       db.extract("year", Transaction.date) == today.year
@@ -145,7 +138,7 @@ def index():
   income_cats_stmt = (
     db.select(Category)
     .where(
-      Category.user_id == user_id,
+      Category.user_id == user.id,
       Category.type == TypeEnum.INCOME
     )
   )
@@ -157,7 +150,7 @@ def index():
   expense_cats_stmt = (
     db.select(Category)
     .where(
-      Category.user_id == user_id,
+      Category.user_id == user.id,
       Category.type == TypeEnum.EXPENSE
     )
   )
@@ -174,7 +167,7 @@ def index():
     .select_from(Transaction)
     .outerjoin(Category, Transaction.category_id == Category.id)
     .where(
-      Transaction.user_id == user_id
+      Transaction.user_id == user.id
     )
     .order_by(Transaction.date.desc())
     .limit(5)
