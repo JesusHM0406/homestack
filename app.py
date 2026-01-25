@@ -12,7 +12,7 @@ from flask_login import login_user, logout_user, LoginManager, current_user, log
 from datetime import date, datetime, timezone
 from dateutil.relativedelta import relativedelta
 import json
-from auth_service import register_user
+from auth_service import register_user, services_login_user
 
 # Initialize flask app
 app = Flask(__name__)
@@ -174,11 +174,11 @@ def register():
     try:
       register_user(request.form)
       
-      flash("¡Registro exisotso! Ya puedes iniciar sesión", category="success")
+      flash("¡Registro exisotso! Ya puedes iniciar sesión", "success")
       
       return redirect(url_for("login"))
     except ValueError as e:
-      flash(f"{e}", category="danger")
+      flash(f"{e}", "danger")
       return redirect(url_for("register"))
   
   return render_template("register.html", user=current_user)
@@ -189,25 +189,12 @@ def login():
   logout_user()
 
   if request.method == "POST":
-    username = request.form.get("username")
-    password = request.form.get("password")
-
-    # User inputs are blank
-    if not username or not password:
-      flash("Debe proporcionar usuario y contraseña", category="danger")
-      return render_template("login.html", user=current_user)
-
-    user = db.session.execute(db.select(User).filter_by(username=username)).scalar_one_or_none()
-
-    # There is no user with that username or the password is incorrect
-    if not user or not check_password_hash(user.hash, password):
-      flash("Nombre de usuario y/o contraseña invalidos", category="danger")
-      return render_template("login.html", user=current_user)
-    
-    # Login user
-    login_user(user)
-
-    return redirect("/")
+    try:
+      services_login_user(request.form)
+      
+      return redirect(url_for("index"))
+    except ValueError as e:
+      flash(f"{e}", "danger")
   
   return render_template("login.html", user=current_user)
 

@@ -1,6 +1,6 @@
 from models import User, Category, Transaction, TypeEnum
 from extensions import db
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user
 
 def register_user(form):
@@ -47,5 +47,23 @@ def register_user(form):
   except Exception as e:
     db.session.rollback()
     raise ValueError("Ocurrió un error al registrar el usuario. Inténtalo de nuevo")
+  
+  return
+
+def services_login_user(form):
+  username = form.get("username")
+  password = form.get("password")
+
+  # User inputs are blank
+  if not username or not password:
+    raise ValueError("Debe proporcionar usuario y contraseña")
+
+  user = db.session.execute(db.select(User).filter_by(username=username)).scalar_one_or_none()
+
+  # There is no user with that username or the password is incorrect
+  if not user or not check_password_hash(user.hash, password):
+    raise ValueError("Nombre de usuario y/o contraseña invalidos")
+  
+  login_user(user)
   
   return
