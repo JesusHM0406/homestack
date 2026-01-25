@@ -594,8 +594,20 @@ def reports():
   
   formatted_dates = []
   for row in transaction_dates:
-    formatted_dates.append(datetime(row.year, row.month, 1))
-  
+    parsed_date = datetime(row.year, row.month, 1)
+    formatted_dates.append({
+      "year": int(row.year),
+      "month": int(row.month),
+      "iso-date": f"{row.year}-{row.month}-{parsed_date.day}",
+      "formatted": format_date_spanish(parsed_date, short=True),
+      "obj": parsed_date
+    })
+
+  target_date = {
+    "iso-date": f"{target_date.year}-{target_date.month}-1",
+    "formatted": format_date_spanish(target_date, short=True)
+  }
+
   return render_template(
     "reports.html",
     mon_ev=final_ev_data,
