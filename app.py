@@ -1,7 +1,6 @@
 import os
 
-from flask import Flask, render_template, redirect, request, session, flash, url_for
-from flask_session import Session
+from flask import Flask, render_template, redirect, request, flash, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import money_filter, format_date_spanish
 from models import User, Category, Transaction, TypeEnum
