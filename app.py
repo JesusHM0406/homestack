@@ -3,13 +3,13 @@ import os
 from flask import Flask, render_template, redirect, request, session, flash, url_for
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import login_required, money_filter, format_date_spanish
+from helpers import money_filter, format_date_spanish
 from models import User, Category, Transaction, TypeEnum
 from extensions import db
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from flask_migrate import Migrate
-from flask_login import login_user, logout_user, LoginManager, current_user
+from flask_login import login_user, logout_user, LoginManager, current_user, login_required
 from datetime import date, datetime, timezone
 from dateutil.relativedelta import relativedelta
 import json
@@ -20,11 +20,8 @@ app.secret_key = os.getenv("SECRET_KEY")
 
 # Session config
 app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
 # DB config
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///finance.db"
-# Init session
-Session(app)
 
 db.init_app(app)
 migrate = Migrate(app, db)
@@ -254,7 +251,7 @@ def register():
 @app.route("/login", methods=["GET", "POST"])
 def login():
   # Clear all sessions before log in
-  session.clear()
+  logout_user()
 
   if request.method == "POST":
     username = request.form.get("username")
@@ -263,24 +260,17 @@ def login():
     # User inputs are blank
     if not username or not password:
       flash("Debe proporcionar usuario y contraseña", category="danger")
-      return render_template("login.html")
-
-    """
-    Replace this with the ORM migration
-    """
+      return render_template("login.html", user=current_user)
 
     user = db.session.execute(db.select(User).filter_by(username=username)).scalar_one_or_none()
 
     # There is no user with that username or the password is incorrect
     if not user or not check_password_hash(user.hash, password):
       flash("Nombre de usuario y/o contraseña invalidos", category="danger")
-      return render_template("login.html")
+      return render_template("login.html", user=current_user)
     
     # Login user
     login_user(user)
-    
-    session["user_id"] = user.id
-    session["username"] = user.username
 
     return redirect("/")
   
