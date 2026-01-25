@@ -5,13 +5,14 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime, timezone
 from extensions import db
 from decimal import Decimal
+from flask_login import UserMixin
 
 class TypeEnum(Enum):
   INCOME = "income"
   EXPENSE = "expense"
 
 # Create Models
-class User(db.Model):
+class User(db.Model, UserMixin):
   __tablename__ = "users"
   
   id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
