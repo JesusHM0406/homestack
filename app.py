@@ -277,6 +277,7 @@ def login():
   return render_template("login.html", user=current_user)
 
 @app.route("/logout")
+@login_required
 def logout():
   logout_user()
   return redirect(url_for("login"))
@@ -324,14 +325,14 @@ def new_transaction():
     flash("Formato de fecha inválido")
     return redirect(url_for("index"))
   
-  user_id = session.get("user_id")
+  user = current_user
   
   # Instantiate the transaction type so that the database can compare a TypeEnum with another TypeEnum
   type_enum = TypeEnum(transaction_type)
   
   category = db.session.execute(
     db.select(Category)
-    .where(Category.id == category_id, Category.user_id == user_id, Category.type == type_enum)
+    .where(Category.id == category_id, Category.user_id == user.id, Category.type == type_enum)
   ).scalar_one_or_none()
   
   if not category:
@@ -340,7 +341,7 @@ def new_transaction():
   
   try:
     new_transaction = Transaction(
-      user_id=user_id,
+      user_id=user.id,
       category_id=category.id,
       amount=amount,
       concept=concept,
@@ -397,9 +398,8 @@ def update_categories():
   if added_cat_error or deleted_cat_error:
     flash("Ocurrió un error al procesar las categorías", category="danger")
     return redirect(url_for("index"))
-
-  user_id = session.get("user_id")
-  user = db.session.execute(db.select(User).where(User.id == user_id)).scalar_one_or_none()
+  
+  user = current_user
   
   if not user:
     flash("Ocurrió un error al procesar tu información, intenta iniciar sesión de nuevo", category="danger")
@@ -407,7 +407,7 @@ def update_categories():
   
   try:
     for cat_name in added_cat:
-      new_cat = Category(user_id=user_id, name=cat_name, type=cat_type)
+      new_cat = Category(user_id=user.id, name=cat_name, type=cat_type)
       db.session.add(new_cat)
 
     db.session.execute(
@@ -418,7 +418,7 @@ def update_categories():
     
     db.session.execute(
       db.delete(Category)
-      .where(Category.id.in_(deleted_cat), Category.user_id == user_id)
+      .where(Category.id.in_(deleted_cat), Category.user_id == user.id)
     )
     
     db.session.commit()
