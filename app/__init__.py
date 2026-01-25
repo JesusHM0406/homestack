@@ -17,7 +17,7 @@ def create_app():
 
   @login_manager.user_loader
   def load_user(user_id):
-    return db.session.execute(db.select(User).where(User.id == user_id)).scalar_one_or_none()
+    return db.session.get(User, int(user_id))
 
   login_manager.login_view = 'auth.login'
   login_manager.login_message = 'Por favor inicia sesión para acceder.'
