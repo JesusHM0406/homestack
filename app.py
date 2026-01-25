@@ -13,6 +13,7 @@ from datetime import date, datetime, timezone
 from dateutil.relativedelta import relativedelta
 import json
 from auth_service import register_user, services_login_user
+from main_service import get_index_data
 
 # Initialize flask app
 app = Flask(__name__)
@@ -39,133 +40,20 @@ def load_user(user_id):
 @app.route("/")
 @login_required
 def index():
-  today = datetime.now(timezone.utc)
-  user = current_user
-  
-  # OBTAIN MONTHLY INCOME
-  
-  monthly_income_stmt = (
-    db.select(func.sum(Transaction.amount))
-    .where(
-      Transaction.user_id == user.id,
-      Transaction.type == TypeEnum.INCOME,
-      db.extract("month", Transaction.date) == today.month,
-      db.extract("year", Transaction.date) == today.year
-    )
-  )
-  
-  monthly_incomes = db.session.execute(monthly_income_stmt).scalar() or 0
-  
-  # OBTAIN MONTHLY EXPENSES
-  
-  monthly_expenses_stmt = (
-    db.select(func.sum(Transaction.amount))
-    .where(
-      Transaction.user_id == user.id,
-      Transaction.type == TypeEnum.EXPENSE,
-      db.extract("month", Transaction.date) == today.month,
-      db.extract("year", Transaction.date) == today.year
-    )
-  )
-  
-  monthly_expenses = db.session.execute(monthly_expenses_stmt).scalar() or 0
-  
-  # GET BALANCE
-
-  balance = monthly_incomes - monthly_expenses
-  
-  # OBTAIN THE INDIVIDUAL INCOME FOR EACH INCOME CATEGORY IN THE CURRENT MONTH
-  
-  incomes_per_cat_stmt = (
-    db.select(
-      db.case((Transaction.category_id != None, Category.name), else_="Sin categoría"),
-      func.sum(Transaction.amount).label("total")
-    )
-    .select_from(Transaction)
-    .outerjoin(Category, Transaction.category_id == Category.id)
-    .where(
-      Transaction.user_id == user.id,
-      Transaction.type == TypeEnum.INCOME,
-      db.extract("month", Transaction.date) == today.month,
-      db.extract("year", Transaction.date) == today.year
-    ).group_by(Category.name, Transaction.category_id)
-  )
-  
-  income_cat_analysis = db.session.execute(incomes_per_cat_stmt).all()
-  
-  # OBTAIN THE INDIVIDUAL EXPENSES FOR EACH EXPENSE CATEGORY IN THE CURRENT MONTH
-  
-  expenses_per_cat_stmt = (
-    db.select(
-      db.case((Transaction.category_id != None, Category.name), else_="Sin categoría"),
-      func.sum(Transaction.amount).label("total")
-    )
-    .select_from(Transaction)
-    .outerjoin(Category, Transaction.category_id == Category.id)
-    .where(
-      Transaction.user_id == user.id,
-      Transaction.type == TypeEnum.EXPENSE,
-      db.extract("month", Transaction.date) == today.month,
-      db.extract("year", Transaction.date) == today.year
-    ).group_by(Category.name, Transaction.category_id)
-  )
-  
-  expenses_cat_analysis = db.session.execute(expenses_per_cat_stmt).all()
-  
-  # OBTAIN ALL INCOME CATEGORIES
-  
-  income_cats_stmt = (
-    db.select(Category)
-    .where(
-      Category.user_id == user.id,
-      Category.type == TypeEnum.INCOME
-    )
-  )
-  
-  income_cats = db.session.scalars(income_cats_stmt).all()
-  
-  # OBTAIN ALL EXPENSE CATEGORIES
-  
-  expense_cats_stmt = (
-    db.select(Category)
-    .where(
-      Category.user_id == user.id,
-      Category.type == TypeEnum.EXPENSE
-    )
-  )
-  
-  expense_cats = db.session.scalars(expense_cats_stmt).all()
-
-  # OBTAIN LAST 5 MOVEMENTS
-  
-  last_mov_stmt = (
-    db.select(
-      Transaction, 
-      db.case((Transaction.category_id != None, Category.name), else_="Sin categoría")
-    )
-    .select_from(Transaction)
-    .outerjoin(Category, Transaction.category_id == Category.id)
-    .where(
-      Transaction.user_id == user.id
-    )
-    .order_by(Transaction.date.desc())
-    .limit(5)
-  )
-
-  last_mov = db.session.execute(last_mov_stmt).all()
+  data = get_index_data()
 
   return render_template(
     "main/index.html",
     user=current_user,
-    bal=balance,
-    mon_inc=monthly_incomes,
-    mon_exp=monthly_expenses,
-    exp_cat_analysis=expenses_cat_analysis,
-    inc_cat_analysis=income_cat_analysis,
-    inc_cats=income_cats,
-    exp_cats=expense_cats,
-    mov=last_mov,
-    today=today
+    bal=data["bal"],
+    mon_inc=data["mon_inc"],
+    mon_exp=data["mon_exp"],
+    exp_cat_analysis=data["exp_cat_analysis"],
+    inc_cat_analysis=data["inc_cat_analysis"],
+    inc_cats=data["inc_cats"],
+    exp_cats=data["exp_cats"],
+    mov=data["mov"],
+    today=data["today"]
   )
 
 @app.route("/register", methods=["GET", "POST"])
