@@ -10,8 +10,12 @@
   transition: transform .03s ease;
 }
 
-.cust-sel-opt svg{
+.cust-sel-opt svg {
   display: none;
+}
+
+.cust-sel-trigg svg {
+  stroke: #999999
 }
 
 #customSelect[aria-expanded="true"] #selOptList {
