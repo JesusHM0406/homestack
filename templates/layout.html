@@ -24,7 +24,7 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    {% if session.user_id %}
+                    {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="/reports">Gráficas</a></li>
                         <li class="nav-item"><a class="nav-link" href="/history">Historial</a></li>
                         <li class="nav-item"><a class="nav-link text-danger" href="/logout">Cerrar Sesión</a></li>
