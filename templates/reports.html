@@ -47,7 +47,8 @@
       value="iso-date",
       label="formatted",
       comparison=date_f["iso-date"],
-      data_att="date"
+      base_url="./reports",
+      query_param="?date="
     ) }}
       {% if not mon_exp %}
       <span class="d-block my-5 text-secondary fs-5 text-center">No se registraron gastos en {{ date_f["formatted"] }}.</span>
