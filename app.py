@@ -3,9 +3,8 @@ import os
 from flask import Flask, render_template, redirect, request, flash, url_for
 from filters import money_filter, format_date_spanish
 from models import User
-from extensions import db
-from flask_migrate import Migrate
-from flask_login import logout_user, LoginManager, current_user, login_required
+from extensions import db, migrate, login_manager
+from flask_login import logout_user, current_user, login_required
 from auth_service import register_user, services_login_user
 from main_service import get_index_data, create_new_transaction, handle_update_categories, handle_history, handle_reports
 from config import Config
@@ -15,13 +14,11 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 db.init_app(app)
-migrate = Migrate(app, db)
+migrate.init_app(app, db)
+login_manager.init_app(app)
 
 app.jinja_env.filters['money'] = money_filter
 app.jinja_env.filters['date_es'] = format_date_spanish
-
-login_manager = LoginManager()
-login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(user_id):
