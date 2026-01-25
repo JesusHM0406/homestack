@@ -39,35 +39,16 @@ def load_user(user_id):
 @app.route("/")
 @login_required
 def index():
+  today = datetime.now(timezone.utc)
   user = current_user
-  # GET BALANCE
-  
-  balance_stmt = (
-    db.select(
-      func.sum(
-        db.case((Transaction.type == TypeEnum.INCOME, Transaction.amount), else_=0)
-      ) -
-      func.sum(
-        db.case((Transaction.type == TypeEnum.EXPENSE, Transaction.amount), else_=0)
-      )
-    )
-    .where(Transaction.user_id == user.id)
-  )
-
-  balance = db.session.execute(balance_stmt).scalar() or 0
   
   # OBTAIN MONTHLY INCOME
   
-  today = date.today()
-  
   monthly_income_stmt = (
-    db.select(
-      func.sum(
-        db.case((Transaction.type == TypeEnum.INCOME, Transaction.amount), else_=0)
-      )
-    )
+    db.select(func.sum(Transaction.amount))
     .where(
       Transaction.user_id == user.id,
+      Transaction.type == TypeEnum.INCOME,
       db.extract("month", Transaction.date) == today.month,
       db.extract("year", Transaction.date) == today.year
     )
@@ -78,19 +59,20 @@ def index():
   # OBTAIN MONTHLY EXPENSES
   
   monthly_expenses_stmt = (
-    db.select(
-      func.sum(
-        db.case((Transaction.type == TypeEnum.EXPENSE, Transaction.amount), else_=0)
-      )
-    )
+    db.select(func.sum(Transaction.amount))
     .where(
       Transaction.user_id == user.id,
+      Transaction.type == TypeEnum.EXPENSE,
       db.extract("month", Transaction.date) == today.month,
       db.extract("year", Transaction.date) == today.year
     )
   )
   
   monthly_expenses = db.session.execute(monthly_expenses_stmt).scalar() or 0
+  
+  # GET BALANCE
+
+  balance = monthly_incomes - monthly_expenses
   
   # OBTAIN THE INDIVIDUAL INCOME FOR EACH INCOME CATEGORY IN THE CURRENT MONTH
   
