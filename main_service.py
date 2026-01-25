@@ -1,9 +1,11 @@
+import json
 from models import User, Category, TypeEnum, Transaction
 from extensions import db
 from datetime import datetime, timezone, date
+from dateutil.relativedelta import relativedelta
 from flask_login import current_user
 from sqlalchemy.orm import joinedload
-import json
+from helpers import format_date_spanish
 
 def get_index_data():
   today = date.today()
@@ -133,6 +135,7 @@ def get_index_data():
     "today": today
   }
 
+
 def create_new_transaction(form):
   MAX_CONCEPT_SIZE = 100
   
@@ -199,6 +202,7 @@ def create_new_transaction(form):
   
   return
 
+
 def handle_update_categories(form):
   cat_type = form.get("categories_type")
   added_cat = form.get("added_categories")
@@ -260,6 +264,7 @@ def handle_update_categories(form):
   
   return
 
+
 def handle_history(args):
   user = current_user
   type_f = args.get("filter", "all")
@@ -320,4 +325,116 @@ def handle_history(args):
     "bal": total_balance,
     "inc": total_income,
     "exp": total_expense
+  }
+
+
+def handle_reports(args):
+  user = current_user
+  today = datetime.now(timezone.utc)
+  
+  date_filt = args.get("date")
+  target_date = today
+  if date_filt:
+    try:
+      target_date = datetime.strptime(date_filt, "%Y-%m-%d")
+    except ValueError as e:
+      raise ValueError("Formato de fecha inválido.")
+  
+  monthly_exp_data = db.session.execute(
+    db.select(
+      db.case((Transaction.category_id != None, Category.name), else_="Sin categoría").label("name"),
+      db.func.sum(Transaction.amount).label("total")
+    )
+    .select_from(Transaction)
+    .outerjoin(Category, Transaction.category_id == Category.id)
+    .where(
+      Transaction.user_id == user.id,
+      Transaction.type == TypeEnum.EXPENSE,
+      db.extract("year", Transaction.date) == target_date.year,
+      db.extract("month", Transaction.date) == target_date.month
+    ).group_by(Category.name, Transaction.category_id)
+  ).all()
+
+  monthly_exp_parsed = [{"name": row.name, "total": float(row.total)} for row in monthly_exp_data]
+
+  start_date = (today - relativedelta(months=6)).replace(day=1)
+  
+  monthly_ev_query = (
+    db.select(
+      db.func.sum(db.case((Transaction.type == TypeEnum.INCOME, Transaction.amount), else_= 0)).label("income"),
+      db.func.sum(db.case((Transaction.type == TypeEnum.EXPENSE, Transaction.amount), else_= 0)).label("expense"),
+      db.extract("year", Transaction.date).label("year"),
+      db.extract("month", Transaction.date).label("month")
+    )
+    .where(
+      Transaction.user_id == user.id,
+      Transaction.date >= start_date
+    )
+    .group_by("year", "month")
+    .order_by("year", "month")
+  )
+  
+  monthly_ev = db.session.execute(monthly_ev_query).all()
+  
+  data_map = {}
+  
+  pointer_date = start_date
+  while pointer_date <= today:
+    key = (pointer_date.year, pointer_date.month)
+    data_map[key] = {
+      "income": 0,
+      "expense": 0,
+      "balance": 0,
+      "year": pointer_date.year,
+      "month": pointer_date.month
+    }
+    pointer_date += relativedelta(months=1)
+  
+  for row in monthly_ev:
+    key = (int(row.year), int(row.month))
+    if key in data_map:
+      inc = float(row.income)
+      exp = float(row.expense)
+      data_map[key]["income"] = inc
+      data_map[key]["expense"] = exp
+      data_map[key]["balance"] = inc - exp
+  
+  final_ev_data = list(data_map.values())
+  
+  transaction_dates_query = (
+    db.select(
+      db.extract("year", Transaction.date).label("year"),
+      db.extract("month", Transaction.date).label("month")
+    )
+    .where(
+      Transaction.user_id == user.id
+    )
+    .group_by("year", "month")
+    .order_by(db.desc("year"), db.desc("month"))
+  )
+  
+  transaction_dates = db.session.execute(transaction_dates_query).all()
+  
+  formatted_dates = []
+  for row in transaction_dates:
+    parsed_date = datetime(row.year, row.month, 1)
+    formatted_dates.append({
+      "year": int(row.year),
+      "month": int(row.month),
+      "iso-date": f"{row.year}-{row.month}-{parsed_date.day}",
+      "formatted": format_date_spanish(parsed_date, short=True),
+      "obj": parsed_date
+    })
+
+  target_date = {
+    "iso-date": f"{target_date.year}-{target_date.month}-1",
+    "formatted": format_date_spanish(target_date, short=True)
+  }
+  
+  return {
+    "mon_ev": final_ev_data,
+    "tranc_dates": formatted_dates,
+    "mon_exp": monthly_exp_parsed,
+    "date_f": target_date,
+    "today": today
   }
