@@ -1,0 +1,63 @@
+{% macro custom_select(
+    def,
+    def_l,
+    sel,
+    sel_l,
+    error_l,
+    options,
+    value,
+    label,
+    comparison,
+    data_att
+  ) %}
+
+<div class="cust-select my-4 position-relative" id="customSelect" aria-expanded="false" tabindex="0">
+  <div class="cust-sel-trigg d-flex justify-content-between py-2 px-3 bg-secondary-subtle rounded-2" id="selTrigg">
+    {% if sel or def %}
+      {% if sel %}
+      <span class="fw-bold">{{ sel_l }}</span>
+      {% else %}
+      <span class="fw-bold">{{ def_l }}</span>
+      {% endif %}
+      <figure>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#bbb" class="bi bi-caret-down-fill" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+        </svg>
+      </figure>
+    {% else %}
+    <span class="text-secondary text-center w-100">{{ error_l }}</span>
+    </span>
+    {% endif %}
+  </div>
+
+  <ul class="cust-sel-opt-list m-0 p-2 bg-light border border-1 border-secondary-subtle rounded-3 shadow-sm d-flex flex-column gap-2 overflow-y-auto position-absolute w-100" id="selOptList">
+    
+    {% if error_l %}
+      <span class="text-secondary text-center w-100">{{ error_l }}</span>
+    {% else %}
+      {% for item in options %}
+        {% if item[value] == comparison %}
+        <li aria-selected="true" class="cust-sel-opt d-flex justify-content-between py-1 px-2 rounded-2" data-{{ data_att }}="{{ item[value] }}">
+          <span>{{ item[label] }}</span>
+          <figure class="cust-sel-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+            </svg>
+          </figure>
+        </li>
+        {% else %}
+        <li aria-selected="false" class="cust-sel-opt d-flex justify-content-between py-1 px-2 rounded-2" data-{{ data_att }}="{{ item[value] }}">
+          <span>{{ item[label] }}</span>
+          <figure class="cust-select-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+            </svg>
+          </figure>
+        </li>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </ul>
+</div>
+
+{% endmacro %}
