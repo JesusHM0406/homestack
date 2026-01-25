@@ -26,9 +26,9 @@
           <span class="fw-bold fs-5">Tipo</span>
         </div>
         <div class="filter-type d-flex justify-content-center gap-3 flex-wrap">
-          <a href="{{ url_for('history', filter='all') }}" type="button" class="filter-btn btn border border-2 border-secondary-subtle py-2 px-5 fw-bold text-secondary" id="filterAllBtn">Todos</a>
-          <a href="{{ url_for('history', filter='income') }}" type="button" class="filter-btn btn border border-2 border-secondary-subtle py-2 px-5 fw-bold text-secondary" id="filterIncBtn">Ingreso</a>
-          <a href="{{ url_for('history', filter='expense') }}" type="button" class="filter-btn btn border border-2 border-secondary-subtle py-2 px-5 fw-bold text-secondary" id="filterExpBtn">Gasto</a>
+          <a href="{{ url_for('views.history', filter='all') }}" type="button" class="filter-btn btn border border-2 border-secondary-subtle py-2 px-5 fw-bold text-secondary" id="filterAllBtn">Todos</a>
+          <a href="{{ url_for('views.history', filter='income') }}" type="button" class="filter-btn btn border border-2 border-secondary-subtle py-2 px-5 fw-bold text-secondary" id="filterIncBtn">Ingreso</a>
+          <a href="{{ url_for('views.history', filter='expense') }}" type="button" class="filter-btn btn border border-2 border-secondary-subtle py-2 px-5 fw-bold text-secondary" id="filterExpBtn">Gasto</a>
         </div>
       </div>
       <div class="filter">
@@ -78,7 +78,7 @@
       {% if not page.items and type_f == "all" %}
         <li class="text-center text-secondary fs-4 my-4">
           <span class="d-block">No tienes transacciones aún</span>
-          <a href="{{ url_for('index') }}">Volver al inicio</a>
+          <a href="{{ url_for('views.index') }}">Volver al inicio</a>
         </li>
       {% elif not page.items %}
         <li class="text-center text-secondary fs-4 my-4">
@@ -101,11 +101,11 @@
     </ul>
     <div class="history-links d-flex justify-content-center gap-5">
       {% if page.has_prev %}
-        <a href="{{ url_for('history', cat_id=category.id if category else None, filter=type_f ,page=page.prev_num) }}" class="text-decoration-none fs-5">&larr; Anterior</a>
+        <a href="{{ url_for('views.history', cat_id=category.id if category else None, filter=type_f ,page=page.prev_num) }}" class="text-decoration-none fs-5">&larr; Anterior</a>
       {% endif %}
 
       {% if page.has_next %}
-        <a href="{{ url_for('history', cat_id=category.id if category else None , filter=type_f ,page=page.next_num) }}" class="text-decoration-none fs-5">Siguiente &rarr;</a>
+        <a href="{{ url_for('views.history', cat_id=category.id if category else None , filter=type_f ,page=page.next_num) }}" class="text-decoration-none fs-5">Siguiente &rarr;</a>
       {% endif %}
     </div>
   </section>

@@ -28,7 +28,7 @@ def login():
     try:
       services_login_user(request.form)
       
-      return redirect(url_for("index"))
+      return redirect(url_for("views.index"))
     except ValueError as e:
       flash(f"{e}", "danger")
   
