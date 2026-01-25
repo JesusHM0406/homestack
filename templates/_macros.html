@@ -8,10 +8,11 @@
     value,
     label,
     comparison,
-    data_att
+    base_url,
+    query_param
   ) %}
 
-<div class="cust-select my-4 position-relative" id="customSelect" aria-expanded="false" tabindex="0">
+<div class="cust-select my-4 position-relative" id="customSelect" aria-expanded="false" tabindex="0" data-base-url="{{ base_url }}" data-query="{{ query_param }}">
   <div class="cust-sel-trigg d-flex justify-content-between py-2 px-3 bg-secondary-subtle rounded-2" id="selTrigg">
     {% if sel or def %}
       {% if sel %}
@@ -37,7 +38,7 @@
     {% else %}
       {% for item in options %}
         {% if item[value] == comparison %}
-        <li aria-selected="true" class="cust-sel-opt d-flex justify-content-between py-1 px-2 rounded-2" data-{{ data_att }}="{{ item[value] }}">
+        <li aria-selected="true" class="cust-sel-opt d-flex justify-content-between py-1 px-2 rounded-2" data-value="{{ item[value] }}">
           <span>{{ item[label] }}</span>
           <figure class="cust-sel-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
@@ -46,7 +47,7 @@
           </figure>
         </li>
         {% else %}
-        <li aria-selected="false" class="cust-sel-opt d-flex justify-content-between py-1 px-2 rounded-2" data-{{ data_att }}="{{ item[value] }}">
+        <li aria-selected="false" class="cust-sel-opt d-flex justify-content-between py-1 px-2 rounded-2" data-value="{{ item[value] }}">
           <span>{{ item[label] }}</span>
           <figure class="cust-select-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#999" class="bi bi-check-lg" viewBox="0 0 16 16" aria-hidden="true">
