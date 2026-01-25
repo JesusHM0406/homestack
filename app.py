@@ -9,6 +9,7 @@ from extensions import db
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from flask_migrate import Migrate
+from flask_login import login_user, logout_user, LoginManager
 from datetime import date, datetime, timezone
 from dateutil.relativedelta import relativedelta
 import json
@@ -30,6 +31,13 @@ migrate = Migrate(app, db)
 
 app.jinja_env.filters['money'] = money_filter
 app.jinja_env.filters['date_es'] = format_date_spanish
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+  return db.session.execute(db.select(User).where(User.id == user_id)).scalar_one_or_none()
 
 @app.route("/")
 @login_required
@@ -227,6 +235,8 @@ def register():
       # The registration was successful
       flash("¡Registro exisotso! Ya puedes iniciar sesión", category="success")
 
+      login_user(new_user)
+
       # Redirect user to login page
       return redirect(url_for("login"))
     except Exception as e:
@@ -262,6 +272,8 @@ def login():
       return render_template("login.html")
     
     # Login user
+    login_user(user)
+    
     session["user_id"] = user.id
     session["username"] = user.username
 
@@ -271,8 +283,7 @@ def login():
 
 @app.route("/logout")
 def logout():
-  session.clear()
-  
+  logout_user()
   return redirect(url_for("login"))
 
 @app.route("/new-transaction", methods=["POST"])
