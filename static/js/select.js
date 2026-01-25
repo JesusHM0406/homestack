@@ -33,21 +33,13 @@ selectTrigger.addEventListener('click', toggleSelect);
 
 catOpts.forEach(opt => {
   opt.addEventListener('click', (e)=>{
-    const dateVal = e.currentTarget.dataset.date;
+    const { baseUrl, query } = select.dataset;
+    const value = e.currentTarget.dataset.value;
 
-    if (!dateVal) {
-      window.location.href = "./reports";
-      return;
+    if (!value) {
+      window.location.href = baseUrl;
+    } else {
+      window.location.href = `${baseUrl}${query}${value}`;
     }
-
-    let date = new Date(dateVal);
-
-    if (date.toISOString() === 'Invalid Date') {
-      alert('La fecha es inválida');
-      window.location.href = "./reports";
-      return;
-    }
-
-    window.location.href = `./reports?date=${dateVal}`;
   })
 })
