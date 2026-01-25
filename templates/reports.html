@@ -1,0 +1,181 @@
+{% extends "layout.html" %}
+{% from "_macros.html" import custom_select as c %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/select.css') }}">
+{% endblock %}
+
+{% block title %}Gráficas{% endblock %}
+
+{% block main %}
+  <h1 class="text-center my-4">Gráficas</h1>
+
+  <section class="monthly-ev-container charts-container border border-1 border-secondary-subtle rounded-3 p-3">
+    <h2 class="balance-ev-title text-center mb-4">Evolución Mensual: Ingreso vs Gasto</h2>
+    <div class="chart-c" style="width: 100%; max-width: 600px; margin: auto;">
+      {% if not tranc_dates or not mon_ev %}
+      <span class="d-block mt-5 text-secondary fs-5 text-center">No has hecho ninguna transacción en los últimos 6 meses.</span>
+      <span class="d-block text-secondary fs-5 text-center">Crea una nueva transacción <a href="{{ url_for('index') }}">aquí</a>.</span>
+      {% else %}
+      <canvas id="monthlyEvoChart"></canvas>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="balance-ev-container charts-container border border-1 border-secondary-subtle rounded-3 p-3 my-5">
+    <h2 class="balance-ev-title text-center mb-4">Balance Mensual</h2>
+    <div class="chart-c" style="width: 100%; max-width: 600px; margin: auto;">
+      {% if not tranc_dates or not mon_ev %}
+      <span class="d-block mt-5 text-secondary fs-5 text-center">No has hecho ninguna transacción en los últimos 6 meses.</span>
+      <span class="d-block text-secondary fs-5 text-center">Crea una nueva transacción <a href="{{ url_for('index') }}">aquí</a>.</span>
+      {% else %}
+      <canvas id="monthlyBalChart"></canvas>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="exp-cat-container charts-container border border-1 border-secondary-subtle rounded-3 p-3 my-5">
+    <h2 class="balance-ev-title text-center mb-4">Gastos por Categoría</h2>
+
+    {{ c(
+      def=True if tranc_dates else False,
+      def_l=date_f["formatted"],
+      sel=True if tran_dates else False,
+      sel_l=date_f["formatted"],
+      error_l="No tienes transacciones aún" if not tranc_dates else False,
+      options=tranc_dates,
+      value="iso-date",
+      label="formatted",
+      comparison=date_f["iso-date"],
+      base_url="./reports",
+      query_param="?date="
+    ) }}
+      {% if not mon_exp %}
+      <span class="d-block my-5 text-secondary fs-5 text-center">No se registraron gastos en {{ date_f["formatted"] }}.</span>
+      {% else %}
+      <div style="width: 100%; max-width: 600px; margin: auto;">
+        <canvas id="expCatChart"></canvas>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}
+
+{% block script %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
+  <script>
+    const autocolors = window['chartjs-plugin-autocolors'];
+
+    const ctx = document.getElementById('monthlyEvoChart');
+    const mbc = document.getElementById('monthlyBalChart');
+    const ebc = document.getElementById('expCatChart');
+    const mon_ev_data = {{ mon_ev | tojson }};
+    const mon_exp_data = {{ mon_exp | tojson }};
+
+    const months = {
+      1: "Ene", 2: "Feb", 3: "Mar", 4: "Abr", 5: "May", 6: "Jun", 7: "Jul", 8: "Ago", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dic"
+    };
+
+    const mon_ev_labels = []
+    const mon_ev_incs = []
+    const mon_ev_exps = []
+    const mon_bals = [];
+
+    mon_ev_data.forEach(elem => {
+      mon_ev_labels.push(`${months[elem.month]} ${elem.year}`);
+      mon_ev_incs.push(elem.income);
+      mon_ev_exps.push(elem.expense);
+      mon_bals.push(elem.balance);
+    });
+
+
+    const mon_exp_labels = [];
+    const mon_exp_values = [];
+
+    mon_exp_data.forEach(elem => {
+      mon_exp_labels.push(elem.name);
+      mon_exp_values.push(elem.total);
+    });
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: mon_ev_labels,
+        datasets: [
+          {
+            label: 'Ingresos',
+            data: mon_ev_incs,
+            backgroundColor: '#44BB7787',
+            borderColor: '#44BB77',
+            borderWidth: 1
+          },
+          {
+            label: 'Gastos',
+            data: mon_ev_exps,
+            backgroundColor: '#FF555587',
+            borderColor: '#FF5555',
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            stacked: false
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    new Chart(mbc, {
+      type: 'line',
+      data: {
+        // We can use the same labels since both are of the same interval of time
+        labels: mon_ev_labels,
+        datasets: [{
+          label: 'Balance',
+          data: mon_bals,
+          borderColor: '#1465EC',
+          fill: false,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    new Chart(ebc, {
+      type: 'doughnut',
+      data: {
+        labels: mon_exp_labels,
+        datasets: [
+          {
+            label: 'Gastos',
+            data: mon_exp_values,
+          }
+        ]
+      },
+      options: {
+        plugins: {
+          autocolors: {
+            enabled: true
+          }
+        }
+      }
+    })
+  </script>
+  <script src="{{ url_for('static', filename='js/select.js') }}"></script>
+{% endblock %}
