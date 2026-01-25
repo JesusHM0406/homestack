@@ -94,7 +94,7 @@ function clearForms() {
 }
 
 function cleanSelect() {
-  selectLabel.textContent = 'Selecciona una categoria';
+  selectLabel.textContent = 'Selecciona una categoría';
   selectOptions.forEach(opt => {
     opt.ariaSelected = 'false';
   });
@@ -146,12 +146,12 @@ function handleOptClick(e) {
 function addNewCategory(name) {
   if (name.trim() === '' || typeof name !== 'string') {
     // Just for the moment
-    alert('Por favor ingresa un nombre valido para la nueva categoria.');
+    alert('Por favor ingresa un nombre válido para la nueva categoría.');
     return;
   }
 
   if (addedCategories.includes(name)) {
-    alert('Ya agregaste una categoria con el mismo nombre');
+    alert('Ya agregaste una categoría con el mismo nombre');
     return
   }
 
@@ -162,7 +162,7 @@ function addNewCategory(name) {
 function deleteCategory(id) {
   const parsedId = parseInt(id);
   if (!parsedId || isNaN(parsedId) || deletedCategories.includes(parsedId)) {
-    alert('Ocurrio un error, intenta de nuevo');
+    alert('Ocurrió un error, intenta de nuevo');
     return;
   }
 
@@ -215,7 +215,7 @@ function handleTransactionForm(e) {
   }
 
   if (desc.trim() === '') {
-    alert('Descriptión vacía');
+    alert('Descripción vacía');
     return;
   }
 
@@ -230,7 +230,7 @@ function handleTransactionForm(e) {
   }
 
   if (!date || date.toString() === 'Invalid Date' || dateInpt.getAttribute('type') != 'date') {
-    alert('Fecha invalida');
+    alert('Fecha inválida');
     dateInpt.setAttribute('type', 'date');
     return;
   }
