@@ -587,7 +587,7 @@ def reports():
       Transaction.user_id == user_id
     )
     .group_by("year", "month")
-    .order_by("year", "month")
+    .order_by(db.desc("year"), db.desc("month"))
   )
   
   transaction_dates = db.session.execute(transaction_dates_query).all()
