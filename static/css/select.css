@@ -1,0 +1,24 @@
+#customSelect {
+  max-width: 300px;
+  margin: auto;
+}
+
+#selOptList {
+  max-height: 40dvh;
+  overflow-y: auto;
+  transform: scale(0);
+  transition: transform .03s ease;
+}
+
+.cust-sel-opt svg{
+  display: none;
+}
+
+#customSelect[aria-expanded="true"] #selOptList {
+  transform: scale(1);
+}
+
+.cust-sel-opt[aria-selected="true"] svg{
+  display: block;
+  stroke: #999999;
+}
