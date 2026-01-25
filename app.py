@@ -9,7 +9,7 @@ from extensions import db
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 from flask_migrate import Migrate
-from flask_login import login_user, logout_user, LoginManager
+from flask_login import login_user, logout_user, LoginManager, current_user
 from datetime import date, datetime, timezone
 from dateutil.relativedelta import relativedelta
 import json
@@ -182,7 +182,19 @@ def index():
 
   last_mov = db.session.execute(last_mov_stmt).all()
 
-  return render_template("index.html", username=session.get("username"), bal=balance, mon_inc=monthly_incomes, mon_exp=monthly_expenses, exp_cat_analysis=expenses_cat_analysis, inc_cat_analysis=income_cat_analysis, inc_cats=income_cats, exp_cats=expense_cats, mov=last_mov, today=today)
+  return render_template(
+    "index.html",
+    user=current_user,
+    bal=balance,
+    mon_inc=monthly_incomes,
+    mon_exp=monthly_expenses,
+    exp_cat_analysis=expenses_cat_analysis,
+    inc_cat_analysis=income_cat_analysis,
+    inc_cats=income_cats,
+    exp_cats=expense_cats,
+    mov=last_mov,
+    today=today
+  )
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -244,7 +256,7 @@ def register():
       flash("Ocurrio un error al registrar el usuario. Intentalo de nuevo", category="danger")
       return redirect(url_for("register"))
   
-  return render_template("register.html")
+  return render_template("register.html", user=current_user)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -279,7 +291,7 @@ def login():
 
     return redirect("/")
   
-  return render_template("login.html")
+  return render_template("login.html", user=current_user)
 
 @app.route("/logout")
 def logout():
@@ -505,6 +517,7 @@ def history():
   
   return render_template(
     "history.html",
+    user=current_user,
     page=pagination,
     type_f=type_f,
     category=current_cat,
@@ -620,6 +633,7 @@ def reports():
 
   return render_template(
     "reports.html",
+    user=current_user,
     mon_ev=final_ev_data,
     tranc_dates=formatted_dates,
     mon_exp=monthly_exp_parsed,
