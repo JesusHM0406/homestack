@@ -5,7 +5,7 @@ from datetime import datetime, timezone, date
 from dateutil.relativedelta import relativedelta
 from flask_login import current_user
 from sqlalchemy.orm import joinedload
-from helpers import format_date_spanish
+from filters import format_date_spanish
 
 def get_index_data():
   today = date.today()

@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, render_template, redirect, request, flash, url_for
-from helpers import money_filter, format_date_spanish
+from filters import money_filter, format_date_spanish
 from models import User
 from extensions import db
 from flask_migrate import Migrate
