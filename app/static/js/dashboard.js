@@ -185,6 +185,9 @@ function handleCategoriesForm(e) {
   if (addedCategories.length > 0 || deletedCategories.length > 0) {
     addedCategoriesInpt.value = JSON.stringify(addedCategories);
     deletedCategoriesInpt.value = JSON.stringify(deletedCategories);
+
+    submitBtn.disabled = true
+
     categoriesForm.submit();
   } else {
     alert('No se han realizado cambios en las categorias');
@@ -234,6 +237,8 @@ function handleTransactionForm(e) {
     dateInpt.setAttribute('type', 'date');
     return;
   }
+
+  submitBtn.disabled = true
 
   transactionForm.submit();
 }
