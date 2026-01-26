@@ -11,6 +11,6 @@ class Config:
   if not SECRET_KEY:
     print("CRITICAL: SECRET_KEY not set!")
 
-  SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or "sqlite:///" + os.path.join(basedir, "instance", "finance.db")
+  SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or "sqlite:///" + os.path.join(basedir, "finance.db")
   SQLALCHEMY_TRACK_MODIFICATIONS = False
   SESSION_PERMANENT = False
