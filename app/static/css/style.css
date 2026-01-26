@@ -347,7 +347,7 @@ svg {
 }
 
 .modal-content {
-  max-height: 70dvh;
+  max-height: 80dvh;
   padding: 3px;
 }
 
@@ -402,6 +402,10 @@ svg {
   background-color: var(--gray);
   padding: 6px 8px;
   border-radius: var(--br-s);
+}
+
+.select-trigger svg {
+  stroke: #cccccc;
 }
 
 .select-options-list {
