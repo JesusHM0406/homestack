@@ -418,7 +418,7 @@ def handle_reports(args):
   
   formatted_dates = []
   for row in transaction_dates:
-    parsed_date = datetime(row.year, row.month, 1)
+    parsed_date = datetime(int(row.year), int(row.month), 1)
     formatted_dates.append({
       "year": int(row.year),
       "month": int(row.month),
