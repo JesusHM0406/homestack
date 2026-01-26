@@ -37,6 +37,13 @@ An intuitive web application designed for families to manage their finances, tra
 
 - **Database:** SQLite / SQLAlchemy (Tables relationships and data persistance)
 
+## Architecture & Design Decisions
+
+- **Application Factory Pattern:** Used to keep the app scalable and testable, allowing configuration separation and easier future extensions.
+- **ORM over raw SQL:** SQLAlchemy was chosen to improve readability, security, and long-term schema evolution.
+- **Server-side rendering:** HTML templates are rendered on the backend to keep the frontend simple and focused on UI logic.
+- **Database:** SQLite (development) / PostgreSQL (production)
+
 ## What i learned
 
 - **Modular Structure** I learned to decouple the application logic, not only for aesthetics, but also so that when a problem arises or something needs to be modified, you know where to look and don't have to sift through 1000+ lines of code for a simple `return` statement in a logic function. This is key for scalable projects. I went from a monolithic `app.py` file to a modular structure where each file and folder has its purpose and isn't a single file that handles everything on the page. This knowledge isn't just applicable to the application factory pattern, but to any project.
@@ -47,7 +54,12 @@ An intuitive web application designed for families to manage their finances, tra
 
 _This project represents a significant milestone in my learning path, moving from volatile frontend storage (LocalStorage) to a persistent, secure, and structured relational database system._
 
+## Live Demo
+
+[https://homestack.onrender.com](https://homestack.onrender.com)
+
 ## How to run
+
 1. Clone the repository:
 ``` bash
 git clone https://github.com/JesusHM0406/homestack
@@ -76,3 +88,6 @@ pip install -r requirements.txt
 ``` bash
 flask run
 ```
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
